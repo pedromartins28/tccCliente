@@ -8,9 +8,38 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:11598567402:android:5e7e9427bd546ece338493",
+        "mobilesdk_app_id": "1:11598567402:android:4d493301a7b1f936338493",
         "android_client_info": {
           "package_name": "app.coronapp.cliente"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11598567402-7035er747868ti17k1epd4qn5v73u9lf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZKOwORic4ycn_d1WWgpPH0TQVIEU4cBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11598567402-7035er747868ti17k1epd4qn5v73u9lf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11598567402:android:6d7d29490c9a7433338493",
+        "android_client_info": {
+          "package_name": "app.coronapp.voluntario"
         }
       },
       "oauth_client": [
