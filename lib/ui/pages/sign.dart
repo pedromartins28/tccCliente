@@ -82,7 +82,7 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          color: Color(0xff5aad75),
+          color: Colors.red[600],
           image: DecorationImage(
             image: AssetImage("assets/bg.png"),
             fit: BoxFit.cover,
@@ -109,6 +109,8 @@ class _SignInPageState extends State<SignInPage> {
                         radius: 75.0,
                         child: Image.asset(
                           'assets/logo.png',
+                          height: 550,
+                          width: 250,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -278,14 +280,15 @@ class _SignInPageState extends State<SignInPage> {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: Colors.red.withAlpha(175), width: 1.5),
+          borderSide: BorderSide(color: Colors.yellow[700], width: 1.5),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: Colors.red, width: 1.5),
+          borderSide: BorderSide(color: Colors.yellow[700], width: 1.5),
         ),
         errorText: _errorMessage,
-        errorStyle: TextStyle(color: Colors.red, fontWeight: FontWeight.w500),
+        errorStyle:
+            TextStyle(color: Colors.yellow[700], fontWeight: FontWeight.w500),
       ),
     );
   }

@@ -53,13 +53,14 @@ class CustomField extends StatelessWidget {
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: Colors.red.withAlpha(175), width: 1.5),
+          borderSide: BorderSide(color: Colors.yellow[700], width: 1.5),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: Colors.red, width: 1.5),
+          borderSide: BorderSide(color: Colors.yellow[700], width: 1.5),
         ),
-        errorStyle: TextStyle(color: Colors.red, fontWeight: FontWeight.w500),
+        errorStyle:
+            TextStyle(color: Colors.yellow[700], fontWeight: FontWeight.w500),
         labelText: labelText,
         labelStyle: TextStyle(color: labelColor),
       ),
