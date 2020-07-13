@@ -4,23 +4,23 @@ ThemeData buildTheme() {
   final ThemeData base = ThemeData.light();
 
   return base.copyWith(
-    primaryColor: Color(0xff80c080),
+    primaryColor: Colors.red[500],
     backgroundColor: Colors.grey[100],
     appBarTheme: AppBarTheme(
-      color: Colors.white,
+      color: Colors.red[200],
       textTheme: TextTheme(
         title: TextStyle(
           fontWeight: FontWeight.bold,
-          color: Color(0xff80c080),
+          color: Colors.red[500],
           fontSize: 20,
         ),
       ),
-      iconTheme: IconThemeData(color: Color(0xff80c080)),
+      iconTheme: IconThemeData(color: Colors.red[500]),
     ),
     //secondaryHeaderColor: const Color(),
     //backgroundColor: Color(0xfff1f8e9),
-    accentColor: Color(0xff80c080),
-    buttonColor: Color(0xff80c080),
+    accentColor: Colors.red[500],
+    buttonColor: Colors.red[500],
     //hintColor: Colors.white,
   );
 }
