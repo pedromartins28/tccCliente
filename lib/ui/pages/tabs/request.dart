@@ -174,7 +174,7 @@ class _RequestPageState extends State<RequestPage>
 
   Widget _buildCreateRequestScaffold() {
     return Scaffold(
-      appBar: _normalAppBar("NOVA COLETA"),
+      appBar: _normalAppBar("SOLICITAR ENFERMEIRO"),
       body: CreateRequest(),
     );
   }
