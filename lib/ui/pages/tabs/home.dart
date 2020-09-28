@@ -14,6 +14,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
+import 'new_home.dart';
+
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
@@ -204,12 +206,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(
-                            FontAwesomeIcons.recycle,
+                            FontAwesomeIcons.heart,
                             size: 20,
                             color: Colors.white,
                           ),
                           SizedBox(height: 6.0),
-                          Text('COLETA',
+                          Text('INÍCIO',
                               style:
                                   TextStyle(fontSize: 14, color: Colors.white))
                         ],
@@ -243,7 +245,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               controller: _tabController,
               children: [
                 FinishedRequestsPage(),
-                RequestPage(),
+                NewHomePage(),
                 UserInfoPage(),
               ],
             ),

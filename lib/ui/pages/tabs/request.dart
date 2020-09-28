@@ -149,7 +149,7 @@ class _RequestPageState extends State<RequestPage>
   Widget _buildLoadingScaffold() {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: _normalAppBar("COLETA"),
+      appBar: _normalAppBar("INÍCIO"),
       body: Center(
         child: Container(
           child: CircularProgressIndicator(
