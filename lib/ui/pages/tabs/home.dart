@@ -14,6 +14,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
+import '../signForm.dart';
+
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
@@ -115,6 +117,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       if (notificationHandler != null) notificationHandler.dispose();
       notificationHandler = null;
       return SignInPage();
+    } else if (appState.goAhead) {
+      return SignForm();
     } else {
       if (appState.isLoading) {
         setState(() {

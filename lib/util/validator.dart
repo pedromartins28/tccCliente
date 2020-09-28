@@ -29,4 +29,8 @@ class Validator {
     else
       return null;
   }
+
+  static String validateForm(String value) {
+    return null;
+  }
 }
