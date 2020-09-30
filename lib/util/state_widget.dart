@@ -43,7 +43,7 @@ class _StateWidgetState extends State<StateWidget> {
       state.authUser = authUser;
       state.isLoading = false;
       state.user = user;
-      state.goAhead = true;
+      state.goAhead = 1;
     });
   }
 

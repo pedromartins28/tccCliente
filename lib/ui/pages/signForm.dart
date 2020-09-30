@@ -10,7 +10,7 @@ class SignForm extends StatefulWidget {
 
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
-  bool form01 = true;
+  bool form01 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,31 +50,28 @@ class _SignFormState extends State<SignForm> {
                         ),
                       ),
                       form01
-                          ? InputForm(
-                              icone: Icons.ac_unit, texto: "Data de Nascimento")
-                          : InputForm(
-                              icone: Icons.ac_unit, texto: "Número SUS"),
+                          ? InputForm("Data de Nascimento", Icons.date_range)
+                          : InputForm("Número SUS", Icons.healing),
                       form01
-                          ? InputForm(icone: Icons.ac_unit, texto: "Sexo")
-                          : InputForm(
-                              icone: Icons.ac_unit, texto: "Plano de Saúde 1"),
+                          ? InputForm("Sexo", Icons.person)
+                          : InputForm("Plano de Saúde 01", Icons.note_add),
                       form01
-                          ? InputForm(icone: Icons.ac_unit, texto: "Endereço")
-                          : InputForm(
-                              icone: Icons.ac_unit, texto: "Plano de Saúde 2"),
+                          ? InputForm("Endereço", Icons.home)
+                          : InputForm("Plano de Saúde 02", Icons.note_add),
                       form01
                           ? SizedBox(
                               height: 50,
                             )
                           : InputForm(
-                              icone: Icons.ac_unit,
-                              texto: "Unidade Básica de Saúde"),
+                              "Unidade Básica de Saúde", Icons.local_hospital),
                       form01
-                          ? Botao(texto2: "Próxima Etapa")
+                          ? Botao("Próxima Etapa", changeForm01())
                           : SizedBox(
                               height: 50,
                             ),
-                      !form01 ? Botao(texto2: "Próximo") : Container(),
+                      !form01
+                          ? Botao("Última Etapa", changeForm01())
+                          : Container(),
                     ],
                   ),
                 ),
@@ -86,25 +83,20 @@ class _SignFormState extends State<SignForm> {
       ),
     );
   }
-}
 
-class InputForm extends StatelessWidget {
-  final TextEditingController _nameController = TextEditingController();
-  final FocusNode _nameFocus = FocusNode();
-  String texto;
-  IconData icone;
+  Widget InputForm(String text, IconData icon) {
+    final TextEditingController _nameController = TextEditingController();
+    final FocusNode _nameFocus = FocusNode();
+    String _texto = text;
+    IconData _icone = icon;
 
-  InputForm({this.texto, this.icone});
-
-  @override
-  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 15, 0, 5),
       child: CustomField(
         enable: true,
-        prefixIcon: icone,
+        prefixIcon: _icone,
         iconColor: Colors.white,
-        labelText: texto,
+        labelText: _texto,
         onFieldSubmitted: (term) {
           FocusScope.of(context).requestFocus(_nameFocus);
         },
@@ -118,24 +110,28 @@ class InputForm extends StatelessWidget {
       ),
     );
   }
-}
 
-class Botao extends StatelessWidget {
-  String texto2;
+  Widget Botao(String texto, Function function) {
+    String _texto2 = texto;
+    Function _funcao = function;
 
-  Botao({this.texto2});
-
-  @override
-  Widget build(BuildContext context) {
     return RaisedButton(
-      child:
-          Text(texto2, style: TextStyle(fontSize: 18.0, color: Colors.black)),
+      child: Text(
+        _texto2,
+        style: TextStyle(fontSize: 18.0, color: Colors.black),
+      ),
       padding: EdgeInsets.all(16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4.0),
       ),
       color: Colors.white,
-      onPressed: () {},
+      onPressed: _funcao,
     );
+  }
+
+  changeForm01() {
+    setState(() {
+      form01 = !form01;
+    });
   }
 }

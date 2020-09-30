@@ -117,19 +117,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       if (notificationHandler != null) notificationHandler.dispose();
       notificationHandler = null;
       return SignInPage();
-    } else if (appState.goAhead) {
-      return SignForm();
     } else {
       if (appState.isLoading) {
         setState(() {
           _loadingVisible = true;
         });
         return Container();
+      } else if (appState.goAhead == 1) {
+        return SignForm();
       } else {
         if (notificationHandler == null) initNotifications();
-        setState(() {
-          _loadingVisible = false;
-        });
+        setState(
+          () {
+            _loadingVisible = false;
+          },
+        );
         return Scaffold(
           key: _scaffoldKey,
           bottomNavigationBar: Stack(
