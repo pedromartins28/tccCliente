@@ -1,3 +1,4 @@
+import 'package:cliente/ui/pages/signFormFinal.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cliente/ui/pages/tabs/finished_requests.dart';
@@ -117,14 +118,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       if (notificationHandler != null) notificationHandler.dispose();
       notificationHandler = null;
       return SignInPage();
+    } else if (appState.goAhead == 1) {
+      return SignForm();
+    } else if (appState.goAhead == 2) {
+      return SignFormFinal();
     } else {
       if (appState.isLoading) {
         setState(() {
           _loadingVisible = true;
         });
         return Container();
-      } else if (appState.goAhead == 1) {
-        return SignForm();
       } else {
         if (notificationHandler == null) initNotifications();
         setState(
