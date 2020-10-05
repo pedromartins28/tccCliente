@@ -26,7 +26,7 @@ class RouteGenerator {
           settings: RouteSettings(
             name: '/volunt',
           ),
-          page: VoluntRequest(),
+          page: CreateRequest(),
         );
       case '/signin':
         return FadeRoute(

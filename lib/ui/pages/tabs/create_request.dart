@@ -22,8 +22,8 @@ class _CreateRequestState extends State<CreateRequest> {
   List<bool> days = [false, false, false, false, false, false, false];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _addressText = "Escolha um Endereço",
-      _amountText = "Quantidade de Lixo",
-      _typeText = "Tipo de Lixo";
+      _ativityText = "Descrição da Atividade",
+      _infoText = "Informações adicionais";
   Firestore _db = Firestore.instance;
   List<String> addressList = [];
   bool _loadingVisible = false;
@@ -43,6 +43,13 @@ class _CreateRequestState extends State<CreateRequest> {
   void initState() {
     readLocal();
     super.initState();
+  }
+
+  Widget _normalAppBar(String text) {
+    return AppBar(
+      title: Text(text),
+      centerTitle: true,
+    );
   }
 
   void readLocal() async {
@@ -113,62 +120,68 @@ class _CreateRequestState extends State<CreateRequest> {
     }
   }
 
+/*appBar: _normalAppBar("INÍCIO"),*/
+
   @override
   Widget build(BuildContext context) {
-    return LoadingPage(
-      opacity: 0.2,
+    return Scaffold(
+      appBar: _normalAppBar("Solicitar Voluntário"),
+      /*opacity: 0.2,
       progressIndicator: CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation(Theme.of(context).primaryColor),
-      ),
-      child: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 4.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                _buildAddressDropdown(),
-                _buildSizedBox(),
-                _buildDropdownField('trashAmounts', Icons.fitness_center),
-                _buildSizedBox(),
-                _buildDropdownField('trashTypes', Icons.delete_outline),
-                _buildSizedBox(),
-                Text(
-                  "PERÍODOS DE DISPONIBILIDADE",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                  ),
-                ),
-                Text(
-                  "SELECIONE OS DIAS E A HORA DE EM QUE O LIXO PODERÁ SER COLETADO",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
+      ),*/
+      body: Center(
+          child: LoadingPage(
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 4.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  _buildAddressDropdown(),
+                  _buildSizedBox(),
+                  _buildDropdownField('trashAmounts', Icons.fitness_center),
+                  _buildSizedBox(),
+                  _buildDropdownField('trashTypes', Icons.delete_outline),
+                  _buildSizedBox(),
+                  Text(
+                    "PERÍODOS DE DISPONIBILIDADE",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
                       color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w300),
-                ),
-                SizedBox(height: 12),
-                _buildDayFieldRow(),
-                SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _buildStartClockField("DE: ", _periodStartController),
-                    _buildFinishClockField("ATÉ: ", _periodEndController),
-                  ],
-                ),
-                _buildSizedBox(),
-                _buildCreateRequestButton(),
-                _buildSizedBox()
-              ],
+                      fontSize: 24,
+                    ),
+                  ),
+                  Text(
+                    "SELECIONE OS DIAS E A HORA EM QUE VOCÊ DESEJA SER ATENDIDO",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w300),
+                  ),
+                  SizedBox(height: 12),
+                  _buildDayFieldRow(),
+                  SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      _buildStartClockField("DE: ", _periodStartController),
+                      _buildFinishClockField("ATÉ: ", _periodEndController),
+                    ],
+                  ),
+                  _buildSizedBox(),
+                  _buildCreateRequestButton(),
+                  _buildSizedBox()
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      inAsyncCall: _loadingVisible,
+        inAsyncCall: _loadingVisible,
+      )),
     );
   }
 
@@ -268,45 +281,48 @@ class _CreateRequestState extends State<CreateRequest> {
                   ));
                 }
 
-                return DropdownButton<Map>(
-                  iconSize: 28.0,
-                  elevation: 2,
-                  items: list,
-                  onChanged: (choice) async {
-                    if (choice['address'] == "add") {
-                      Prediction prediction = await PlacesAutocomplete.show(
-                        location: _midTownLocation,
-                        hint: "Digite o Endereço",
-                        mode: Mode.fullscreen,
-                        strictbounds: true,
-                        language: 'pt-BR',
-                        context: context,
-                        apiKey: _apiKey,
-                        radius: 16777,
-                      );
-                      displayPrediction(prediction);
-                    } else if (choice['address'] == "delete") {
-                      removeLocationDialog(snapshot.data.documents);
-                    } else {
-                      setState(() {
-                        _addressText = choice['address'];
-                        _location = choice['location'];
-                      });
-                    }
-                  },
-                  hint: Row(
-                    children: <Widget>[
-                      Icon(Icons.my_location, color: Colors.black54),
-                      SizedBox(width: 12.0),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.67,
-                        child: Text(
-                          _addressText,
-                          style: TextStyle(color: Colors.black54),
-                          overflow: TextOverflow.ellipsis,
+                return Material(
+                  child: DropdownButton<Map>(
+                    //OLHAR AQUI AQUI AQUI
+                    iconSize: 28.0,
+                    elevation: 2,
+                    items: list,
+                    onChanged: (choice) async {
+                      if (choice['address'] == "add") {
+                        Prediction prediction = await PlacesAutocomplete.show(
+                          location: _midTownLocation,
+                          hint: "Digite o Endereço",
+                          mode: Mode.fullscreen,
+                          strictbounds: true,
+                          language: 'pt-BR',
+                          context: context,
+                          apiKey: _apiKey,
+                          radius: 16777,
+                        );
+                        displayPrediction(prediction);
+                      } else if (choice['address'] == "delete") {
+                        removeLocationDialog(snapshot.data.documents);
+                      } else {
+                        setState(() {
+                          _addressText = choice['address'];
+                          _location = choice['location'];
+                        });
+                      }
+                    },
+                    hint: Row(
+                      children: <Widget>[
+                        Icon(Icons.my_location, color: Colors.black54),
+                        SizedBox(width: 12.0),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.67,
+                          child: Text(
+                            _addressText,
+                            style: TextStyle(color: Colors.black54),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }
@@ -367,29 +383,32 @@ class _CreateRequestState extends State<CreateRequest> {
                     );
                   }
                 }
-                return DropdownButton<String>(
-                  iconSize: 28.0,
-                  elevation: 2,
-                  items: list,
-                  onChanged: (choice) {
-                    setState(() {
-                      if (queryCollection == 'trashAmounts')
-                        _amountText = choice;
-                      else
-                        _typeText = choice;
-                    });
-                  },
-                  hint: Row(
-                    children: <Widget>[
-                      Icon(icon, color: Colors.black54),
-                      SizedBox(width: 12.0),
-                      Text(
-                        queryCollection == 'trashAmounts'
-                            ? _amountText
-                            : _typeText,
-                        style: TextStyle(color: Colors.black54),
-                      ),
-                    ],
+
+                return Material(
+                  child: DropdownButton<String>(
+                    iconSize: 28.0,
+                    elevation: 2,
+                    items: list,
+                    onChanged: (choice) {
+                      setState(() {
+                        if (queryCollection == 'trashAmounts')
+                          _ativityText = choice;
+                        else
+                          _infoText = choice;
+                      });
+                    },
+                    hint: Row(
+                      children: <Widget>[
+                        Icon(icon, color: Colors.black54),
+                        SizedBox(width: 12.0),
+                        Text(
+                          queryCollection == 'trashAmounts'
+                              ? _ativityText
+                              : _infoText,
+                          style: TextStyle(color: Colors.black54),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }
@@ -451,69 +470,73 @@ class _CreateRequestState extends State<CreateRequest> {
         Text(text, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)),
         SizedBox(width: 4),
         Text(controller.text, style: TextStyle(fontSize: 20)),
-        IconButton(
-          onPressed: () {
-            DatePicker.showDatePicker(
-              context,
-              locale: DateTimePickerLocale.pt_br,
-              minDateTime: DateTime.parse('2010-05-12 07:00:00'),
-              maxDateTime: _periodEnd != null
-                  ? DateTime(
-                      _periodEnd.year,
-                      _periodEnd.month,
-                      _periodEnd.day,
-                      _periodEnd.hour - 1,
-                      _periodEnd.minute,
-                      0,
-                      0,
-                      0,
-                    )
-                  : DateTime.parse('2100-11-25 21:00:00'),
-              initialDateTime: DateTime(
-                DateTime.now().year,
-                DateTime.now().month,
-                DateTime.now().day,
-                13,
-                0,
-                0,
-                0,
-                0,
-              ),
-              dateFormat: 'H:m',
-              pickerMode: DateTimePickerMode.time,
-              pickerTheme: DateTimePickerTheme(
-                backgroundColor: Theme.of(context).backgroundColor,
-                cancel: Text(
-                  "Cancelar",
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: Theme.of(context).primaryColor,
+        Material(
+          child: IconButton(
+            onPressed: () {
+              DatePicker.showDatePicker(
+                context,
+                locale: DateTimePickerLocale.pt_br,
+                minDateTime: DateTime.parse('2010-05-12 07:00:00'),
+                maxDateTime: _periodEnd != null
+                    ? DateTime(
+                        _periodEnd.year,
+                        _periodEnd.month,
+                        _periodEnd.day,
+                        _periodEnd.hour - 1,
+                        _periodEnd.minute,
+                        0,
+                        0,
+                        0,
+                      )
+                    : DateTime.parse('2100-11-25 21:00:00'),
+                initialDateTime: DateTime(
+                  DateTime.now().year,
+                  DateTime.now().month,
+                  DateTime.now().day,
+                  13,
+                  0,
+                  0,
+                  0,
+                  0,
+                ),
+                dateFormat: 'H:m',
+                pickerMode: DateTimePickerMode.time,
+                pickerTheme: DateTimePickerTheme(
+                  backgroundColor: Theme.of(context).backgroundColor,
+                  cancel: Text(
+                    "Cancelar",
+                    style: TextStyle(
+                      fontSize: 17,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  confirm: Text(
+                    "Confirmar",
+                    style: TextStyle(
+                      fontSize: 17,
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
                 ),
-                confirm: Text(
-                  "Confirmar",
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-              ),
-              onConfirm: (date, integers) {
-                if (_periodEnd == null) {
-                  setState(() {
-                    controller.text = "$date".substring(11, "$date".length - 7);
-                    _periodStart = date;
-                  });
-                } else {
-                  setState(() {
-                    controller.text = "$date".substring(11, "$date".length - 7);
-                    _periodStart = date;
-                  });
-                }
-              },
-            );
-          },
-          icon: Icon(Icons.access_time, color: Colors.black87, size: 28),
+                onConfirm: (date, integers) {
+                  if (_periodEnd == null) {
+                    setState(() {
+                      controller.text =
+                          "$date".substring(11, "$date".length - 7);
+                      _periodStart = date;
+                    });
+                  } else {
+                    setState(() {
+                      controller.text =
+                          "$date".substring(11, "$date".length - 7);
+                      _periodStart = date;
+                    });
+                  }
+                },
+              );
+            },
+            icon: Icon(Icons.access_time, color: Colors.black87, size: 28),
+          ),
         ),
       ],
     );
@@ -526,63 +549,65 @@ class _CreateRequestState extends State<CreateRequest> {
         Text(text, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)),
         SizedBox(width: 4),
         Text(controller.text, style: TextStyle(fontSize: 20)),
-        IconButton(
-          onPressed: () {
-            DatePicker.showDatePicker(
-              context,
-              locale: DateTimePickerLocale.pt_br,
-              minDateTime: _periodStart != null
-                  ? DateTime(
-                      _periodStart.year,
-                      _periodStart.month,
-                      _periodStart.day,
-                      _periodStart.hour + 1,
-                      _periodStart.minute,
-                      0,
-                      0,
-                      0,
-                    )
-                  : DateTime.parse('2010-05-12 08:00:00'),
-              maxDateTime: DateTime.parse('2100-11-25 22:00:01'),
-              initialDateTime: DateTime(
-                DateTime.now().year,
-                DateTime.now().month,
-                DateTime.now().day,
-                13,
-                0,
-                0,
-                0,
-                0,
-              ),
-              dateFormat: 'H:m',
-              pickerMode: DateTimePickerMode.time,
-              // show TimePicker
-              pickerTheme: DateTimePickerTheme(
-                backgroundColor: Theme.of(context).backgroundColor,
-                cancel: Text(
-                  "Cancelar",
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: Theme.of(context).primaryColor,
+        Material(
+          child: IconButton(
+            onPressed: () {
+              DatePicker.showDatePicker(
+                context,
+                locale: DateTimePickerLocale.pt_br,
+                minDateTime: _periodStart != null
+                    ? DateTime(
+                        _periodStart.year,
+                        _periodStart.month,
+                        _periodStart.day,
+                        _periodStart.hour + 1,
+                        _periodStart.minute,
+                        0,
+                        0,
+                        0,
+                      )
+                    : DateTime.parse('2010-05-12 08:00:00'),
+                maxDateTime: DateTime.parse('2100-11-25 22:00:01'),
+                initialDateTime: DateTime(
+                  DateTime.now().year,
+                  DateTime.now().month,
+                  DateTime.now().day,
+                  13,
+                  0,
+                  0,
+                  0,
+                  0,
+                ),
+                dateFormat: 'H:m',
+                pickerMode: DateTimePickerMode.time,
+                // show TimePicker
+                pickerTheme: DateTimePickerTheme(
+                  backgroundColor: Theme.of(context).backgroundColor,
+                  cancel: Text(
+                    "Cancelar",
+                    style: TextStyle(
+                      fontSize: 17,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  confirm: Text(
+                    "Confirmar",
+                    style: TextStyle(
+                      fontSize: 17,
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
                 ),
-                confirm: Text(
-                  "Confirmar",
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-              ),
-              onConfirm: (date, integers) {
-                setState(() {
-                  controller.text = "$date".substring(11, "$date".length - 7);
-                  _periodEnd = date;
-                });
-              },
-            );
-          },
-          icon: Icon(Icons.access_time, color: Colors.black87, size: 28),
+                onConfirm: (date, integers) {
+                  setState(() {
+                    controller.text = "$date".substring(11, "$date".length - 7);
+                    _periodEnd = date;
+                  });
+                },
+              );
+            },
+            icon: Icon(Icons.access_time, color: Colors.black87, size: 28),
+          ),
         ),
       ],
     );
@@ -610,8 +635,8 @@ class _CreateRequestState extends State<CreateRequest> {
         _changeLoadingVisible();
         if (_addressText != "Escolha um Endereço" &&
             _addressText != "Carregando..." &&
-            _amountText != "Quantidade de Lixo" &&
-            _typeText != "Tipo de Lixo" &&
+            _ativityText != "Descrição da atividade" &&
+            _infoText != "Informações adicionais" &&
             _periodEnd != null &&
             _periodStart != null &&
             days.contains(true)) {
@@ -620,9 +645,9 @@ class _CreateRequestState extends State<CreateRequest> {
               _db.collection('requests').add({
                 'periodStart': Timestamp.fromDate(_periodStart),
                 'periodEnd': Timestamp.fromDate(_periodEnd),
-                'trashAmount': _amountText,
+                'trashAmount': _ativityText,
                 'address': _addressText,
-                'trashType': _typeText,
+                'trashType': _infoText,
                 'location': _location,
                 'donorId': userId,
                 'state': 1,
