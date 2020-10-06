@@ -11,12 +11,12 @@ import 'package:flushbar/flushbar.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:flutter/material.dart';
 
-class CreateRequest extends StatefulWidget {
+class CreateRequest2 extends StatefulWidget {
   @override
-  _CreateRequestState createState() => _CreateRequestState();
+  _CreateRequest2State createState() => _CreateRequest2State();
 }
 
-class _CreateRequestState extends State<CreateRequest> {
+class _CreateRequest2State extends State<CreateRequest2> {
   final TextEditingController _periodStartController = TextEditingController();
   final TextEditingController _periodEndController = TextEditingController();
   List<bool> days = [false, false, false, false, false, false, false];
@@ -123,7 +123,7 @@ class _CreateRequestState extends State<CreateRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _normalAppBar("SOLICITAR VOLUNTÁRIO"),
+      appBar: _normalAppBar("SOLICITAR ATENDIMENTO MÉDICO"),
       body: Center(
           child: LoadingPage(
         child: Form(
@@ -136,11 +136,6 @@ class _CreateRequestState extends State<CreateRequest> {
                 children: <Widget>[
                   _buildAddressDropdown(),
                   _buildSizedBox(),
-                  _buildDropdownField2('trashAmounts'),
-                  //_buildDropdownField('trashAmounts', Icons.comment),
-                  _buildSizedBox(),
-                  _buildDropdownField2('trashTypes'),
-                  //_buildDropdownField('trashTypes', Icons.add),
                   _buildSizedBox(),
                   Text(
                     "PERÍODOS DE DISPONIBILIDADE",
@@ -327,103 +322,6 @@ class _CreateRequestState extends State<CreateRequest> {
       ),
     );
   }
-
-
-
-  _buildDropdownField2(String queryCollection) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 15),
-      decoration: BoxDecoration(
-          border: Border.all(width: 0.75, color: Colors.grey),
-          borderRadius: BorderRadius.all(Radius.circular(4.0))),
-      child: TextFormField(
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          icon: queryCollection == 'trashAmounts'
-              ? Icon(Icons.add_comment)
-              : Icon(Icons.add),
-          hintText:
-              queryCollection == 'trashAmounts' ? _ativityText : _infoText,
-        ),
-        onChanged: (text) {
-          setState(() {
-            if (queryCollection == 'trashAmounts')
-              _ativityText = text;
-            else
-              _infoText = text;
-          });
-        },
-      ),
-    );
-  }
-
-  /*_buildDropdownField(String queryCollection, IconData icon) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 4.0),
-      decoration: BoxDecoration(
-          border: Border.all(width: 0.75, color: Colors.grey),
-          borderRadius: BorderRadius.all(Radius.circular(4.0))),
-      child: DropdownButtonHideUnderline(
-        child: ButtonTheme(
-          alignedDropdown: true,
-          child: StreamBuilder(
-            stream:
-                _db.collection(queryCollection).orderBy("value").snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return DropdownButton(
-                  onChanged: null,
-                  items: null,
-                  iconSize: 28.0,
-                  elevation: 2,
-                  disabledHint: Row(
-                    children: <Widget>[
-                      Icon(icon, color: Colors.black54),
-                      SizedBox(width: 12.0),
-                      Text(
-                        "Carregando...",
-                        style: TextStyle(color: Colors.black54),
-                      ),
-                    ],
-                  ),
-                );
-              } else {
-                return Material(
-                  child: DropdownButton<String>(
-                    iconSize: 28.0,
-                    elevation: 2,
-                    items: null,
-                    onChanged: (choice) {
-                      setState(() {
-                        if (queryCollection == 'trashAmounts')
-                          _ativityText = choice;
-                        else
-                          _infoText = choice;
-                      });
-                    },
-                    hint: Row(
-                      children: <Widget>[
-                        Icon(icon, color: Colors.black54),
-                        SizedBox(width: 12.0),
-                        Text(
-                          queryCollection == 'trashAmounts'
-                              ? _ativityText
-                              : _infoText,
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }
-            },
-          ),
-        ),
-      ),
-    );
-  }*/
 
   Widget _buildDayFieldRow() {
     return Row(
@@ -624,10 +522,9 @@ class _CreateRequestState extends State<CreateRequest> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(Icons.add, color: Colors.white),
           SizedBox(width: 2.0),
           Text(
-            'SOLICITAR',
+            'PRÓXIMA PÁGINA',
             style: TextStyle(fontSize: 18.0, color: Colors.white),
           ),
         ],

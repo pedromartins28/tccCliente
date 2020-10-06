@@ -70,7 +70,7 @@ class _NewHomePageState extends State<NewHomePage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
         color: Theme.of(context).primaryColor,
         onPressed: () {
-          Navigator.pushNamed(context, '/about');
+          Navigator.pushNamed(context, '/medic');
         });
   }
 
