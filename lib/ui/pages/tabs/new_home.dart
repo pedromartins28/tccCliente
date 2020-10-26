@@ -15,6 +15,7 @@ import 'package:cliente/models/user.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewHomePage extends StatefulWidget {
   @override
@@ -91,7 +92,9 @@ class _NewHomePageState extends State<NewHomePage> {
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
         color: Theme.of(context).primaryColor,
-        onPressed: () {});
+        onPressed: () {
+          _launchURL();
+        });
   }
 
   Widget _normalAppBar(String text) {
@@ -99,6 +102,16 @@ class _NewHomePageState extends State<NewHomePage> {
       title: Text(text),
       centerTitle: true,
     );
+  }
+
+  _launchURL() async {
+    const url =
+        'https://sbgg.org.br/wp-content/uploads/2020/03/Tabela-Traduzida-EPI-OMS.pdf';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
