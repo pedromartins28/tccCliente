@@ -120,8 +120,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       return SignInPage();
     } else if (appState.goAhead == 1) {
       return SignForm();
-    } else if (appState.goAhead == 2) {
-      return SignFormFinal();
     } else {
       if (appState.isLoading) {
         setState(() {

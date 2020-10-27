@@ -1,4 +1,5 @@
 import 'package:cliente/models/state.dart';
+import 'package:cliente/ui/pages/tabs/home.dart';
 import 'package:cliente/ui/widgets/forms.dart';
 import 'package:cliente/ui/widgets/loading.dart';
 import 'package:cliente/util/state_widget.dart';
@@ -122,7 +123,9 @@ class _SignFormFinalState extends State<SignFormFinal> {
 
   finishSignIn() {
     setState(() {
-      appState.goAhead = 3;
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
+      appState.goAhead = 0;
     });
   }
 }

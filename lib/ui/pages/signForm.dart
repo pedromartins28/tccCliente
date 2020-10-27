@@ -15,11 +15,9 @@ class SignForm extends StatefulWidget {
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
   bool form01 = true;
-  StateModel appState;
 
   @override
   Widget build(BuildContext context) {
-    appState = StateWidget.of(context).state;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -142,7 +140,8 @@ class _SignFormState extends State<SignForm> {
 
   changeForm02() {
     setState(() {
-      appState.goAhead = 2;
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SignFormFinal()));
     });
   }
 }
