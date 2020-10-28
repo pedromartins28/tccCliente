@@ -140,7 +140,7 @@ class _SignFormState extends State<SignForm> {
 
   changeForm02() {
     setState(() {
-      Navigator.push(
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => SignFormFinal()));
     });
   }
