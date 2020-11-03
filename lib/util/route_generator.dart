@@ -1,6 +1,8 @@
 import 'package:cliente/ui/pages/picker_info.dart';
 import 'package:cliente/ui/pages/show_photo.dart';
 import 'package:cliente/ui/pages/sign.dart';
+import 'package:cliente/ui/pages/tabs/create_request.dart';
+import 'package:cliente/ui/pages/tabs/create_request2.dart';
 import 'package:cliente/util/fade_route.dart';
 import 'package:cliente/ui/pages/about.dart';
 import 'package:cliente/ui/pages/chat.dart';
@@ -18,6 +20,20 @@ class RouteGenerator {
             name: '/',
           ),
           builder: (_) => HomePage(),
+        );
+      case '/volunt':
+        return FadeRoute(
+          settings: RouteSettings(
+            name: '/volunt',
+          ),
+          page: CreateRequest(),
+        );
+      case '/medic':
+        return FadeRoute(
+          settings: RouteSettings(
+            name: '/medic',
+          ),
+          page: CreateRequest2(),
         );
       case '/signin':
         return FadeRoute(
