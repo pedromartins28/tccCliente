@@ -190,7 +190,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           SizedBox(height: 6.0),
                           Text('HISTÓRICO',
                               style:
-                                  TextStyle(fontSize: 14, color: Colors.white))
+                                  TextStyle(fontSize: 10, color: Colors.white))
                         ],
                       ),
                     ),
@@ -213,7 +213,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           SizedBox(height: 6.0),
                           Text('INÍCIO',
                               style:
-                                  TextStyle(fontSize: 14, color: Colors.white))
+                                  TextStyle(fontSize: 10, color: Colors.white))
                         ],
                       ),
                     ),
@@ -231,7 +231,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         ),
                         SizedBox(height: 6.0),
                         Text('PERFIL',
-                            style: TextStyle(fontSize: 14, color: Colors.white))
+                            style: TextStyle(fontSize: 10, color: Colors.white))
                       ],
                     ),
                   ),

@@ -34,7 +34,7 @@ dependencies:
   font_awesome_flutter:
   smooth_star_rating:
 
-  flutter_google_places:
+  flutter_google_places: 
   geocoder:
 
   flutter_local_notifications:
@@ -68,6 +68,7 @@ flutter:
   assets:
     - assets/about.jpg
     - assets/logo.png
+    - assets/logo2.png
     - assets/bg.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -123,7 +123,7 @@ class _CreateRequest2State extends State<CreateRequest2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _normalAppBar("SOLICITAR ATENDIMENTO MÉDICO"),
+      appBar: _normalAppBar("SOLICITAR"),
       body: Center(
           child: LoadingPage(
         child: Form(

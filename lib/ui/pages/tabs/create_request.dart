@@ -123,7 +123,7 @@ class _CreateRequestState extends State<CreateRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _normalAppBar("SOLICITAR VOLUNTÁRIO"),
+      appBar: _normalAppBar("SOLICITAR"),
       body: Center(
           child: LoadingPage(
         child: Form(
@@ -327,8 +327,6 @@ class _CreateRequestState extends State<CreateRequest> {
       ),
     );
   }
-
-
 
   _buildDropdownField2(String queryCollection) {
     return Container(

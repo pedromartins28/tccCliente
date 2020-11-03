@@ -138,27 +138,29 @@ class _NewHomePageState extends State<NewHomePage> {
       appBar: _normalAppBar("INÍCIO"),
       body: Center(
         child: Container(
-          padding: EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 4.0),
+          padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
           color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: 150.0,
-                child: Image.asset(
-                  'assets/logo.png',
-                  height: 550,
-                  width: 250,
-                  fit: BoxFit.cover,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 100.0,
+                  child: Image.asset(
+                    'assets/logo2.png',
+                    height: 220,
+                    width: 130,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30),
-              _buildVoluntarioButton(),
-              const SizedBox(height: 30),
-              _buildAtendimentoButton(),
-              const SizedBox(height: 30),
-              _buildTutorialButton(),
-            ],
+                const SizedBox(height: 0),
+                _buildVoluntarioButton(),
+                const SizedBox(height: 30),
+                _buildAtendimentoButton(),
+                const SizedBox(height: 30),
+                _buildTutorialButton(),
+              ],
+            ),
           ),
         ),
       ),
