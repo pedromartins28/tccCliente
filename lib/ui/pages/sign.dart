@@ -501,7 +501,7 @@ class _SignInPageState extends State<SignInPage> {
 
   Future<void> _linkWithPhoneNumber(AuthCredential credential) async {
     final errorMessage =
-        "Não foi possível criar seu usuário agora, tente novemnete mais tarde.";
+        "Não foi possível criar seu usuário agora, tente novamente mais tarde.";
 
     final result = await Auth.phoneSignIn(credential);
     _authUser = result.user;

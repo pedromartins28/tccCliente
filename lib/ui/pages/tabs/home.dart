@@ -1,3 +1,4 @@
+import 'package:cliente/ui/pages/signFormFinal.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cliente/ui/pages/tabs/finished_requests.dart';
@@ -13,8 +14,8 @@ import 'package:cliente/models/user.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-
 import 'new_home.dart';
+import '../signForm.dart';
 
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
@@ -117,6 +118,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       if (notificationHandler != null) notificationHandler.dispose();
       notificationHandler = null;
       return SignInPage();
+    } else if (appState.goAhead == 1) {
+      return SignForm();
     } else {
       if (appState.isLoading) {
         setState(() {
@@ -125,9 +128,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         return Container();
       } else {
         if (notificationHandler == null) initNotifications();
-        setState(() {
-          _loadingVisible = false;
-        });
+        setState(
+          () {
+            _loadingVisible = false;
+          },
+        );
         return Scaffold(
           key: _scaffoldKey,
           bottomNavigationBar: Stack(
