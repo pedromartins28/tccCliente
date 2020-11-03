@@ -14,7 +14,7 @@ import 'package:cliente/models/user.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-
+import 'new_home.dart';
 import '../signForm.dart';
 
 class HomePage extends StatefulWidget {
@@ -195,7 +195,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           SizedBox(height: 6.0),
                           Text('HISTÓRICO',
                               style:
-                                  TextStyle(fontSize: 14, color: Colors.white))
+                                  TextStyle(fontSize: 10, color: Colors.white))
                         ],
                       ),
                     ),
@@ -211,14 +211,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(
-                            FontAwesomeIcons.recycle,
+                            FontAwesomeIcons.heart,
                             size: 20,
                             color: Colors.white,
                           ),
                           SizedBox(height: 6.0),
-                          Text('COLETA',
+                          Text('INÍCIO',
                               style:
-                                  TextStyle(fontSize: 14, color: Colors.white))
+                                  TextStyle(fontSize: 10, color: Colors.white))
                         ],
                       ),
                     ),
@@ -236,7 +236,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         ),
                         SizedBox(height: 6.0),
                         Text('PERFIL',
-                            style: TextStyle(fontSize: 14, color: Colors.white))
+                            style: TextStyle(fontSize: 10, color: Colors.white))
                       ],
                     ),
                   ),
@@ -250,7 +250,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               controller: _tabController,
               children: [
                 FinishedRequestsPage(),
-                RequestPage(),
+                NewHomePage(),
                 UserInfoPage(),
               ],
             ),
