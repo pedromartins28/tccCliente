@@ -1,3 +1,4 @@
+import 'package:cliente/ui/pages/signFormFinal.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cliente/ui/pages/tabs/finished_requests.dart';
@@ -13,6 +14,8 @@ import 'package:cliente/models/user.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+
+import '../signForm.dart';
 
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
@@ -115,6 +118,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       if (notificationHandler != null) notificationHandler.dispose();
       notificationHandler = null;
       return SignInPage();
+    } else if (appState.goAhead == 1) {
+      return SignForm();
     } else {
       if (appState.isLoading) {
         setState(() {
@@ -123,9 +128,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         return Container();
       } else {
         if (notificationHandler == null) initNotifications();
-        setState(() {
-          _loadingVisible = false;
-        });
+        setState(
+          () {
+            _loadingVisible = false;
+          },
+        );
         return Scaffold(
           key: _scaffoldKey,
           bottomNavigationBar: Stack(
@@ -133,7 +140,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.red[200],
                     borderRadius: BorderRadius.circular(2.0),
                     boxShadow: [
                       BoxShadow(
@@ -175,14 +182,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     _hasFinishedRequestNotification,
                     false,
                     child: Container(
-                      height: 60,
+                      height: 70,
                       padding: EdgeInsets.only(top: 2.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Icon(FontAwesomeIcons.listAlt, size: 20),
+                          Icon(
+                            FontAwesomeIcons.listAlt,
+                            size: 20,
+                            color: Colors.white,
+                          ),
                           SizedBox(height: 6.0),
-                          Text('HISTÓRICO', style: TextStyle(fontSize: 14))
+                          Text('HISTÓRICO',
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.white))
                         ],
                       ),
                     ),
@@ -192,27 +205,38 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     _hasRequestNotification,
                     _hasChatNotification,
                     child: Container(
-                      height: 60,
+                      height: 70,
                       padding: EdgeInsets.only(top: 2.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Icon(FontAwesomeIcons.recycle, size: 20),
+                          Icon(
+                            FontAwesomeIcons.recycle,
+                            size: 20,
+                            color: Colors.white,
+                          ),
                           SizedBox(height: 6.0),
-                          Text('COLETA', style: TextStyle(fontSize: 14))
+                          Text('COLETA',
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.white))
                         ],
                       ),
                     ),
                   ),
                   Container(
-                    height: 60,
+                    height: 70,
                     padding: EdgeInsets.only(top: 2.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Icon(FontAwesomeIcons.user, size: 20),
+                        Icon(
+                          FontAwesomeIcons.user,
+                          size: 20,
+                          color: Colors.white,
+                        ),
                         SizedBox(height: 6.0),
-                        Text('PERFIL', style: TextStyle(fontSize: 14))
+                        Text('PERFIL',
+                            style: TextStyle(fontSize: 14, color: Colors.white))
                       ],
                     ),
                   ),
