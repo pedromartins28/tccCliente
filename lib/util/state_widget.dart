@@ -43,7 +43,16 @@ class _StateWidgetState extends State<StateWidget> {
       state.authUser = authUser;
       state.isLoading = false;
       state.user = user;
-      state.goAhead = 1;
+    });
+  }
+
+  Future<Null> changeGoAhead() async {
+    setState(() {
+      if (state.goAhead = false) {
+        state.goAhead = true;
+      } else {
+        state.goAhead = false;
+      }
     });
   }
 

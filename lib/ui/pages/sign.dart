@@ -209,6 +209,7 @@ class _SignInPageState extends State<SignInPage> {
       color: Colors.white,
       onPressed: () {
         _signUpProcedure();
+        StateWidget.of(context).changeGoAhead();
       },
     );
   }
