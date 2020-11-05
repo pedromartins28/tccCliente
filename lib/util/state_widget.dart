@@ -46,16 +46,6 @@ class _StateWidgetState extends State<StateWidget> {
     });
   }
 
-  Future<Null> changeGoAhead() async {
-    setState(() {
-      if (state.goAhead = false) {
-        state.goAhead = true;
-      } else {
-        state.goAhead = false;
-      }
-    });
-  }
-
   Future<void> logOutUser() async {
     await Auth.setUserNotActive(state.user.userId);
     await Auth.signOut();
