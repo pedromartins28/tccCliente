@@ -126,6 +126,7 @@ class _SignFormFinalState extends State<SignFormFinal> {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => HomePage()));
       appState.goAhead = false;
+      appState.goAheadAux = false;
     });
   }
 }
