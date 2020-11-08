@@ -4,13 +4,15 @@ import 'package:cliente/models/user.dart';
 class StateModel {
   FirebaseUser authUser;
   bool isLoading;
-  int goAhead = 0;
+  bool goAhead;
+  bool goAheadAux;
   User user;
 
   StateModel({
     this.isLoading = false,
     this.authUser,
     this.user,
-    this.goAhead,
+    bool goAhead = false,
+    bool goAheadAux = false,
   });
 }

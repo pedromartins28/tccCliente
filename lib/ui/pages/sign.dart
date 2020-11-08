@@ -1,3 +1,4 @@
+import 'package:cliente/models/state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cliente/ui/widgets/loading.dart';
 import 'package:cliente/util/state_widget.dart';
@@ -31,6 +32,7 @@ class _SignInPageState extends State<SignInPage> {
   final FocusNode _phoneFocus = FocusNode();
   final FocusNode _nameFocus = FocusNode();
   static const String tag = "AUTH";
+  StateModel appState;
 
   String _errorMessage, _phoneNumber, _verificationId;
   Duration _timeOut = const Duration(minutes: 1);
@@ -79,6 +81,7 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    appState = StateWidget.of(context).state;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -194,6 +197,7 @@ class _SignInPageState extends State<SignInPage> {
       color: Colors.white,
       onPressed: () {
         _signInProcedure();
+        appState.goAheadAux = false;
       },
     );
   }
@@ -209,6 +213,7 @@ class _SignInPageState extends State<SignInPage> {
       color: Colors.white,
       onPressed: () {
         _signUpProcedure();
+        appState.goAheadAux = true;
       },
     );
   }
@@ -497,6 +502,9 @@ class _SignInPageState extends State<SignInPage> {
     print("User Loged In");
     await StateWidget.of(context).signInUser(user.uid);
     _codeTimer.cancel();
+    if (appState.goAheadAux == true) {
+      appState.goAhead = true;
+    }
   }
 
   Future<void> _linkWithPhoneNumber(AuthCredential credential) async {
