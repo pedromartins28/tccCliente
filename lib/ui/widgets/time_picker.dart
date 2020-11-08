@@ -26,7 +26,7 @@ class _TimePickerBottomSheetState extends State<TimePickerBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle hintTextStyle = Theme.of(context).textTheme.subhead.apply(
+    TextStyle hintTextStyle = Theme.of(context).textTheme.subtitle1.apply(
           color: Color(0xFF999999),
         );
     return Scaffold(
@@ -45,7 +45,7 @@ class _TimePickerBottomSheetState extends State<TimePickerBottomSheet> {
                   ),
                   Text(
                     MIN_DATETIME.substring(11),
-                    style: Theme.of(context).textTheme.subhead,
+                    style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ],
               ),
@@ -60,7 +60,7 @@ class _TimePickerBottomSheetState extends State<TimePickerBottomSheet> {
                   ),
                   Text(
                     MAX_DATETIME.substring(11),
-                    style: Theme.of(context).textTheme.subhead,
+                    style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ],
               ),
@@ -75,7 +75,7 @@ class _TimePickerBottomSheetState extends State<TimePickerBottomSheet> {
                   ),
                   Text(
                     INIT_DATETIME.substring(11),
-                    style: Theme.of(context).textTheme.subhead,
+                    style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ],
               ),
@@ -94,7 +94,7 @@ class _TimePickerBottomSheetState extends State<TimePickerBottomSheet> {
                     margin: EdgeInsets.only(right: 8.0),
                     child: Text('custom title height:', style: hintTextStyle),
                   ),
-                  Text('56.0', style: Theme.of(context).textTheme.subhead),
+                  Text('56.0', style: Theme.of(context).textTheme.subtitle1),
                 ],
               ),
             ),
@@ -114,12 +114,12 @@ class _TimePickerBottomSheetState extends State<TimePickerBottomSheet> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text('Selected Time:',
-                      style: Theme.of(context).textTheme.subhead),
+                      style: Theme.of(context).textTheme.subtitle1),
                   Container(
                     padding: EdgeInsets.only(left: 12.0),
                     child: Text(
                         '${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}:${_dateTime.second.toString().padLeft(2, '0')}',
-                        style: Theme.of(context).textTheme.title),
+                        style: Theme.of(context).textTheme.headline6),
                   ),
                 ],
               ),

@@ -66,7 +66,8 @@ class _FinishedRequestsPageState extends State<FinishedRequestsPage>
           } else {
             if (snapshot.data.documents.isEmpty) {
               return Center(
-                  child: Text("Você ainda não possui coletas finalizadas"));
+                  child:
+                      Text("Você ainda não possui atendimentos finalizados"));
             } else {
               return ListView.builder(
                 reverse: true,

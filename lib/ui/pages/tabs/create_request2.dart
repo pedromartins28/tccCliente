@@ -21,16 +21,14 @@ class _CreateRequest2State extends State<CreateRequest2> {
   final TextEditingController _periodEndController = TextEditingController();
   List<bool> days = [false, false, false, false, false, false, false];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String _addressText = "Escolha um Endereço",
-      _ativityText = "Descrição da Atividade",
-      _infoText = "Informações adicionais";
+  String _addressText = "Escolha um Endereço";
   Firestore _db = Firestore.instance;
   List<String> addressList = [];
   bool _loadingVisible = false;
   DateTime _periodStart;
   DateTime _periodEnd;
 
-  static final _apiKey = "AIzaSyBiILxc3lFdJsC4Q-uoir3Wuu4sVc6zCo0";
+  static final _apiKey = "AIzaSyAQDp-6PKqxay0s2XhbVXwInTJo0FyOXaM";
   Location _midTownLocation = Location(-20.1524122, -44.9366794);
   GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: _apiKey);
   GeoPoint _location;
@@ -538,8 +536,6 @@ class _CreateRequest2State extends State<CreateRequest2> {
         _changeLoadingVisible();
         if (_addressText != "Escolha um Endereço" &&
             _addressText != "Carregando..." &&
-            _ativityText != "Descrição da atividade" &&
-            _infoText != "Informações adicionais" &&
             _periodEnd != null &&
             _periodStart != null &&
             days.contains(true)) {
@@ -548,9 +544,7 @@ class _CreateRequest2State extends State<CreateRequest2> {
               _db.collection('requests').add({
                 'periodStart': Timestamp.fromDate(_periodStart),
                 'periodEnd': Timestamp.fromDate(_periodEnd),
-                'trashAmount': _ativityText,
                 'address': _addressText,
-                'trashType': _infoText,
                 'location': _location,
                 'donorId': userId,
                 'state': 1,

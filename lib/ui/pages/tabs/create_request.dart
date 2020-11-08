@@ -30,7 +30,7 @@ class _CreateRequestState extends State<CreateRequest> {
   DateTime _periodStart;
   DateTime _periodEnd;
 
-  static final _apiKey = "AIzaSyBiILxc3lFdJsC4Q-uoir3Wuu4sVc6zCo0";
+  static final _apiKey = "AIzaSyAQDp-6PKqxay0s2XhbVXwInTJo0FyOXaM";
   Location _midTownLocation = Location(-20.1524122, -44.9366794);
   GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: _apiKey);
   GeoPoint _location;
@@ -136,10 +136,10 @@ class _CreateRequestState extends State<CreateRequest> {
                 children: <Widget>[
                   _buildAddressDropdown(),
                   _buildSizedBox(),
-                  _buildDropdownField2('trashAmounts'),
+                  _buildDropdownField('trashAmounts'),
                   //_buildDropdownField('trashAmounts', Icons.comment),
                   _buildSizedBox(),
-                  _buildDropdownField2('trashTypes'),
+                  _buildDropdownField('trashTypes'),
                   //_buildDropdownField('trashTypes', Icons.add),
                   _buildSizedBox(),
                   Text(
@@ -328,7 +328,7 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
-  _buildDropdownField2(String queryCollection) {
+  _buildDropdownField(String queryCollection) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 15),
