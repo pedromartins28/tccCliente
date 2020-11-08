@@ -259,7 +259,7 @@ class _SignInPageState extends State<SignInPage> {
       },
       style: Theme.of(context)
           .textTheme
-          .subhead
+          .subtitle1
           .copyWith(fontSize: 18.0, color: Colors.white),
       inputDecoration: InputDecoration(
         labelStyle: TextStyle(color: Colors.white, fontSize: 16.0),

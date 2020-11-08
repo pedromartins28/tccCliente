@@ -113,7 +113,7 @@ class MaskedTextFieldState extends State<MaskedTextField> {
     var lastTextSize = 0;
 
     return TextField(
-      style: widget.style ?? Theme.of(context).textTheme.subhead,
+      style: widget.style ?? Theme.of(context).textTheme.subtitle1,
       onSubmitted: (String text) => widget?.onSubmitted(text),
       textAlign: widget.textAlign ?? TextAlign.start,
       controller: widget.maskedTextFieldController,

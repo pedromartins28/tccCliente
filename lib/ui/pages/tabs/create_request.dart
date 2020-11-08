@@ -136,10 +136,10 @@ class _CreateRequestState extends State<CreateRequest> {
                 children: <Widget>[
                   _buildAddressDropdown(),
                   _buildSizedBox(),
-                  _buildDropdownField2('trashAmounts'),
+                  _buildDropdownField('trashAmounts'),
                   //_buildDropdownField('trashAmounts', Icons.comment),
                   _buildSizedBox(),
-                  _buildDropdownField2('trashTypes'),
+                  _buildDropdownField('trashTypes'),
                   //_buildDropdownField('trashTypes', Icons.add),
                   _buildSizedBox(),
                   Text(
@@ -328,7 +328,7 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
-  _buildDropdownField2(String queryCollection) {
+  _buildDropdownField(String queryCollection) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 15),
