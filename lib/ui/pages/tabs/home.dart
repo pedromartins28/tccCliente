@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       if (notificationHandler != null) notificationHandler.dispose();
       notificationHandler = null;
       return SignInPage();
-    } else if (appState.goAhead == 1) {
+    } else if (appState.goAhead == true) {
       return SignForm();
     } else {
       if (appState.isLoading) {
