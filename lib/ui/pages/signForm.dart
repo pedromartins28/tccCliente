@@ -1,9 +1,12 @@
 import 'package:cliente/models/state.dart';
-import 'package:cliente/ui/pages/signFormFinal.dart';
+import 'package:cliente/models/user.dart';
+import 'package:cliente/ui/pages/tabs/home.dart';
 import 'package:cliente/ui/widgets/forms.dart';
 import 'package:cliente/ui/widgets/loading.dart';
+import 'package:cliente/util/auth.dart';
 import 'package:cliente/util/state_widget.dart';
 import 'package:cliente/util/validator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,10 +17,14 @@ class SignForm extends StatefulWidget {
 
 class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
-  bool form01 = true;
+  int form01 = 0;
+  StateModel appState;
+  String userId = '';
+  User user;
 
   @override
   Widget build(BuildContext context) {
+    appState = StateWidget.of(context).state;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -53,29 +60,55 @@ class _SignFormState extends State<SignForm> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      form01
-                          ? inputForm("Data de Nascimento", Icons.date_range)
-                          : inputForm("Número SUS", Icons.healing),
-                      form01
-                          ? inputForm("Sexo", Icons.person)
-                          : inputForm("Plano de Saúde 01", Icons.note_add),
-                      form01
-                          ? inputForm("Endereço", Icons.home)
-                          : inputForm("Plano de Saúde 02", Icons.note_add),
-                      form01
-                          ? SizedBox(
-                              height: 50,
+                      form01 == 0
+                          ? Column(
+                              children: <Widget>[
+                                inputForm(
+                                    "Data de Nascimento", Icons.date_range),
+                                inputForm("Sexo", Icons.person),
+                                inputForm("Endereço", Icons.home),
+                                SizedBox(
+                                  height: 50,
+                                ),
+                                botao("Próxima Etapa", changeForm01)
+                              ],
                             )
-                          : inputForm(
-                              "Unidade Básica de Saúde", Icons.local_hospital),
-                      form01
-                          ? botao("Próxima Etapa", changeForm01)
-                          : SizedBox(
-                              height: 50,
-                            ),
-                      !form01
-                          ? botao("Última Etapa", changeForm02)
-                          : Container(),
+                          : form01 == 1
+                              ? Column(
+                                  children: <Widget>[
+                                    inputForm("Número SUS", Icons.healing),
+                                    inputForm(
+                                        "Plano de Saúde 01", Icons.note_add),
+                                    inputForm(
+                                        "Plano de Saúde 02", Icons.note_add),
+                                    inputForm("Unidade Básica de Saúde",
+                                        Icons.local_hospital),
+                                    SizedBox(
+                                      height: 50,
+                                    ),
+                                    botao("Última Etapa", changeForm02)
+                                  ],
+                                )
+                              : Column(
+                                  children: <Widget>[
+                                    inputForm("Número de pessoas no domicílio",
+                                        Icons.person),
+                                    inputForm(
+                                        "Estado Civil", Icons.thumbs_up_down),
+                                    inputForm(
+                                        "Cor declarada", Icons.color_lens),
+                                    inputForm("Escolaridade", Icons.school),
+                                    inputForm("Religião", Icons.cloud),
+                                    inputForm(
+                                        "Profissão", Icons.monetization_on),
+                                    inputForm(
+                                        "Renda Familiar", Icons.attach_money),
+                                    SizedBox(
+                                      height: 40,
+                                    ),
+                                    botao("Finalizar Cadastro", finishSignIn),
+                                  ],
+                                )
                     ],
                   ),
                 ),
@@ -134,14 +167,33 @@ class _SignFormState extends State<SignForm> {
 
   changeForm01() {
     setState(() {
-      form01 = !form01;
+      form01 = 1;
     });
   }
 
   changeForm02() {
     setState(() {
+      form01 = 2;
+    });
+  }
+
+  void finishSignIn() async {
+    user = await Auth.getUserLocal();
+    userId = user.userId;
+
+    Firestore.instance.collection('donors').document(userId).updateData(
+      {
+        'opaBao': "bao",
+        'beleza': "sim",
+      },
+    );
+
+    setState(() {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => SignFormFinal()));
+          context, MaterialPageRoute(builder: (context) => HomePage()));
+      appState.goAhead = false;
+      appState.goAheadAux = false;
+      form01 = 0;
     });
   }
 }

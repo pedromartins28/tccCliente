@@ -500,11 +500,11 @@ class _SignInPageState extends State<SignInPage> {
   _finishSignIn(FirebaseUser user) async {
     await SystemChannels.textInput.invokeMethod('TextInput.hide');
     print("User Loged In");
-    await StateWidget.of(context).signInUser(user.uid);
-    _codeTimer.cancel();
     if (appState.goAheadAux == true) {
       appState.goAhead = true;
     }
+    await StateWidget.of(context).signInUser(user.uid);
+    _codeTimer.cancel();
   }
 
   Future<void> _linkWithPhoneNumber(AuthCredential credential) async {
