@@ -9,7 +9,7 @@ ThemeData buildTheme() {
     appBarTheme: AppBarTheme(
       color: Colors.red[200],
       textTheme: TextTheme(
-        title: TextStyle(
+        headline6: TextStyle(
           fontWeight: FontWeight.bold,
           color: Colors.red[500],
           fontSize: 20,

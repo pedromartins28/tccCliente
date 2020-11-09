@@ -1,19 +1,3 @@
-import 'dart:io';
-import 'package:cliente/ui/pages/tabs/home.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cliente/ui/pages/tabs/finished_requests.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cliente/util/notification_handler.dart';
-import 'package:cliente/ui/pages/tabs/request.dart';
-import 'package:cliente/ui/pages/tabs/user_info.dart';
-import 'package:cliente/ui/widgets/loading.dart';
-import 'package:cliente/util/state_widget.dart';
-import 'package:cliente/ui/pages/sign.dart';
-import 'package:cliente/models/state.dart';
-import 'package:cliente/models/user.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
