@@ -29,7 +29,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDb3hNCnsrz4zOz2iTakLbZtArMJKBSKp0"
+          "current_key": "AIzaSyClwp6VLoawH7_YaIHVZXjnEbJAE1PHwFI"
         }
       ],
       "services": {
@@ -56,7 +56,7 @@
           "client_type": 1,
           "android_info": {
             "package_name": "app.coronapp.voluntario",
-            "certificate_hash": "9b4afd0a028403d01ac85c23d47a946e57851a9d"
+            "certificate_hash": "AIzaSyClwp6VLoawH7_YaIHVZXjnEbJAE1PHwFI"
           }
         },
         {
