@@ -15,13 +15,21 @@
       },
       "oauth_client": [
         {
+          "client_id": "11598567402-p1ub6qkknnf72aqbc303kafieq67bn3r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.coronapp.cliente",
+            "certificate_hash": "9b4afd0a028403d01ac85c23d47a946e57851a9d"
+          }
+        },
+        {
           "client_id": "11598567402-7035er747868ti17k1epd4qn5v73u9lf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAZKOwORic4ycn_d1WWgpPH0TQVIEU4cBs"
+          "current_key": "AIzaSyDb3hNCnsrz4zOz2iTakLbZtArMJKBSKp0"
         }
       ],
       "services": {
@@ -44,13 +52,21 @@
       },
       "oauth_client": [
         {
+          "client_id": "11598567402-lqivuc2sm4rv83j9ei1n3jb7s0bsq8sh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.coronapp.voluntario",
+            "certificate_hash": "9b4afd0a028403d01ac85c23d47a946e57851a9d"
+          }
+        },
+        {
           "client_id": "11598567402-7035er747868ti17k1epd4qn5v73u9lf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAZKOwORic4ycn_d1WWgpPH0TQVIEU4cBs"
+          "current_key": "AIzaSyDb3hNCnsrz4zOz2iTakLbZtArMJKBSKp0"
         }
       ],
       "services": {
