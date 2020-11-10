@@ -21,6 +21,21 @@ class _SignFormState extends State<SignForm> {
   StateModel appState;
   String userId = '';
   User user;
+  final TextEditingController _dataController = TextEditingController();
+  final TextEditingController _sexoController = TextEditingController();
+  final TextEditingController _enderecoController = TextEditingController();
+  final TextEditingController _susController = TextEditingController();
+  final TextEditingController _planSaude01Controller = TextEditingController();
+  final TextEditingController _planSaude02Controller = TextEditingController();
+  final TextEditingController _unidadeBasicaSaudeController =
+      TextEditingController();
+  final TextEditingController _pessoasCasaController = TextEditingController();
+  final TextEditingController _estadoCivilController = TextEditingController();
+  final TextEditingController _corController = TextEditingController();
+  final TextEditingController _escolaridadeController = TextEditingController();
+  final TextEditingController _religiaoController = TextEditingController();
+  final TextEditingController _profissaoController = TextEditingController();
+  final TextEditingController _rendaController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +79,19 @@ class _SignFormState extends State<SignForm> {
                           ? Column(
                               children: <Widget>[
                                 inputForm(
-                                    "Data de Nascimento", Icons.date_range),
-                                inputForm("Sexo", Icons.person),
-                                inputForm("Endereço", Icons.home),
-                                SizedBox(
-                                  height: 50,
+                                  _dataController,
+                                  "Data de Nascimento",
+                                  Icons.date_range,
+                                ),
+                                inputForm(
+                                  _sexoController,
+                                  "Sexo",
+                                  Icons.person,
+                                ),
+                                inputForm(
+                                  _enderecoController,
+                                  "Endereço",
+                                  Icons.home,
                                 ),
                                 botao("Próxima Etapa", changeForm01)
                               ],
@@ -76,33 +99,66 @@ class _SignFormState extends State<SignForm> {
                           : form01 == 1
                               ? Column(
                                   children: <Widget>[
-                                    inputForm("Número SUS", Icons.healing),
                                     inputForm(
-                                        "Plano de Saúde 01", Icons.note_add),
+                                      _susController,
+                                      "Número SUS",
+                                      Icons.healing,
+                                    ),
                                     inputForm(
-                                        "Plano de Saúde 02", Icons.note_add),
-                                    inputForm("Unidade Básica de Saúde",
-                                        Icons.local_hospital),
-                                    SizedBox(
-                                      height: 50,
+                                      _planSaude01Controller,
+                                      "Plano de Saúde 01",
+                                      Icons.note_add,
+                                    ),
+                                    inputForm(
+                                      _planSaude02Controller,
+                                      "Plano de Saúde 02",
+                                      Icons.note_add,
+                                    ),
+                                    inputForm(
+                                      _unidadeBasicaSaudeController,
+                                      "Unidade Básica de Saúde",
+                                      Icons.local_hospital,
                                     ),
                                     botao("Última Etapa", changeForm02)
                                   ],
                                 )
                               : Column(
                                   children: <Widget>[
-                                    inputForm("Número de pessoas no domicílio",
-                                        Icons.person),
                                     inputForm(
-                                        "Estado Civil", Icons.thumbs_up_down),
+                                      _pessoasCasaController,
+                                      "Número de pessoas no domicílio",
+                                      Icons.person,
+                                    ),
                                     inputForm(
-                                        "Cor declarada", Icons.color_lens),
-                                    inputForm("Escolaridade", Icons.school),
-                                    inputForm("Religião", Icons.cloud),
+                                      _estadoCivilController,
+                                      "Estado Civil",
+                                      Icons.thumbs_up_down,
+                                    ),
                                     inputForm(
-                                        "Profissão", Icons.monetization_on),
+                                      _corController,
+                                      "Cor declarada",
+                                      Icons.color_lens,
+                                    ),
                                     inputForm(
-                                        "Renda Familiar", Icons.attach_money),
+                                      _escolaridadeController,
+                                      "Escolaridade",
+                                      Icons.school,
+                                    ),
+                                    inputForm(
+                                      _religiaoController,
+                                      "Religião",
+                                      Icons.cloud,
+                                    ),
+                                    inputForm(
+                                      _profissaoController,
+                                      "Profissão",
+                                      Icons.monetization_on,
+                                    ),
+                                    inputForm(
+                                      _rendaController,
+                                      "Renda Familiar",
+                                      Icons.attach_money,
+                                    ),
                                     SizedBox(
                                       height: 40,
                                     ),
@@ -121,8 +177,8 @@ class _SignFormState extends State<SignForm> {
     );
   }
 
-  Widget inputForm(String text, IconData icon) {
-    final TextEditingController _nameController = TextEditingController();
+  Widget inputForm(
+      TextEditingController _controller, String text, IconData icon) {
     final FocusNode _nameFocus = FocusNode();
     String _texto = text;
     IconData _icone = icon;
@@ -141,7 +197,7 @@ class _SignFormState extends State<SignForm> {
         textCap: TextCapitalization.words,
         inputType: TextInputType.text,
         action: TextInputAction.next,
-        controller: _nameController,
+        controller: _controller,
         textColor: Colors.white,
         labelColor: Colors.white,
       ),
@@ -151,17 +207,23 @@ class _SignFormState extends State<SignForm> {
   Widget botao(String texto, Function funcaoSend) {
     String _texto2 = texto;
 
-    return RaisedButton(
-      child: Text(
-        _texto2,
-        style: TextStyle(fontSize: 18.0, color: Colors.black),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 50, 0, 5),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 1,
+        child: RaisedButton(
+          child: Text(
+            _texto2,
+            style: TextStyle(fontSize: 18.0, color: Colors.black),
+          ),
+          padding: EdgeInsets.all(16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4.0),
+          ),
+          color: Colors.white,
+          onPressed: funcaoSend,
+        ),
       ),
-      padding: EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4.0),
-      ),
-      color: Colors.white,
-      onPressed: funcaoSend,
     );
   }
 
@@ -183,8 +245,20 @@ class _SignFormState extends State<SignForm> {
 
     Firestore.instance.collection('donors').document(userId).updateData(
       {
-        'opaBao': "bao",
-        'beleza': "sim",
+        'dataNascimento': _dataController.text,
+        'sexo': _sexoController.text,
+        'endereco': _enderecoController.text,
+        'numSus': _susController.text,
+        'planoSaude01': _planSaude01Controller.text,
+        'planoSaude02': _planSaude02Controller.text,
+        'unidadeBasSaude': _unidadeBasicaSaudeController.text,
+        'numPessoasCasa': _pessoasCasaController.text,
+        'estadoCivil': _estadoCivilController.text,
+        'corDeclarada': _corController.text,
+        'escolaridade': _escolaridadeController.text,
+        'religiao': _religiaoController.text,
+        'profissao': _profissaoController.text,
+        'rendaFamiliar': _rendaController.text,
       },
     );
 
