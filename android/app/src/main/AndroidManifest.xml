@@ -22,7 +22,7 @@
             android:resource="@drawable/app_icon" />
 
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBiILxc3lFdJsC4Q-uoir3Wuu4sVc6zCo0"/>
+            android:value="AIzaSyBJdZBbkiCPHOrEQHM_9qlMjbP9k-ZfAxk"/>
 
         <activity
             android:name=".MainActivity"
