@@ -20,6 +20,7 @@ class _SignFormState extends State<SignForm> {
   int form01 = 0;
   StateModel appState;
   String userId = '';
+  String selected;
   User user;
   final TextEditingController _dataController = TextEditingController();
   final TextEditingController _sexoController = TextEditingController();
@@ -36,9 +37,11 @@ class _SignFormState extends State<SignForm> {
   final TextEditingController _religiaoController = TextEditingController();
   final TextEditingController _profissaoController = TextEditingController();
   final TextEditingController _rendaController = TextEditingController();
+  List<String> teste;
 
   @override
   Widget build(BuildContext context) {
+    teste = ["a", "b"];
     appState = StateWidget.of(context).state;
     return Scaffold(
       body: Container(
@@ -83,11 +86,12 @@ class _SignFormState extends State<SignForm> {
                                   "Data de Nascimento",
                                   Icons.date_range,
                                 ),
-                                inputForm(
-                                  _sexoController,
-                                  "Sexo",
-                                  Icons.person,
-                                ),
+                                dropDownButton("Oi", teste),
+                                // inputForm(
+                                //   _sexoController,
+                                //   "Sexo",
+                                //   Icons.person,
+                                // ),
                                 inputForm(
                                   _enderecoController,
                                   "Endereço",
@@ -225,6 +229,43 @@ class _SignFormState extends State<SignForm> {
         ),
       ),
     );
+  }
+
+  Widget dropDownButton(String cabecalho, List<String> itemsList) {
+    return Padding(
+        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: 0),
+              child: Text(
+                cabecalho + ":",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+            DropdownButtonFormField<String>(
+              iconEnabledColor: Colors.black,
+              value: selected,
+              decoration: InputDecoration(
+                fillColor: Colors.white.withOpacity(0.8),
+                filled: true,
+              ),
+              items: itemsList
+                  .map((label) => DropdownMenuItem(
+                        child: Text(label),
+                        value: label,
+                      ))
+                  .toList(),
+              onChanged: (value) {
+                setState(() => selected = value);
+              },
+            ),
+          ],
+        ));
   }
 
   changeForm01() {
