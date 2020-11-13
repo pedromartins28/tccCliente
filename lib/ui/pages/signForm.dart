@@ -20,10 +20,8 @@ class _SignFormState extends State<SignForm> {
   int form01 = 0;
   StateModel appState;
   String userId = '';
-  String selected;
   User user;
   final TextEditingController _dataController = TextEditingController();
-  final TextEditingController _sexoController = TextEditingController();
   final TextEditingController _enderecoController = TextEditingController();
   final TextEditingController _susController = TextEditingController();
   final TextEditingController _planSaude01Controller = TextEditingController();
@@ -37,11 +35,11 @@ class _SignFormState extends State<SignForm> {
   final TextEditingController _religiaoController = TextEditingController();
   final TextEditingController _profissaoController = TextEditingController();
   final TextEditingController _rendaController = TextEditingController();
-  List<String> teste;
+  List<String> _dropSexo;
+  String _selectedDropSexo;
 
   @override
   Widget build(BuildContext context) {
-    teste = ["a", "b"];
     appState = StateWidget.of(context).state;
     return Scaffold(
       body: Container(
@@ -86,7 +84,7 @@ class _SignFormState extends State<SignForm> {
                                   "Data de Nascimento",
                                   Icons.date_range,
                                 ),
-                                dropDownButton("Oi", teste),
+                                dropDownButtonSexo("Sexo"),
                                 // inputForm(
                                 //   _sexoController,
                                 //   "Sexo",
@@ -231,41 +229,54 @@ class _SignFormState extends State<SignForm> {
     );
   }
 
-  Widget dropDownButton(String cabecalho, List<String> itemsList) {
+  Widget dropDownButtonSexo(String cabecalho) {
     return Padding(
-        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: 0),
-              child: Text(
-                cabecalho + ":",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
+      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+      child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white60, width: 2.0),
+            borderRadius: BorderRadius.circular(4.0),
+          ),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 0),
+                  child: Text(
+                    cabecalho + ":",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  ),
                 ),
-              ),
+                DropdownButtonFormField<String>(
+                  iconEnabledColor: Colors.red[500],
+                  value: _selectedDropSexo,
+                  decoration: InputDecoration(
+                    fillColor: Colors.white.withOpacity(0.8),
+                    filled: true,
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.red[500].withOpacity(0)),
+                    ),
+                  ),
+                  items: ["Masculino", "Feminino", "Outro"]
+                      .map((label) => DropdownMenuItem(
+                            child: Text(label),
+                            value: label,
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() => _selectedDropSexo = value);
+                  },
+                ),
+              ],
             ),
-            DropdownButtonFormField<String>(
-              iconEnabledColor: Colors.black,
-              value: selected,
-              decoration: InputDecoration(
-                fillColor: Colors.white.withOpacity(0.8),
-                filled: true,
-              ),
-              items: itemsList
-                  .map((label) => DropdownMenuItem(
-                        child: Text(label),
-                        value: label,
-                      ))
-                  .toList(),
-              onChanged: (value) {
-                setState(() => selected = value);
-              },
-            ),
-          ],
-        ));
+          )),
+    );
   }
 
   changeForm01() {
@@ -287,7 +298,7 @@ class _SignFormState extends State<SignForm> {
     Firestore.instance.collection('donors').document(userId).updateData(
       {
         'dataNascimento': _dataController.text,
-        'sexo': _sexoController.text,
+        'sexo': _selectedDropSexo,
         'endereco': _enderecoController.text,
         'numSus': _susController.text,
         'planoSaude01': _planSaude01Controller.text,
