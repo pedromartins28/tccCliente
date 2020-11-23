@@ -35,8 +35,9 @@ class _SignFormState extends State<SignForm> {
   final TextEditingController _religiaoController = TextEditingController();
   final TextEditingController _profissaoController = TextEditingController();
   final TextEditingController _rendaController = TextEditingController();
-  List<String> _dropSexo;
   String _selectedDropSexo;
+  String _selectedDropEstadoCivil;
+  String _selectedDropCor;
 
   @override
   Widget build(BuildContext context) {
@@ -85,16 +86,8 @@ class _SignFormState extends State<SignForm> {
                                   Icons.date_range,
                                 ),
                                 dropDownButtonSexo("Sexo"),
-                                // inputForm(
-                                //   _sexoController,
-                                //   "Sexo",
-                                //   Icons.person,
-                                // ),
-                                inputForm(
-                                  _enderecoController,
-                                  "Endereço",
-                                  Icons.home,
-                                ),
+                                dropDownButtonEstadoCivil("Estado Civil"),
+                                dropDownButtonCor("Cor Declarada"),
                                 botao("Próxima Etapa", changeForm01)
                               ],
                             )
@@ -130,16 +123,6 @@ class _SignFormState extends State<SignForm> {
                                       _pessoasCasaController,
                                       "Número de pessoas no domicílio",
                                       Icons.person,
-                                    ),
-                                    inputForm(
-                                      _estadoCivilController,
-                                      "Estado Civil",
-                                      Icons.thumbs_up_down,
-                                    ),
-                                    inputForm(
-                                      _corController,
-                                      "Cor declarada",
-                                      Icons.color_lens,
                                     ),
                                     inputForm(
                                       _escolaridadeController,
@@ -279,6 +262,112 @@ class _SignFormState extends State<SignForm> {
     );
   }
 
+  Widget dropDownButtonEstadoCivil(String cabecalho) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+      child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white60, width: 2.0),
+            borderRadius: BorderRadius.circular(4.0),
+          ),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 0),
+                  child: Text(
+                    cabecalho + ":",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                DropdownButtonFormField<String>(
+                  iconEnabledColor: Colors.red[500],
+                  value: _selectedDropEstadoCivil,
+                  decoration: InputDecoration(
+                    fillColor: Colors.white.withOpacity(0.8),
+                    filled: true,
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.red[500].withOpacity(0)),
+                    ),
+                  ),
+                  items: [
+                    "Solteiro(a)",
+                    "Casado(a)",
+                    "Divorciado(a)",
+                    "Viúvo(a)",
+                    "Separado(a)"
+                  ]
+                      .map((label) => DropdownMenuItem(
+                            child: Text(label),
+                            value: label,
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() => _selectedDropEstadoCivil = value);
+                  },
+                ),
+              ],
+            ),
+          )),
+    );
+  }
+
+  Widget dropDownButtonCor(String cabecalho) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+      child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white60, width: 2.0),
+            borderRadius: BorderRadius.circular(4.0),
+          ),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 0),
+                  child: Text(
+                    cabecalho + ":",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                DropdownButtonFormField<String>(
+                  iconEnabledColor: Colors.red[500],
+                  value: _selectedDropCor,
+                  decoration: InputDecoration(
+                    fillColor: Colors.white.withOpacity(0.8),
+                    filled: true,
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Colors.red[500].withOpacity(0)),
+                    ),
+                  ),
+                  items: ["Preto", "Pardo", "Branco", "Indígena", "Amarelo"]
+                      .map((label) => DropdownMenuItem(
+                            child: Text(label),
+                            value: label,
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() => _selectedDropCor = value);
+                  },
+                ),
+              ],
+            ),
+          )),
+    );
+  }
+
   changeForm01() {
     setState(() {
       form01 = 1;
@@ -305,7 +394,7 @@ class _SignFormState extends State<SignForm> {
         'planoSaude02': _planSaude02Controller.text,
         'unidadeBasSaude': _unidadeBasicaSaudeController.text,
         'numPessoasCasa': _pessoasCasaController.text,
-        'estadoCivil': _estadoCivilController.text,
+        'estadoCivil': _selectedDropEstadoCivil,
         'corDeclarada': _corController.text,
         'escolaridade': _escolaridadeController.text,
         'religiao': _religiaoController.text,
