@@ -22,22 +22,67 @@ class _SignFormState extends State<SignForm> {
   String userId = '';
   User user;
   final TextEditingController _dataController = TextEditingController();
-  final TextEditingController _enderecoController = TextEditingController();
   final TextEditingController _susController = TextEditingController();
   final TextEditingController _planSaude01Controller = TextEditingController();
   final TextEditingController _planSaude02Controller = TextEditingController();
   final TextEditingController _unidadeBasicaSaudeController =
       TextEditingController();
-  final TextEditingController _pessoasCasaController = TextEditingController();
-  final TextEditingController _estadoCivilController = TextEditingController();
-  final TextEditingController _corController = TextEditingController();
-  final TextEditingController _escolaridadeController = TextEditingController();
-  final TextEditingController _religiaoController = TextEditingController();
   final TextEditingController _profissaoController = TextEditingController();
-  final TextEditingController _rendaController = TextEditingController();
+
+  List<String> _itensSexo = ["Masculino", "Feminino", "Outro"];
+  String _mostrarSexo;
   String _selectedDropSexo;
+  List<String> _itensEstadoCivil = [
+    "Solteiro(a)",
+    "Casado(a)",
+    "Divorciado(a)",
+    "Viúvo(a)",
+    "Separado(a)"
+  ];
+  String _mostrarEstado;
   String _selectedDropEstadoCivil;
-  String _selectedDropCor;
+  List<String> _itensCor = [
+    "Preto(a)",
+    "Pardo(a)",
+    "Branco(a)",
+    "Indígena",
+    "Amarelo(a)"
+  ];
+  String _mostrarCor;
+  String _selectedCor;
+  List<String> _itensPessoas = ["1", "2", "3", "4", "5", "6+"];
+  String _mostrarPessoas;
+  String _selectedPessoas;
+  List<String> _itensEscolaridade = [
+    "Analfabeto",
+    "Fundamental Incompleto",
+    "Fundamental Completo",
+    "Médio Incompleto",
+    "Médio Completo",
+    "Superior Incompleto",
+    "Superior Completo"
+  ];
+  String _mostrarEscolaridade;
+  String _selectedEscolaridade;
+  List<String> _itensReligiao = [
+    "Católica",
+    "Evangélica",
+    "Não tem",
+    "Espírita",
+    "Religiões afro-brasileiras",
+    "Outra",
+  ];
+  String _mostrarReligiao;
+  String _selectedReligiao;
+  List<String> _itensRenda = [
+    "Até 2 salários mínimos",
+    "De 2 a 3 salários mínimos",
+    "De 3 a 5 salários mínimos",
+    "de 5 a 10 salários mínimos",
+    "Mais de 10 salários mínimos",
+  ];
+  String _mostrarRenda;
+  String _selectedRenda;
 
   @override
   Widget build(BuildContext context) {
@@ -85,9 +130,11 @@ class _SignFormState extends State<SignForm> {
                                   "Data de Nascimento",
                                   Icons.date_range,
                                 ),
-                                dropDownButtonSexo("Sexo"),
-                                dropDownButtonEstadoCivil("Estado Civil"),
-                                dropDownButtonCor("Cor Declarada"),
+                                dropDownButton(
+                                    "Sexo", _itensSexo, _mostrarSexo),
+                                dropDownButton("Estado Civil",
+                                    _itensEstadoCivil, _mostrarEstado),
+                                dropDownButton("Cor", _itensCor, _mostrarCor),
                                 botao("Próxima Etapa", changeForm01)
                               ],
                             )
@@ -120,30 +167,22 @@ class _SignFormState extends State<SignForm> {
                               : Column(
                                   children: <Widget>[
                                     inputForm(
-                                      _pessoasCasaController,
-                                      "Número de pessoas no domicílio",
-                                      Icons.person,
-                                    ),
-                                    inputForm(
-                                      _escolaridadeController,
-                                      "Escolaridade",
-                                      Icons.school,
-                                    ),
-                                    inputForm(
-                                      _religiaoController,
-                                      "Religião",
-                                      Icons.cloud,
-                                    ),
-                                    inputForm(
                                       _profissaoController,
                                       "Profissão",
                                       Icons.monetization_on,
                                     ),
-                                    inputForm(
-                                      _rendaController,
-                                      "Renda Familiar",
-                                      Icons.attach_money,
-                                    ),
+                                    dropDownButton(
+                                        "Número de pessoas no domicílio",
+                                        _itensPessoas,
+                                        _mostrarPessoas),
+                                    dropDownButton(
+                                        "Escolaridade",
+                                        _itensEscolaridade,
+                                        _mostrarEscolaridade),
+                                    dropDownButton("Religião", _itensReligiao,
+                                        _mostrarReligiao),
+                                    dropDownButton("Renda Familiar",
+                                        _itensRenda, _mostrarRenda),
                                     SizedBox(
                                       height: 40,
                                     ),
@@ -212,7 +251,7 @@ class _SignFormState extends State<SignForm> {
     );
   }
 
-  Widget dropDownButtonSexo(String cabecalho) {
+  Widget dropDownButton(String cabecalho, List<String> itens, String selected) {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: Container(
@@ -237,7 +276,7 @@ class _SignFormState extends State<SignForm> {
                 ),
                 DropdownButtonFormField<String>(
                   iconEnabledColor: Colors.red[500],
-                  value: _selectedDropSexo,
+                  value: selected,
                   decoration: InputDecoration(
                     fillColor: Colors.white.withOpacity(0.8),
                     filled: true,
@@ -246,120 +285,33 @@ class _SignFormState extends State<SignForm> {
                           BorderSide(color: Colors.red[500].withOpacity(0)),
                     ),
                   ),
-                  items: ["Masculino", "Feminino", "Outro"]
+                  items: itens
                       .map((label) => DropdownMenuItem(
                             child: Text(label),
                             value: label,
                           ))
                       .toList(),
                   onChanged: (value) {
-                    setState(() => _selectedDropSexo = value);
-                  },
-                ),
-              ],
-            ),
-          )),
-    );
-  }
-
-  Widget dropDownButtonEstadoCivil(String cabecalho) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-      child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.white60, width: 2.0),
-            borderRadius: BorderRadius.circular(4.0),
-          ),
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 0),
-                  child: Text(
-                    cabecalho + ":",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-                DropdownButtonFormField<String>(
-                  iconEnabledColor: Colors.red[500],
-                  value: _selectedDropEstadoCivil,
-                  decoration: InputDecoration(
-                    fillColor: Colors.white.withOpacity(0.8),
-                    filled: true,
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.red[500].withOpacity(0)),
-                    ),
-                  ),
-                  items: [
-                    "Solteiro(a)",
-                    "Casado(a)",
-                    "Divorciado(a)",
-                    "Viúvo(a)",
-                    "Separado(a)"
-                  ]
-                      .map((label) => DropdownMenuItem(
-                            child: Text(label),
-                            value: label,
-                          ))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() => _selectedDropEstadoCivil = value);
-                  },
-                ),
-              ],
-            ),
-          )),
-    );
-  }
-
-  Widget dropDownButtonCor(String cabecalho) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-      child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.white60, width: 2.0),
-            borderRadius: BorderRadius.circular(4.0),
-          ),
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 0),
-                  child: Text(
-                    cabecalho + ":",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-                DropdownButtonFormField<String>(
-                  iconEnabledColor: Colors.red[500],
-                  value: _selectedDropCor,
-                  decoration: InputDecoration(
-                    fillColor: Colors.white.withOpacity(0.8),
-                    filled: true,
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.red[500].withOpacity(0)),
-                    ),
-                  ),
-                  items: ["Preto", "Pardo", "Branco", "Indígena", "Amarelo"]
-                      .map((label) => DropdownMenuItem(
-                            child: Text(label),
-                            value: label,
-                          ))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() => _selectedDropCor = value);
+                    setState(
+                      () {
+                        selected = value;
+                        if (itens.contains("Masculino")) {
+                          _selectedDropSexo = value;
+                        } else if (itens.contains("Solteiro(a)")) {
+                          _selectedDropEstadoCivil = value;
+                        } else if (itens.contains("Preto(a)")) {
+                          _selectedCor = value;
+                        } else if (itens.contains("1")) {
+                          _selectedPessoas = value;
+                        } else if (itens.contains("Analfabeto")) {
+                          _selectedEscolaridade = value;
+                        } else if (itens.contains("Não tem")) {
+                          _selectedReligiao = value;
+                        } else if (itens.contains("Até 2 salários mínimos")) {
+                          _selectedRenda = value;
+                        }
+                      },
+                    );
                   },
                 ),
               ],
@@ -388,18 +340,17 @@ class _SignFormState extends State<SignForm> {
       {
         'dataNascimento': _dataController.text,
         'sexo': _selectedDropSexo,
-        'endereco': _enderecoController.text,
+        'estadoCivil': _selectedDropEstadoCivil,
+        'corDeclarada': _selectedCor,
         'numSus': _susController.text,
         'planoSaude01': _planSaude01Controller.text,
         'planoSaude02': _planSaude02Controller.text,
         'unidadeBasSaude': _unidadeBasicaSaudeController.text,
-        'numPessoasCasa': _pessoasCasaController.text,
-        'estadoCivil': _selectedDropEstadoCivil,
-        'corDeclarada': _corController.text,
-        'escolaridade': _escolaridadeController.text,
-        'religiao': _religiaoController.text,
+        'numPessoasCasa': _selectedPessoas,
+        'escolaridade': _selectedEscolaridade,
+        'religiao': _selectedReligiao,
         'profissao': _profissaoController.text,
-        'rendaFamiliar': _rendaController.text,
+        'rendaFamiliar': _selectedRenda,
       },
     );
 
@@ -408,7 +359,6 @@ class _SignFormState extends State<SignForm> {
           context, MaterialPageRoute(builder: (context) => HomePage()));
       appState.goAhead = false;
       appState.goAheadAux = false;
-      form01 = 0;
     });
   }
 }
