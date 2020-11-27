@@ -29,6 +29,10 @@ class _SignFormState extends State<SignForm> {
       TextEditingController();
   final TextEditingController _profissaoController = TextEditingController();
 
+  final GlobalKey<MaskedTextFieldState> _maskedDataKey =
+      GlobalKey<MaskedTextFieldState>();
+  String _dataerrorMessage;
+
   List<String> _itensSexo = ["Masculino", "Feminino", "Outro"];
   String _mostrarSexo;
   String _selectedDropSexo;
@@ -125,11 +129,14 @@ class _SignFormState extends State<SignForm> {
                       form01 == 0
                           ? Column(
                               children: <Widget>[
-                                inputForm(
-                                  _dataController,
-                                  "Data de Nascimento",
-                                  Icons.date_range,
-                                ),
+                                _buildField(
+                                    _dataController,
+                                    "xx/xx/xxxx",
+                                    Icons.date_range,
+                                    TextInputType.datetime,
+                                    "DD/MM/AAAA",
+                                    "Data de Nascimento",
+                                    _dataerrorMessage),
                                 dropDownButton(
                                     "Sexo", _itensSexo, _mostrarSexo),
                                 dropDownButton("Estado Civil",
@@ -141,36 +148,33 @@ class _SignFormState extends State<SignForm> {
                           : form01 == 1
                               ? Column(
                                   children: <Widget>[
+                                    inputForm(_susController, "Número SUS",
+                                        Icons.healing, TextInputType.text),
                                     inputForm(
-                                      _susController,
-                                      "Número SUS",
-                                      Icons.healing,
-                                    ),
+                                        _planSaude01Controller,
+                                        "Plano de Saúde 01",
+                                        Icons.note_add,
+                                        TextInputType.text),
                                     inputForm(
-                                      _planSaude01Controller,
-                                      "Plano de Saúde 01",
-                                      Icons.note_add,
-                                    ),
+                                        _planSaude02Controller,
+                                        "Plano de Saúde 02",
+                                        Icons.note_add,
+                                        TextInputType.text),
                                     inputForm(
-                                      _planSaude02Controller,
-                                      "Plano de Saúde 02",
-                                      Icons.note_add,
-                                    ),
-                                    inputForm(
-                                      _unidadeBasicaSaudeController,
-                                      "Unidade Básica de Saúde",
-                                      Icons.local_hospital,
-                                    ),
+                                        _unidadeBasicaSaudeController,
+                                        "Unidade Básica de Saúde",
+                                        Icons.local_hospital,
+                                        TextInputType.text),
                                     botao("Última Etapa", changeForm02)
                                   ],
                                 )
                               : Column(
                                   children: <Widget>[
                                     inputForm(
-                                      _profissaoController,
-                                      "Profissão",
-                                      Icons.monetization_on,
-                                    ),
+                                        _profissaoController,
+                                        "Profissão",
+                                        Icons.monetization_on,
+                                        TextInputType.text),
                                     dropDownButton(
                                         "Número de pessoas no domicílio",
                                         _itensPessoas,
@@ -201,8 +205,68 @@ class _SignFormState extends State<SignForm> {
     );
   }
 
-  Widget inputForm(
-      TextEditingController _controller, String text, IconData icon) {
+  String _dataInputValidator() {
+    if (_dataController.text.isEmpty) {
+      return "Digite a sua data de nascimento!";
+    } else if (_dataController.text.length < 10) {
+      return "Essa data é inválida!";
+    }
+    return null;
+  }
+
+  Widget _buildField(
+      TextEditingController _controller,
+      String mask,
+      IconData icon,
+      TextInputType teclado,
+      String hintText,
+      String labelText,
+      String error) {
+    return MaskedTextField(
+      key: _maskedDataKey,
+      mask: mask,
+      keyboardType: teclado,
+      maskedTextFieldController: _controller,
+      maxLength: 10,
+      onSubmitted: (text) {},
+      style: Theme.of(context)
+          .textTheme
+          .subtitle1
+          .copyWith(fontSize: 18.0, color: Colors.white),
+      inputDecoration: InputDecoration(
+        labelStyle: TextStyle(color: Colors.white, fontSize: 16.0),
+        prefixIcon: Icon(icon, color: Colors.white),
+        hintStyle: TextStyle(color: Colors.white24),
+        hintText: hintText,
+        labelText: labelText,
+        counterText: "",
+        isDense: false,
+        enabled: true,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.0),
+          borderSide: BorderSide(color: Colors.white60, width: 2.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.0),
+          borderSide: BorderSide(color: Colors.white, width: 2.0),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.0),
+          borderSide: BorderSide(color: Colors.yellow[700], width: 1.5),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4.0),
+          borderSide: BorderSide(color: Colors.yellow[700], width: 1.5),
+        ),
+        errorText: error,
+        errorStyle:
+            TextStyle(color: Colors.yellow[700], fontWeight: FontWeight.w500),
+      ),
+    );
+  }
+
+  Widget inputForm(TextEditingController _controller, String text,
+      IconData icon, TextInputType teclado) {
     final FocusNode _nameFocus = FocusNode();
     String _texto = text;
     IconData _icone = icon;
@@ -219,7 +283,7 @@ class _SignFormState extends State<SignForm> {
         },
         validator: Validator.validateForm,
         textCap: TextCapitalization.words,
-        inputType: TextInputType.text,
+        inputType: teclado,
         action: TextInputAction.next,
         controller: _controller,
         textColor: Colors.white,
@@ -321,9 +385,16 @@ class _SignFormState extends State<SignForm> {
   }
 
   changeForm01() {
-    setState(() {
-      form01 = 1;
-    });
+    String error = _dataInputValidator();
+    if (error != null) {
+      setState(() {
+        _dataerrorMessage = error;
+      });
+    } else {
+      setState(() {
+        form01 = 1;
+      });
+    }
   }
 
   changeForm02() {
