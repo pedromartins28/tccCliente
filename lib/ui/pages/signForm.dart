@@ -29,8 +29,12 @@ class _SignFormState extends State<SignForm> {
       TextEditingController();
   final TextEditingController _profissaoController = TextEditingController();
   final formKeySexo = GlobalKey<FormState>();
-  bool autovalidateSexo = false;
-
+  final formKeyEstadoCivil = GlobalKey<FormState>();
+  final formKeyCor = GlobalKey<FormState>();
+  final formKeyPessoas = GlobalKey<FormState>();
+  final formKeyEscolaridade = GlobalKey<FormState>();
+  final formKeyRenda = GlobalKey<FormState>();
+  final formKeyReligiao = GlobalKey<FormState>();
   final GlobalKey<MaskedTextFieldState> _maskedDataKey =
       GlobalKey<MaskedTextFieldState>();
   String _dataerrorMessage;
@@ -139,11 +143,15 @@ class _SignFormState extends State<SignForm> {
                                     "DD/MM/AAAA",
                                     "Data de Nascimento",
                                     _dataerrorMessage),
+                                dropDownButton("Sexo", _itensSexo, _mostrarSexo,
+                                    Icons.access_alarm),
                                 dropDownButton(
-                                    "Sexo", _itensSexo, _mostrarSexo),
-                                // dropDownButton("Estado Civil",
-                                //     _itensEstadoCivil, _mostrarEstado),
-                                // dropDownButton("Cor", _itensCor, _mostrarCor),
+                                    "Estado Civil",
+                                    _itensEstadoCivil,
+                                    _mostrarEstado,
+                                    Icons.verified_user),
+                                dropDownButton("Cor", _itensCor, _mostrarCor,
+                                    Icons.healing),
                                 botao("Próxima Etapa", changeForm01)
                               ],
                             )
@@ -177,18 +185,26 @@ class _SignFormState extends State<SignForm> {
                                         "Profissão",
                                         Icons.monetization_on,
                                         TextInputType.text),
-                                    // dropDownButton(
-                                    //     "Número de pessoas no domicílio",
-                                    //     _itensPessoas,
-                                    //     _mostrarPessoas),
-                                    // dropDownButton(
-                                    //     "Escolaridade",
-                                    //     _itensEscolaridade,
-                                    //     _mostrarEscolaridade),
-                                    // dropDownButton("Religião", _itensReligiao,
-                                    //     _mostrarReligiao),
-                                    // dropDownButton("Renda Familiar",
-                                    //     _itensRenda, _mostrarRenda),
+                                    dropDownButton(
+                                        "Número de pessoas no domicílio",
+                                        _itensPessoas,
+                                        _mostrarPessoas,
+                                        Icons.youtube_searched_for),
+                                    dropDownButton(
+                                        "Escolaridade",
+                                        _itensEscolaridade,
+                                        _mostrarEscolaridade,
+                                        Icons.keyboard_arrow_up),
+                                    dropDownButton(
+                                        "Religião",
+                                        _itensReligiao,
+                                        _mostrarReligiao,
+                                        Icons.format_align_justify),
+                                    dropDownButton(
+                                        "Renda Familiar",
+                                        _itensRenda,
+                                        _mostrarRenda,
+                                        Icons.format_align_justify),
                                     SizedBox(
                                       height: 40,
                                     ),
@@ -224,45 +240,48 @@ class _SignFormState extends State<SignForm> {
       String hintText,
       String labelText,
       String error) {
-    return MaskedTextField(
-      key: _maskedDataKey,
-      mask: mask,
-      keyboardType: teclado,
-      maskedTextFieldController: _controller,
-      maxLength: 10,
-      onSubmitted: (text) {},
-      style: Theme.of(context)
-          .textTheme
-          .subtitle1
-          .copyWith(fontSize: 18.0, color: Colors.white),
-      inputDecoration: InputDecoration(
-        labelStyle: TextStyle(color: Colors.white, fontSize: 16.0),
-        prefixIcon: Icon(icon, color: Colors.white),
-        hintStyle: TextStyle(color: Colors.white24),
-        hintText: hintText,
-        labelText: labelText,
-        counterText: "",
-        isDense: false,
-        enabled: true,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: Colors.white60, width: 2.0),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+      child: MaskedTextField(
+        key: _maskedDataKey,
+        mask: mask,
+        keyboardType: teclado,
+        maskedTextFieldController: _controller,
+        maxLength: 10,
+        onSubmitted: (text) {},
+        style: Theme.of(context)
+            .textTheme
+            .subtitle1
+            .copyWith(fontSize: 18.0, color: Colors.white),
+        inputDecoration: InputDecoration(
+          labelStyle: TextStyle(color: Colors.white, fontSize: 16.0),
+          prefixIcon: Icon(icon, color: Colors.white),
+          hintStyle: TextStyle(color: Colors.white24),
+          hintText: hintText,
+          labelText: labelText,
+          counterText: "",
+          isDense: false,
+          enabled: true,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4.0),
+            borderSide: BorderSide(color: Colors.white60, width: 2.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4.0),
+            borderSide: BorderSide(color: Colors.white, width: 2.0),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4.0),
+            borderSide: BorderSide(color: Colors.yellow[700], width: 1.5),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4.0),
+            borderSide: BorderSide(color: Colors.yellow[700], width: 1.5),
+          ),
+          errorText: error,
+          errorStyle:
+              TextStyle(color: Colors.yellow[700], fontWeight: FontWeight.w500),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: Colors.white, width: 2.0),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: Colors.yellow[700], width: 1.5),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: Colors.yellow[700], width: 1.5),
-        ),
-        errorText: error,
-        errorStyle:
-            TextStyle(color: Colors.yellow[700], fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -317,83 +336,118 @@ class _SignFormState extends State<SignForm> {
     );
   }
 
-  Widget dropDownButton(String cabecalho, List<String> itens, String selected) {
+  Widget dropDownButton(
+      String cabecalho, List<String> itens, String selected, IconData icone) {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
       child: Form(
-        key: cabecalho == "Sexo" ? formKeySexo : null,
-        child: DropdownButtonFormField<String>(
-          value: selected,
-          iconEnabledColor: Colors.white,
-          hint: Row(
-            children: <Widget>[
-              Icon(
-                Icons.ac_unit,
-                color: Colors.white,
-              ),
-              Text(
-                cabecalho,
-                style: TextStyle(color: Colors.white),
-              ),
-            ],
+        key: cabecalho == "Sexo"
+            ? formKeySexo
+            : cabecalho == "Estado Civil"
+                ? formKeyEstadoCivil
+                : cabecalho == "Cor"
+                    ? formKeyCor
+                    : cabecalho == "Número de pessoas no domicílio"
+                        ? formKeyPessoas
+                        : cabecalho == "Escolaridade"
+                            ? formKeyEscolaridade
+                            : cabecalho == "Religião"
+                                ? formKeyReligiao
+                                : cabecalho == "Renda Familiar"
+                                    ? formKeyRenda
+                                    : null,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+            canvasColor: Colors.blue[300],
           ),
-          validator: (selected) =>
-              selected == null ? 'Esse campo não pode ficar vazio' : null,
-          decoration: InputDecoration(
-            fillColor: Colors.white.withOpacity(0),
-            filled: true,
-            labelStyle: TextStyle(color: Colors.white, fontSize: 16.0),
-            hintStyle: TextStyle(color: Colors.white24),
-            counterText: "",
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4.0),
-              borderSide: BorderSide(color: Colors.white60, width: 2.0),
+          child: DropdownButtonFormField<String>(
+            value: selected,
+            iconEnabledColor: Colors.white,
+            hint: Row(
+              children: <Widget>[
+                Icon(
+                  icone,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  cabecalho,
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
             ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4.0),
-              borderSide: BorderSide(color: Colors.white, width: 2.0),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4.0),
-              borderSide: BorderSide(color: Colors.yellow[700], width: 1.5),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4.0),
-              borderSide: BorderSide(color: Colors.yellow[700], width: 1.5),
-            ),
-            errorStyle: TextStyle(
-                color: Colors.yellow[700], fontWeight: FontWeight.w500),
-          ),
-          items: itens.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Row(
-                children: <Widget>[Icon(Icons.ac_unit), Text(value)],
+            validator: (selected) =>
+                selected == null ? 'Esse campo não pode ficar vazio' : null,
+            decoration: InputDecoration(
+              fillColor: Colors.white.withOpacity(0),
+              filled: true,
+              labelStyle: TextStyle(color: Colors.white, fontSize: 16.0),
+              hintStyle: TextStyle(color: Colors.white24),
+              counterText: "",
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4.0),
+                borderSide: BorderSide(color: Colors.white60, width: 2.0),
               ),
-            );
-          }).toList(),
-          onChanged: (value) {
-            setState(
-              () {
-                selected = value;
-                if (itens.contains("Masculino")) {
-                  _selectedDropSexo = value;
-                } else if (itens.contains("Solteiro(a)")) {
-                  _selectedDropEstadoCivil = value;
-                } else if (itens.contains("Preto(a)")) {
-                  _selectedCor = value;
-                } else if (itens.contains("1")) {
-                  _selectedPessoas = value;
-                } else if (itens.contains("Analfabeto")) {
-                  _selectedEscolaridade = value;
-                } else if (itens.contains("Não tem")) {
-                  _selectedReligiao = value;
-                } else if (itens.contains("Até 2 salários mínimos")) {
-                  _selectedRenda = value;
-                }
-              },
-            );
-          },
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4.0),
+                borderSide: BorderSide(color: Colors.white, width: 2.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4.0),
+                borderSide: BorderSide(color: Colors.yellow[700], width: 1.5),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4.0),
+                borderSide: BorderSide(color: Colors.yellow[700], width: 1.5),
+              ),
+              errorStyle: TextStyle(
+                  color: Colors.yellow[700], fontWeight: FontWeight.w500),
+            ),
+            items: itens.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      icone,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      value,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+            onChanged: (value) {
+              setState(
+                () {
+                  selected = value;
+                  if (itens.contains("Masculino")) {
+                    _selectedDropSexo = value;
+                  } else if (itens.contains("Solteiro(a)")) {
+                    _selectedDropEstadoCivil = value;
+                  } else if (itens.contains("Preto(a)")) {
+                    _selectedCor = value;
+                  } else if (itens.contains("1")) {
+                    _selectedPessoas = value;
+                  } else if (itens.contains("Analfabeto")) {
+                    _selectedEscolaridade = value;
+                  } else if (itens.contains("Não tem")) {
+                    _selectedReligiao = value;
+                  } else if (itens.contains("Até 2 salários mínimos")) {
+                    _selectedRenda = value;
+                  }
+                },
+              );
+            },
+          ),
         ),
       ),
     );
@@ -405,14 +459,15 @@ class _SignFormState extends State<SignForm> {
       setState(() {
         _dataerrorMessage = error;
       });
-    } else if (formKeySexo.currentState.validate()) {
-      _formKey.currentState.save();
+    } else if (formKeySexo.currentState.validate() &&
+        formKeyEstadoCivil.currentState.validate() &&
+        formKeyCor.currentState.validate()) {
       setState(() {
         form01 = 1;
       });
     } else {
       setState(() {
-        autovalidateSexo = true; //enable realtime validation
+        _dataerrorMessage = error;
       });
     }
   }
@@ -427,29 +482,34 @@ class _SignFormState extends State<SignForm> {
     user = await Auth.getUserLocal();
     userId = user.userId;
 
-    Firestore.instance.collection('donors').document(userId).updateData(
-      {
-        'dataNascimento': _dataController.text,
-        'sexo': _selectedDropSexo,
-        'estadoCivil': _selectedDropEstadoCivil,
-        'corDeclarada': _selectedCor,
-        'numSus': _susController.text,
-        'planoSaude01': _planSaude01Controller.text,
-        'planoSaude02': _planSaude02Controller.text,
-        'unidadeBasSaude': _unidadeBasicaSaudeController.text,
-        'numPessoasCasa': _selectedPessoas,
-        'escolaridade': _selectedEscolaridade,
-        'religiao': _selectedReligiao,
-        'profissao': _profissaoController.text,
-        'rendaFamiliar': _selectedRenda,
-      },
-    );
+    if (formKeyPessoas.currentState.validate() &&
+        formKeyEscolaridade.currentState.validate() &&
+        formKeyReligiao.currentState.validate() &&
+        formKeyRenda.currentState.validate()) {
+      Firestore.instance.collection('donors').document(userId).updateData(
+        {
+          'dataNascimento': _dataController.text,
+          'sexo': _selectedDropSexo,
+          'estadoCivil': _selectedDropEstadoCivil,
+          'corDeclarada': _selectedCor,
+          'numSus': _susController.text,
+          'planoSaude01': _planSaude01Controller.text,
+          'planoSaude02': _planSaude02Controller.text,
+          'unidadeBasSaude': _unidadeBasicaSaudeController.text,
+          'numPessoasCasa': _selectedPessoas,
+          'escolaridade': _selectedEscolaridade,
+          'religiao': _selectedReligiao,
+          'profissao': _profissaoController.text,
+          'rendaFamiliar': _selectedRenda,
+        },
+      );
 
-    setState(() {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
-      appState.goAhead = false;
-      appState.goAheadAux = false;
-    });
+      setState(() {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
+        appState.goAhead = false;
+        appState.goAheadAux = false;
+      });
+    } else {}
   }
 }
