@@ -38,6 +38,7 @@ class _SignFormState extends State<SignForm> {
   final GlobalKey<MaskedTextFieldState> _maskedDataKey =
       GlobalKey<MaskedTextFieldState>();
   String _dataerrorMessage;
+  bool _loadingVisible = false;
 
   List<String> _itensSexo = ["Masculino", "Feminino", "Outro"];
   String _mostrarSexo;
@@ -217,7 +218,7 @@ class _SignFormState extends State<SignForm> {
               ),
             ),
           ),
-          inAsyncCall: false,
+          inAsyncCall: _loadingVisible,
         ),
       ),
     );
@@ -228,7 +229,23 @@ class _SignFormState extends State<SignForm> {
       return "Digite a sua data de nascimento!";
     } else if (_dataController.text.length < 10) {
       return "Essa data é inválida!";
+    } else {
+      int dia = int.parse(_dataController.text[0] + _dataController.text[1]);
+      int mes = int.parse(_dataController.text[3] + _dataController.text[4]);
+      int ano = int.parse(_dataController.text[6] +
+          _dataController.text[7] +
+          _dataController.text[8] +
+          _dataController.text[9]);
+
+      if (dia <= 0 || dia > 31) {
+        return "Essa data é inválida!";
+      } else if (mes <= 0 || mes > 12) {
+        return "Essa data é inválida!";
+      } else if (ano <= 0) {
+        return "Essa data é inválida!";
+      }
     }
+
     return null;
   }
 
@@ -479,6 +496,7 @@ class _SignFormState extends State<SignForm> {
   }
 
   void finishSignIn() async {
+    _changeLoadingVisible();
     user = await Auth.getUserLocal();
     userId = user.userId;
 
@@ -511,5 +529,11 @@ class _SignFormState extends State<SignForm> {
         appState.goAheadAux = false;
       });
     } else {}
+  }
+
+  Future<void> _changeLoadingVisible() async {
+    setState(() {
+      _loadingVisible = !_loadingVisible;
+    });
   }
 }
