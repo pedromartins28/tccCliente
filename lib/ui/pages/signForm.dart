@@ -496,7 +496,6 @@ class _SignFormState extends State<SignForm> {
   }
 
   void finishSignIn() async {
-    _changeLoadingVisible();
     user = await Auth.getUserLocal();
     userId = user.userId;
 
@@ -504,6 +503,7 @@ class _SignFormState extends State<SignForm> {
         formKeyEscolaridade.currentState.validate() &&
         formKeyReligiao.currentState.validate() &&
         formKeyRenda.currentState.validate()) {
+      _changeLoadingVisible();
       Firestore.instance.collection('donors').document(userId).updateData(
         {
           'dataNascimento': _dataController.text,
@@ -523,6 +523,7 @@ class _SignFormState extends State<SignForm> {
       );
 
       setState(() {
+        _changeLoadingVisible();
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => HomePage()));
         appState.goAhead = false;
