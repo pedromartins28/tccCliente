@@ -241,7 +241,7 @@ class _SignFormState extends State<SignForm> {
         return "Essa data é inválida!";
       } else if (mes <= 0 || mes > 12) {
         return "Essa data é inválida!";
-      } else if (ano <= 0) {
+      } else if (ano <= 1900) {
         return "Essa data é inválida!";
       }
     }
