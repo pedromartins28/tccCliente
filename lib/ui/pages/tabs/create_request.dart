@@ -30,7 +30,7 @@ class _CreateRequestState extends State<CreateRequest> {
   DateTime _periodStart;
   DateTime _periodEnd;
 
-  static final _apiKey = "AIzaSyDlY449wS2X8vs46tCjsNb3ivt54GhGRDQ";
+  static final _apiKey = "AIzaSyAMHJh8Fnc0oJLyF5qP--kw8Zz4RjocVMw";
 
   Location _midTownLocation = Location(-20.1524122, -44.9366794);
   GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: _apiKey);
