@@ -30,7 +30,7 @@ class _CreateRequestState extends State<CreateRequest> {
   DateTime _periodStart;
   DateTime _periodEnd;
 
-  static final _apiKey = "AIzaSyAMHJh8Fnc0oJLyF5qP--kw8Zz4RjocVMw";
+  static final _apiKey = "AIzaSyBxTHJZ-aBy_PCszgbc00K9NbCnBNiQwC4";
 
   Location _midTownLocation = Location(-20.1524122, -44.9366794);
   GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: _apiKey);
@@ -137,11 +137,11 @@ class _CreateRequestState extends State<CreateRequest> {
                 children: <Widget>[
                   _buildAddressDropdown(),
                   _buildSizedBox(),
-                  //_buildDropdownField('trashAmounts'),
-                  _buildDropdownField('trashAmounts', Icons.comment),
+                  _buildDropdownField('trashAmounts'),
+                  //_buildDropdownField('trashAmounts', Icons.comment),
                   _buildSizedBox(),
-                  //_buildDropdownField('trashTypes'),
-                  _buildDropdownField('trashTypes', Icons.add),
+                  _buildDropdownField('trashTypes'),
+                  //_buildDropdownField('trashTypes', Icons.add),
                   _buildSizedBox(),
                   Text(
                     "PERÍODOS DE DISPONIBILIDADE",
@@ -329,7 +329,7 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
-  /*_buildDropdownField(String queryCollection) {
+  _buildDropdownField(String queryCollection) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 15),
@@ -355,9 +355,9 @@ class _CreateRequestState extends State<CreateRequest> {
         },
       ),
     );
-  }*/
+  }
 
-  _buildDropdownField(String queryCollection, IconData icon) {
+  /*_buildDropdownField(String queryCollection, IconData icon) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 4.0),
@@ -422,7 +422,7 @@ class _CreateRequestState extends State<CreateRequest> {
         ),
       ),
     );
-  }
+  }*/
 
   Widget _buildDayFieldRow() {
     return Row(
