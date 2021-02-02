@@ -29,8 +29,9 @@ class _CreateRequestState extends State<CreateRequest> {
   bool _loadingVisible = false;
   DateTime _periodStart;
   DateTime _periodEnd;
+  int _function = 0;
 
-  static final _apiKey = "AIzaSyBxTHJZ-aBy_PCszgbc00K9NbCnBNiQwC4";
+  static final _apiKey = "AIzaSyBnaELr9Ggz-8v5BpJ9W4yykiOViLmDz8M";
 
   Location _midTownLocation = Location(-20.1524122, -44.9366794);
   GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: _apiKey);
@@ -137,11 +138,11 @@ class _CreateRequestState extends State<CreateRequest> {
                 children: <Widget>[
                   _buildAddressDropdown(),
                   _buildSizedBox(),
-                  _buildDropdownField('trashAmounts'),
-                  //_buildDropdownField('trashAmounts', Icons.comment),
+                  //_buildDropdownField('trashAmounts'),
+                  _buildDropdownField('trashAmounts', Icons.comment),
                   _buildSizedBox(),
-                  _buildDropdownField('trashTypes'),
-                  //_buildDropdownField('trashTypes', Icons.add),
+                  //_buildDropdownField('trashTypes'),
+                  _buildDropdownField('trashTypes', Icons.add),
                   _buildSizedBox(),
                   Text(
                     "PERÍODOS DE DISPONIBILIDADE",
@@ -329,7 +330,7 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
-  _buildDropdownField(String queryCollection) {
+  /*_buildDropdownField(String queryCollection) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 15),
@@ -355,12 +356,12 @@ class _CreateRequestState extends State<CreateRequest> {
         },
       ),
     );
-  }
+  }*/
 
-  /*_buildDropdownField(String queryCollection, IconData icon) {
+  _buildDropdownField(String queryCollection, IconData icon) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 4.0),
+      padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 15),
       decoration: BoxDecoration(
           border: Border.all(width: 0.75, color: Colors.grey),
           borderRadius: BorderRadius.all(Radius.circular(4.0))),
@@ -390,30 +391,24 @@ class _CreateRequestState extends State<CreateRequest> {
                 );
               } else {
                 return Material(
-                  child: DropdownButton<String>(
-                    iconSize: 28.0,
-                    elevation: 2,
-                    items: null,
-                    onChanged: (choice) {
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      icon: queryCollection == 'trashAmounts'
+                          ? Icon(Icons.add_comment)
+                          : Icon(Icons.add),
+                      hintText: queryCollection == 'trashAmounts'
+                          ? _ativityText
+                          : _infoText,
+                    ),
+                    onChanged: (text) {
                       setState(() {
                         if (queryCollection == 'trashAmounts')
-                          _ativityText = choice;
+                          _ativityText = text;
                         else
-                          _infoText = choice;
+                          _infoText = text;
                       });
                     },
-                    hint: Row(
-                      children: <Widget>[
-                        Icon(icon, color: Colors.black54),
-                        SizedBox(width: 12.0),
-                        Text(
-                          queryCollection == 'trashAmounts'
-                              ? _ativityText
-                              : _infoText,
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                      ],
-                    ),
                   ),
                 );
               }
@@ -422,7 +417,7 @@ class _CreateRequestState extends State<CreateRequest> {
         ),
       ),
     );
-  }*/
+  }
 
   Widget _buildDayFieldRow() {
     return Row(
@@ -648,6 +643,7 @@ class _CreateRequestState extends State<CreateRequest> {
           if (await _verifyConnection()) {
             Future.delayed(Duration(seconds: 1), () {
               _db.collection('requests').add({
+                'function': _function,
                 'periodStart': Timestamp.fromDate(_periodStart),
                 'periodEnd': Timestamp.fromDate(_periodEnd),
                 'trashAmount': _ativityText,
@@ -662,6 +658,8 @@ class _CreateRequestState extends State<CreateRequest> {
                   'chatNotification': 0,
                   'requestNotification': null,
                 });
+                _changeLoadingVisible();
+                Navigator.pushNamed(context, '/request');
               }).catchError((err) {
                 setState(() {
                   _loadingVisible = false;
@@ -669,7 +667,7 @@ class _CreateRequestState extends State<CreateRequest> {
                 Flushbar(
                   padding:
                       EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
-                  message: "Não foi possível criar a coleta",
+                  message: "Não foi possível realizar a solicitação.",
                   duration: Duration(seconds: 3),
                   isDismissible: false,
                 )..show(context);
@@ -694,7 +692,7 @@ class _CreateRequestState extends State<CreateRequest> {
           });
           Flushbar(
             padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
-            message: "Preencha todos os campos para criar a coleta",
+            message: "Preencha todos os campos para prosseguir.",
             duration: Duration(seconds: 3),
             isDismissible: false,
           )..show(context);

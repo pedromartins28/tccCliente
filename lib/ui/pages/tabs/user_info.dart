@@ -366,7 +366,7 @@ class _UserInfoPageState extends State<UserInfoPage>
                   dataUnit('NOME: ', name),
                   dataUnit('TELEFONE: ', phone),
                   dataUnit(
-                    'TOTAL DE COLETAS: ',
+                    'TOTAL DE ATENDIMENTOS: ',
                     finishedRequests != null
                         ? finishedRequests.toStringAsFixed(0)
                         : '0',

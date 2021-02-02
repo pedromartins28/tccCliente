@@ -99,12 +99,22 @@ class _RequestPageState extends State<RequestPage>
       if ((now.isBefore(periodStartMinus1) || now.isAfter(realPeriodTime)))
         return true;
       else {
-        Flushbar(
-          message:
-              "Só é possível dispensar uma coleta com uma hora de antecedência ou após o Horário de Coleta.",
-          duration: Duration(seconds: 4),
-          isDismissible: false,
-        )..show(context);
+        if (_db.collection('requests').document('function') == 0) {
+          Flushbar(
+            message:
+                "Só é possível dispensar um voluntário com uma hora de antecedência ou após o Horário.",
+            duration: Duration(seconds: 4),
+            isDismissible: false,
+          )..show(context);
+        } else {
+          Flushbar(
+            message:
+                "Só é possível dispensar um atendimento com uma hora de antecedência ou após o Horário.",
+            duration: Duration(seconds: 4),
+            isDismissible: false,
+          )..show(context);
+        }
+
         return false;
       }
     } else
@@ -174,7 +184,6 @@ class _RequestPageState extends State<RequestPage>
 
   Widget _buildCreateRequestScaffold() {
     return Scaffold(
-      appBar: _normalAppBar("SOLICITAR ENFERMEIRO"),
       body: CreateRequest(),
     );
   }
@@ -204,7 +213,7 @@ class _RequestPageState extends State<RequestPage>
                 Container(
                   padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 2.0),
                   child: Text(
-                    "DISPENSAR COLETOR?",
+                    "DISPENSAR?",
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -345,13 +354,12 @@ class _RequestPageState extends State<RequestPage>
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
-                  child: Icon(Icons.delete_forever,
-                      color: Colors.black54, size: 64),
+                  child: Icon(Icons.cancel, color: Colors.black54, size: 64),
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0.0),
                   child: Text(
-                    "CANCELAR A COLETA?",
+                    "CANCELAR?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18,
@@ -361,7 +369,7 @@ class _RequestPageState extends State<RequestPage>
                 Container(
                   padding: EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 20.0),
                   child: Text(
-                    "VOCÊ PODERÁ CRIAR OUTRA, APÓS CANCELAR ESTA.",
+                    "VOCÊ PODERÁ FAZER UMA NOVA SOLICITAÇÃO, APÓS CANCELAR ESTA.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,
@@ -396,7 +404,7 @@ class _RequestPageState extends State<RequestPage>
                       child: InkWell(
                         onTap: () async {
                           if (await _verifyConnection()) {
-                            Navigator.of(context).pop();
+                            Navigator.pushNamed(context, '/');
                             await document.reference.delete().then((doc) {
                               _db
                                   .collection('donors')
@@ -409,7 +417,8 @@ class _RequestPageState extends State<RequestPage>
                               Flushbar(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 24.0, horizontal: 12.0),
-                                message: "Não foi possível cancelar a coleta",
+                                message:
+                                    "Não foi possível cancelar o atendimento.",
                                 duration: Duration(seconds: 3),
                                 isDismissible: false,
                               )..show(context);
@@ -444,7 +453,7 @@ class _RequestPageState extends State<RequestPage>
 
   Widget _requestPanelAppBar(DocumentSnapshot document) {
     return AppBar(
-      title: Text("SUA COLETA"),
+      title: Text("STATUS"),
       centerTitle: true,
     );
   }
@@ -493,40 +502,53 @@ class _RequestPageState extends State<RequestPage>
             'donorId': document['donorId'],
             'requestId': document.documentID,
           };
-          return SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Card(
-                elevation: 2,
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                child: ListTile(
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
-                  subtitle: Container(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text("RESÍDUO:"),
-                            Text("QUANTIDADE:")
-                          ],
-                        ),
-                        SizedBox(height: 6),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.delete_outline,
-                                  color: Colors.grey,
-                                  size: 18,
-                                ),
-                                SizedBox(width: 6),
-                                Text(
+          if (document['function'] == 0) {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Card(
+                  elevation: 2,
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                  child: ListTile(
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+                    subtitle: Container(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text("TAREFA:"),
+                              Text("DETALHES:")
+                            ],
+                          ),
+                          SizedBox(height: 6),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.info,
+                                    color: Colors.grey,
+                                    size: 18,
+                                  ),
+                                  SizedBox(width: 6),
+                                  Text(
+                                    document['trashAmount'],
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(right: 4.0),
+                                child: Text(
                                   document['trashType'],
                                   style: TextStyle(
                                     color: Colors.black,
@@ -534,176 +556,312 @@ class _RequestPageState extends State<RequestPage>
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: 4.0),
-                              child: Text(
-                                document['trashAmount'],
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                          ],
-                        ),
-                        _buildSizedBox(),
-                        Text("ENDEREÇO:"),
-                        SizedBox(height: 6),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: <Widget>[
-                            Icon(
-                              Icons.my_location,
-                              color: Colors.grey,
-                              size: 18,
-                            ),
-                            SizedBox(width: 6),
-                            Flexible(
-                              child: Text(
-                                document['address'].toUpperCase(),
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                                overflow: TextOverflow.clip,
+                            ],
+                          ),
+                          _buildSizedBox(),
+                          Text("ENDEREÇO:"),
+                          SizedBox(height: 6),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Icon(
+                                Icons.my_location,
+                                color: Colors.grey,
+                                size: 18,
                               ),
-                            ),
-                          ],
-                        ),
-                        _buildSizedBox(),
-                        Text("DISPONIBILIDADE:"),
-                        SizedBox(height: 6),
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.access_time,
-                              color: Colors.grey,
-                              size: 18,
-                            ),
-                            SizedBox(width: 6),
-                            Text(
-                              "DE " +
-                                  document['periodStart']
-                                      .toDate()
-                                      .toString()
-                                      .substring(11, 16) +
-                                  " ATÉ " +
-                                  document['periodEnd']
-                                      .toDate()
-                                      .toString()
-                                      .substring(11, 16),
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        _buildDayFieldRow(document),
-                        _buildSizedBox(),
-                        Text("SITUAÇÃO:"),
-                        SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            document['state'] == 1
-                                ? Icon(
-                                    Icons.help_outline,
-                                    color: Colors.blueAccent,
-                                    size: 20,
-                                  )
-                                : Icon(
-                                    Icons.error_outline,
-                                    color: Colors.green,
-                                    size: 20,
+                              SizedBox(width: 6),
+                              Flexible(
+                                child: Text(
+                                  document['address'].toUpperCase(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
                                   ),
-                            document['state'] == 1
-                                ? Text(
-                                    " À PROCURA DE COLETORES",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w300,
+                                  overflow: TextOverflow.clip,
+                                ),
+                              ),
+                            ],
+                          ),
+                          _buildSizedBox(),
+                          Text("DISPONIBILIDADE:"),
+                          SizedBox(height: 6),
+                          Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.access_time,
+                                color: Colors.grey,
+                                size: 18,
+                              ),
+                              SizedBox(width: 6),
+                              Text(
+                                "DE " +
+                                    document['periodStart']
+                                        .toDate()
+                                        .toString()
+                                        .substring(11, 16) +
+                                    " ATÉ " +
+                                    document['periodEnd']
+                                        .toDate()
+                                        .toString()
+                                        .substring(11, 16),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          _buildDayFieldRow(document),
+                          _buildSizedBox(),
+                          Text("SITUAÇÃO:"),
+                          SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              document['state'] == 1
+                                  ? Icon(
+                                      Icons.help_outline,
                                       color: Colors.blueAccent,
-                                    ),
-                                  )
-                                : Text(
-                                    " COLETA EM ANDAMENTO",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w300,
+                                      size: 20,
+                                    )
+                                  : Icon(
+                                      Icons.error_outline,
                                       color: Colors.green,
+                                      size: 20,
                                     ),
-                                  ),
-                          ],
-                        ),
-                        _buildSizedBox(),
-                        _buildNotificationDot(
-                          _chatNotification,
-                          child: _buildButtonOption(
+                              document['state'] == 1
+                                  ? Text(
+                                      " BUSCANDO...",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.blueAccent,
+                                      ),
+                                    )
+                                  : Text(
+                                      " EM ANDAMENTO",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                            ],
+                          ),
+                          _buildSizedBox(),
+                          _buildNotificationDot(
+                            _chatNotification,
+                            child: _buildButtonOption(
+                              2,
+                              'CHAT',
+                              document,
+                              Icons.chat_bubble_outline,
+                              Colors.orangeAccent,
+                              () async {
+                                Navigator.of(context).pushNamed(
+                                  '/chat',
+                                  arguments: request,
+                                );
+                              },
+                            ),
+                          ),
+                          _buildButtonOption(
                             2,
-                            'CHAT COM COLETOR',
+                            'DADOS',
                             document,
-                            Icons.chat_bubble_outline,
-                            Colors.orangeAccent,
+                            Icons.info_outline,
+                            Colors.blueAccent,
                             () async {
-                              Navigator.of(context).pushNamed(
-                                '/chat',
-                                arguments: request,
-                              );
+                              if (await _verifyConnection()) {
+                                Navigator.of(context).pushNamed(
+                                  '/picker_info',
+                                  arguments: document['pickerId'],
+                                );
+                              }
                             },
                           ),
-                        ),
-                        _buildButtonOption(
-                          2,
-                          'DADOS DO COLETOR',
-                          document,
-                          Icons.info_outline,
-                          Colors.blueAccent,
-                          () async {
-                            if (await _verifyConnection()) {
-                              Navigator.of(context).pushNamed(
-                                '/picker_info',
-                                arguments: document['pickerId'],
-                              );
-                            }
-                          },
-                        ),
-                        _buildButtonOption(
-                          2,
-                          'DISPENSAR COLETOR',
-                          document,
-                          Icons.not_interested,
-                          Colors.redAccent,
-                          () async {
-                            if (_verifyIfRequestCanBeDismissed(
-                                document['periodDays'],
-                                document['periodStart'].toDate(),
-                                document['periodEnd'].toDate())) {
-                              _dismissRequestDialog(document);
-                            }
-                          },
-                        ),
-                        _buildButtonOption(
-                          1,
-                          'CANCELAR COLETA',
-                          document,
-                          Icons.delete_forever,
-                          Colors.redAccent,
-                          () async {
-                            _cancelRequestDialog(document);
-                          },
-                        ),
-                      ],
+                          _buildButtonOption(
+                            2,
+                            'DISPENSAR ATENDIMENTO',
+                            document,
+                            Icons.not_interested,
+                            Colors.redAccent,
+                            () async {
+                              if (_verifyIfRequestCanBeDismissed(
+                                  document['periodDays'],
+                                  document['periodStart'].toDate(),
+                                  document['periodEnd'].toDate())) {
+                                _dismissRequestDialog(document);
+                              }
+                            },
+                          ),
+                          _buildButtonOption(
+                            1,
+                            'CANCELAR',
+                            document,
+                            Icons.cancel,
+                            Colors.redAccent,
+                            () async {
+                              _cancelRequestDialog(document);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          );
+            );
+          } else {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Card(
+                  elevation: 2,
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                  child: ListTile(
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+                    subtitle: Container(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(height: 6),
+                          _buildSizedBox(),
+                          Text("DISPONIBILIDADE:"),
+                          SizedBox(height: 6),
+                          Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.access_time,
+                                color: Colors.grey,
+                                size: 18,
+                              ),
+                              SizedBox(width: 6),
+                              Text(
+                                "DE " +
+                                    document['periodStart']
+                                        .toDate()
+                                        .toString()
+                                        .substring(11, 16) +
+                                    " ATÉ " +
+                                    document['periodEnd']
+                                        .toDate()
+                                        .toString()
+                                        .substring(11, 16),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          _buildDayFieldRow(document),
+                          _buildSizedBox(),
+                          Text("SITUAÇÃO:"),
+                          SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              document['state'] == 1
+                                  ? Icon(
+                                      Icons.help_outline,
+                                      color: Colors.blueAccent,
+                                      size: 20,
+                                    )
+                                  : Icon(
+                                      Icons.error_outline,
+                                      color: Colors.green,
+                                      size: 20,
+                                    ),
+                              document['state'] == 1
+                                  ? Text(
+                                      " BUSCANDO...",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.blueAccent,
+                                      ),
+                                    )
+                                  : Text(
+                                      " EM ANDAMENTO",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                            ],
+                          ),
+                          _buildSizedBox(),
+                          _buildNotificationDot(
+                            _chatNotification,
+                            child: _buildButtonOption(
+                              2,
+                              'CHAT',
+                              document,
+                              Icons.chat_bubble_outline,
+                              Colors.orangeAccent,
+                              () async {
+                                Navigator.of(context).pushNamed(
+                                  '/chat',
+                                  arguments: request,
+                                );
+                              },
+                            ),
+                          ),
+                          _buildButtonOption(
+                            2,
+                            'DADOS',
+                            document,
+                            Icons.info_outline,
+                            Colors.blueAccent,
+                            () async {
+                              if (await _verifyConnection()) {
+                                Navigator.of(context).pushNamed(
+                                  '/picker_info',
+                                  arguments: document['pickerId'],
+                                );
+                              }
+                            },
+                          ),
+                          _buildButtonOption(
+                            2,
+                            'DISPENSAR ATENDIMENTO',
+                            document,
+                            Icons.not_interested,
+                            Colors.redAccent,
+                            () async {
+                              if (_verifyIfRequestCanBeDismissed(
+                                  document['periodDays'],
+                                  document['periodStart'].toDate(),
+                                  document['periodEnd'].toDate())) {
+                                _dismissRequestDialog(document);
+                              }
+                            },
+                          ),
+                          _buildButtonOption(
+                            1,
+                            'CANCELAR',
+                            document,
+                            Icons.cancel,
+                            Colors.redAccent,
+                            () async {
+                              _cancelRequestDialog(document);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
         } else {
           return Center(
             child: Container(

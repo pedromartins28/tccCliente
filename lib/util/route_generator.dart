@@ -3,6 +3,7 @@ import 'package:cliente/ui/pages/show_photo.dart';
 import 'package:cliente/ui/pages/sign.dart';
 import 'package:cliente/ui/pages/tabs/create_request.dart';
 import 'package:cliente/ui/pages/tabs/create_request2.dart';
+import 'package:cliente/ui/pages/tabs/request.dart';
 import 'package:cliente/util/fade_route.dart';
 import 'package:cliente/ui/pages/about.dart';
 import 'package:cliente/ui/pages/chat.dart';
@@ -20,6 +21,13 @@ class RouteGenerator {
             name: '/',
           ),
           builder: (_) => HomePage(),
+        );
+      case '/request':
+        return MaterialPageRoute(
+          settings: RouteSettings(
+            name: '/request',
+          ),
+          builder: (_) => RequestPage(),
         );
       case '/volunt':
         return FadeRoute(
