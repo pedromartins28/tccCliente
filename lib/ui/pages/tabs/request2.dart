@@ -9,12 +9,14 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:cliente/ui/pages/tabs/new_home.dart';
 
-class RequestPage extends StatefulWidget {
+import 'create_request2.dart';
+
+class RequestPage2 extends StatefulWidget {
   @override
   _RequestPageState createState() => _RequestPageState();
 }
 
-class _RequestPageState extends State<RequestPage>
+class _RequestPageState extends State<RequestPage2>
     with AutomaticKeepAliveClientMixin {
   Firestore _db = Firestore.instance;
   int _chatNotification = 0;
@@ -102,7 +104,7 @@ class _RequestPageState extends State<RequestPage>
       else {
         Flushbar(
           message:
-              "Só é possível dispensar um voluntário com uma hora de antecedência.",
+              "Só é possível dispensar um atendimento com uma hora de antecedência..",
           duration: Duration(seconds: 4),
           isDismissible: false,
         )..show(context);
@@ -181,7 +183,7 @@ class _RequestPageState extends State<RequestPage>
 
   Widget _buildCreateRequestScaffold() {
     return Scaffold(
-      body: CreateRequest(),
+      body: CreateRequest2(),
     );
   }
 
@@ -210,7 +212,7 @@ class _RequestPageState extends State<RequestPage>
                 Container(
                   padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 2.0),
                   child: Text(
-                    "DISPENSAR VOLUNTÁRIO?",
+                    "DISPENSAR MÉDICO?",
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -301,8 +303,7 @@ class _RequestPageState extends State<RequestPage>
                               Flushbar(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 24.0, horizontal: 12.0),
-                                message:
-                                    "Não foi possível dispensar o voluntário.",
+                                message: "Não foi possível dispensar o médico",
                                 duration: Duration(seconds: 3),
                                 isDismissible: false,
                               )..show(context);
@@ -358,7 +359,7 @@ class _RequestPageState extends State<RequestPage>
                 Container(
                   padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0.0),
                   child: Text(
-                    "CANCELAR O ATENDIMENTO?",
+                    "CANCELAR ATENDIMENTO?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18,
@@ -416,8 +417,7 @@ class _RequestPageState extends State<RequestPage>
                               Flushbar(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 24.0, horizontal: 12.0),
-                                message:
-                                    "Não foi possível cancelar o atendimento.",
+                                message: "Não foi possível cancelar a coleta",
                                 duration: Duration(seconds: 3),
                                 isDismissible: false,
                               )..show(context);
@@ -510,45 +510,11 @@ class _RequestPageState extends State<RequestPage>
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text("ATIVIDADE:"),
-                            Text("OBSERVAÇÕES:")
-                          ],
                         ),
                         SizedBox(height: 6),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.delete_outline,
-                                  color: Colors.grey,
-                                  size: 18,
-                                ),
-                                SizedBox(width: 6),
-                                Text(
-                                  document['trashType'],
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: 4.0),
-                              child: Text(
-                                document['trashAmount'],
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
+                          children: <Widget>[],
                         ),
                         _buildSizedBox(),
                         Text("ENDEREÇO:"),
@@ -624,7 +590,7 @@ class _RequestPageState extends State<RequestPage>
                                   ),
                             document['state'] == 1
                                 ? Text(
-                                    " À PROCURA DE VOLUNTÁRIOS",
+                                    " BUSCANDO MÉDICOS",
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w300,
@@ -646,7 +612,7 @@ class _RequestPageState extends State<RequestPage>
                           _chatNotification,
                           child: _buildButtonOption(
                             2,
-                            'CHAT COM VOLUNTÁRIO',
+                            'CHAT COM MÉDICO',
                             document,
                             Icons.chat_bubble_outline,
                             Colors.orangeAccent,
@@ -660,7 +626,7 @@ class _RequestPageState extends State<RequestPage>
                         ),
                         _buildButtonOption(
                           2,
-                          'DADOS DO VOLUNTÁRIO',
+                          'DADOS DO MÉDICO',
                           document,
                           Icons.info_outline,
                           Colors.blueAccent,
@@ -675,7 +641,7 @@ class _RequestPageState extends State<RequestPage>
                         ),
                         _buildButtonOption(
                           2,
-                          'DISPENSAR VOLUNTÁRIO',
+                          'DISPENSAR MÉDICO',
                           document,
                           Icons.not_interested,
                           Colors.redAccent,
@@ -690,7 +656,7 @@ class _RequestPageState extends State<RequestPage>
                         ),
                         _buildButtonOption(
                           1,
-                          'CANCELAR ATENDIMENTO VOLUNTÁRIO',
+                          'CANCELAR ATENDIMENTO',
                           document,
                           Icons.delete_forever,
                           Colors.redAccent,

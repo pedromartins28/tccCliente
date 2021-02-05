@@ -27,7 +27,6 @@ class _CreateRequest2State extends State<CreateRequest2> {
   bool _loadingVisible = false;
   DateTime _periodStart;
   DateTime _periodEnd;
-  int _function = 1;
 
   static final _apiKey = "AIzaSyBnaELr9Ggz-8v5BpJ9W4yykiOViLmDz8M";
 
@@ -123,7 +122,6 @@ class _CreateRequest2State extends State<CreateRequest2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _normalAppBar("SOLICITAR"),
       body: Center(
           child: LoadingPage(
         child: Form(
@@ -544,7 +542,6 @@ class _CreateRequest2State extends State<CreateRequest2> {
           if (await _verifyConnection()) {
             Future.delayed(Duration(seconds: 1), () {
               _db.collection('requests').add({
-                'function': _function,
                 'periodStart': Timestamp.fromDate(_periodStart),
                 'periodEnd': Timestamp.fromDate(_periodEnd),
                 'address': _addressText,
@@ -557,8 +554,6 @@ class _CreateRequest2State extends State<CreateRequest2> {
                   'chatNotification': 0,
                   'requestNotification': null,
                 });
-                _changeLoadingVisible();
-                Navigator.pushNamed(context, '/request');
               }).catchError((err) {
                 setState(() {
                   _loadingVisible = false;
@@ -566,7 +561,7 @@ class _CreateRequest2State extends State<CreateRequest2> {
                 Flushbar(
                   padding:
                       EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
-                  message: "Não foi possível realizar a solicitação.",
+                  message: "Não foi possível criar a coleta",
                   duration: Duration(seconds: 3),
                   isDismissible: false,
                 )..show(context);
@@ -591,7 +586,7 @@ class _CreateRequest2State extends State<CreateRequest2> {
           });
           Flushbar(
             padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
-            message: "Preencha todos os campos para prosseguir.",
+            message: "Preencha todos os campos para criar a coleta",
             duration: Duration(seconds: 3),
             isDismissible: false,
           )..show(context);
