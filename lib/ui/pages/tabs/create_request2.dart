@@ -20,8 +20,25 @@ class _CreateRequest2State extends State<CreateRequest2> {
   final TextEditingController _periodStartController = TextEditingController();
   final TextEditingController _periodEndController = TextEditingController();
   List<bool> days = [false, false, false, false, false, false, false];
+  List<bool> quest = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _addressText = "Escolha um Endereço";
+  String _allergyText = "Possui Alergia? Qual?";
+  String _medicText = "Medicamentos em uso";
   Firestore _db = Firestore.instance;
   List<String> addressList = [];
   bool _loadingVisible = false;
@@ -37,6 +54,7 @@ class _CreateRequest2State extends State<CreateRequest2> {
   SharedPreferences prefs;
   String userId;
   User user;
+  int stt = 0;
 
   @override
   void initState() {
@@ -121,57 +139,11 @@ class _CreateRequest2State extends State<CreateRequest2> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-          child: LoadingPage(
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 4.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  _buildAddressDropdown(),
-                  _buildSizedBox(),
-                  _buildSizedBox(),
-                  Text(
-                    "PERÍODOS DE DISPONIBILIDADE",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                    ),
-                  ),
-                  Text(
-                    "SELECIONE OS DIAS E A HORA EM QUE VOCÊ DESEJA SER ATENDIDO",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w300),
-                  ),
-                  SizedBox(height: 12),
-                  _buildDayFieldRow(),
-                  SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      _buildStartClockField("DE: ", _periodStartController),
-                      _buildFinishClockField("ATÉ: ", _periodEndController),
-                    ],
-                  ),
-                  _buildSizedBox(),
-                  _buildCreateRequestButton(),
-                  _buildSizedBox()
-                ],
-              ),
-            ),
-          ),
-        ),
-        inAsyncCall: _loadingVisible,
-      )),
-    );
+    if (stt == 0) {
+      return _buildPrincipalScaffold();
+    } else {
+      return _buildQuestionario();
+    }
   }
 
   Widget _buildSizedBox() {
@@ -333,6 +305,56 @@ class _CreateRequest2State extends State<CreateRequest2> {
         _buildDayField("S", 5),
         _buildDayField("S", 6),
       ],
+    );
+  }
+
+  Widget _buildQuestField2(String queryCollection) {
+    return TextFormField(
+      decoration: InputDecoration(
+        border: new OutlineInputBorder(
+          borderRadius: new BorderRadius.horizontal(),
+          borderSide: new BorderSide(),
+        ),
+        hintText: queryCollection == 'medicText' ? _medicText : _allergyText,
+      ),
+      onChanged: (text) {
+        setState(() {
+          if (queryCollection == 'medicText')
+            _medicText = text;
+          else
+            _allergyText = text;
+        });
+      },
+    );
+  }
+
+  Widget _buildQuestField(String text, int position) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          quest[position] = !quest[position];
+        });
+      },
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: quest[position]
+                ? Theme.of(context).primaryColor
+                : Colors.black54,
+          ),
+          color:
+              quest[position] ? Theme.of(context).primaryColor : Colors.white,
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 18,
+            color: quest[position] ? Colors.white : Colors.black54,
+          ),
+        ),
+      ),
     );
   }
 
@@ -515,6 +537,46 @@ class _CreateRequest2State extends State<CreateRequest2> {
     );
   }
 
+  Widget _buildNextButton() {
+    return RaisedButton(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(width: 2.0),
+            Text(
+              'PRÓXIMA PÁGINA',
+              style: TextStyle(fontSize: 18.0, color: Colors.white),
+            )
+          ],
+        ),
+        padding: EdgeInsets.symmetric(
+          vertical: 16,
+        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
+        color: Theme.of(context).primaryColor,
+        onPressed: () async {
+          if (_addressText != "Escolha um Endereço" &&
+              _addressText != "Carregando..." &&
+              _periodEnd != null &&
+              _periodStart != null &&
+              days.contains(true)) {
+            setState(() {
+              stt = 1;
+            });
+          } else {
+            setState(() {
+              _loadingVisible = false;
+            });
+            Flushbar(
+              padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
+              message: "Preencha todos os campos para criar a coleta",
+              duration: Duration(seconds: 3),
+              isDismissible: false,
+            )..show(context);
+          }
+        });
+  }
+
   Widget _buildCreateRequestButton() {
     return RaisedButton(
       child: Row(
@@ -522,7 +584,7 @@ class _CreateRequest2State extends State<CreateRequest2> {
         children: <Widget>[
           SizedBox(width: 2.0),
           Text(
-            'PRÓXIMA PÁGINA',
+            'SOLICITAR',
             style: TextStyle(fontSize: 18.0, color: Colors.white),
           ),
         ],
@@ -548,7 +610,10 @@ class _CreateRequest2State extends State<CreateRequest2> {
                 'location': _location,
                 'donorId': userId,
                 'state': 1,
-                'periodDays': days
+                'periodDays': days,
+                'questAnswers': quest,
+                'medicText': _medicText,
+                'allergyText': _allergyText
               }).then((doc) {
                 _db.collection('donors').document(userId).updateData({
                   'chatNotification': 0,
@@ -592,6 +657,216 @@ class _CreateRequest2State extends State<CreateRequest2> {
           )..show(context);
         }
       },
+    );
+  }
+
+  Widget _buildQuestionario() {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('PREENCHA O FORMULÁRIO:'),
+      ),
+      body: Center(
+        child: LoadingPage(
+          inAsyncCall: _loadingVisible,
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.fromLTRB(6.0, 24.0, 6.0, 24.0),
+              child: Card(
+                color: Colors.red[200],
+                elevation: 2,
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                child: ListTile(
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+                  subtitle: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              _buildSizedBox(),
+                              Text('Você está com febre acima de 37,8°C?',
+                                  style: TextStyle(
+                                      fontSize: 18.0, color: Colors.black)),
+                              _buildSizedBox(),
+                              Text(
+                                "Você está tossindo? ",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Colors.black),
+                              ),
+                              _buildSizedBox(),
+                              Text(
+                                "Você está espirrando, com o nariz escorrendo ou com nariz entupido?",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Colors.black),
+                              ),
+                              _buildSizedBox(),
+                              Text(
+                                "Você está com dificuldade para respirar, ou a respiração está\n ofegante?",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Colors.black),
+                              ),
+                              _buildSizedBox(),
+                              Text(
+                                "Você está com dor de garganta?",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Colors.black),
+                              ),
+                              _buildSizedBox(),
+                              Text(
+                                "Você está com dor ou sentindo pressão no peito?",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Colors.black),
+                              ),
+                              _buildSizedBox(),
+                              Text(
+                                "Você está com arrepios ou com calafrios?",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Colors.black),
+                              ),
+                              _buildSizedBox(),
+                              Text(
+                                "Você está com dor muscular?",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Colors.black),
+                              ),
+                              _buildSizedBox(),
+                              Text(
+                                "Em crianças: batimento da asa do nariz?",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Colors.black),
+                              ),
+                              _buildSizedBox(),
+                              Text(
+                                "Você está com dificuldade em sentir cheiros?",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Colors.black),
+                              ),
+                              _buildSizedBox(),
+                              Text(
+                                "Você está com diarreia?",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Colors.black),
+                              ),
+                              _buildSizedBox(),
+                              Text(
+                                "Você está com os lábios ou a face arroxeados? ",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Colors.black),
+                              ),
+                              _buildSizedBox(),
+                              Text(
+                                "Você acha que está com confusão mental?",
+                                style: TextStyle(
+                                    fontSize: 18.0, color: Colors.black),
+                              ),
+                              _buildSizedBox(),
+                              _buildQuestField2("medicText"),
+                              _buildSizedBox(),
+                              _buildQuestField2("allergyText"),
+                              _buildSizedBox(),
+                              _buildCreateRequestButton()
+                            ],
+                          ),
+                        )),
+                        Container(
+                            child: Column(
+                          children: <Widget>[
+                            _buildQuestField("", 0),
+                            _buildSizedBox(),
+                            _buildQuestField("", 1),
+                            _buildSizedBox(),
+                            _buildQuestField("", 2),
+                            _buildSizedBox(),
+                            _buildQuestField("", 3),
+                            _buildSizedBox(),
+                            _buildQuestField("", 4),
+                            _buildSizedBox(),
+                            _buildQuestField("", 5),
+                            _buildSizedBox(),
+                            _buildQuestField("", 6),
+                            _buildSizedBox(),
+                            _buildQuestField("", 7),
+                            _buildSizedBox(),
+                            _buildQuestField("", 8),
+                            _buildSizedBox(),
+                            _buildQuestField("", 9),
+                            _buildSizedBox(),
+                            _buildQuestField("", 10),
+                            _buildSizedBox(),
+                            _buildQuestField("", 11),
+                            _buildSizedBox(),
+                          ],
+                        )),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPrincipalScaffold() {
+    return Scaffold(
+      body: Center(
+          child: LoadingPage(
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 4.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  _buildAddressDropdown(),
+                  _buildSizedBox(),
+                  _buildSizedBox(),
+                  Text(
+                    "PERÍODOS DE DISPONIBILIDADE",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 24,
+                    ),
+                  ),
+                  Text(
+                    "SELECIONE OS DIAS E A HORA EM QUE VOCÊ DESEJA SER ATENDIDO",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w300),
+                  ),
+                  SizedBox(height: 12),
+                  _buildDayFieldRow(),
+                  SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      _buildStartClockField("DE: ", _periodStartController),
+                      _buildFinishClockField("ATÉ: ", _periodEndController),
+                    ],
+                  ),
+                  _buildSizedBox(),
+                  _buildNextButton(),
+                  _buildSizedBox()
+                ],
+              ),
+            ),
+          ),
+        ),
+        inAsyncCall: _loadingVisible,
+      )),
     );
   }
 

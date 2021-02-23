@@ -1,6 +1,7 @@
 import 'package:cliente/models/state.dart';
 import 'package:cliente/models/user.dart';
 import 'package:cliente/ui/pages/tabs/home.dart';
+import 'package:cliente/ui/pages/tabs/new_home.dart';
 import 'package:cliente/ui/widgets/forms.dart';
 import 'package:cliente/ui/widgets/loading.dart';
 import 'package:cliente/util/auth.dart';
@@ -187,7 +188,7 @@ class _SignFormState extends State<SignForm> {
                                         Icons.monetization_on,
                                         TextInputType.text),
                                     dropDownButton(
-                                        "Número de pessoas no domicílio",
+                                        "Pessoas no domicílio",
                                         _itensPessoas,
                                         _mostrarPessoas,
                                         Icons.youtube_searched_for),
@@ -364,7 +365,7 @@ class _SignFormState extends State<SignForm> {
                 ? formKeyEstadoCivil
                 : cabecalho == "Cor"
                     ? formKeyCor
-                    : cabecalho == "Número de pessoas no domicílio"
+                    : cabecalho == "Pessoas no domicílio"
                         ? formKeyPessoas
                         : cabecalho == "Escolaridade"
                             ? formKeyEscolaridade
@@ -525,7 +526,7 @@ class _SignFormState extends State<SignForm> {
       setState(() {
         _changeLoadingVisible();
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+            context, MaterialPageRoute(builder: (context) => NewHomePage()));
         appState.goAhead = false;
         appState.goAheadAux = false;
       });

@@ -21,6 +21,7 @@ class _RequestPageState extends State<RequestPage>
   SharedPreferences prefs;
   String userId = '';
   User user;
+  int estad = 0;
 
   @override
   void initState() {
@@ -137,21 +138,6 @@ class _RequestPageState extends State<RequestPage>
           }
         }
       },
-    );
-  }
-
-  Widget _normalAppBar(String text) {
-    return AppBar(
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back),
-        onPressed: () {
-          setState(() {
-            estado = 0;
-          });
-        },
-      ),
-      title: Text(text),
-      centerTitle: true,
     );
   }
 
@@ -510,10 +496,7 @@ class _RequestPageState extends State<RequestPage>
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text("ATIVIDADE:"),
-                            Text("OBSERVAÇÕES:")
-                          ],
+                          children: <Widget>[Text("ATIVIDADE:")],
                         ),
                         SizedBox(height: 6),
                         Row(
@@ -528,7 +511,7 @@ class _RequestPageState extends State<RequestPage>
                                 ),
                                 SizedBox(width: 6),
                                 Text(
-                                  document['trashType'],
+                                  document['trashAmount'],
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18,
@@ -536,17 +519,6 @@ class _RequestPageState extends State<RequestPage>
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: 4.0),
-                              child: Text(
-                                document['trashAmount'],
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
                             ),
                           ],
                         ),
@@ -619,7 +591,7 @@ class _RequestPageState extends State<RequestPage>
                                   )
                                 : Icon(
                                     Icons.error_outline,
-                                    color: Colors.green,
+                                    color: Colors.red[200],
                                     size: 20,
                                   ),
                             document['state'] == 1
@@ -636,7 +608,7 @@ class _RequestPageState extends State<RequestPage>
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w300,
-                                      color: Colors.green,
+                                      color: Colors.red[200],
                                     ),
                                   ),
                           ],
@@ -690,7 +662,7 @@ class _RequestPageState extends State<RequestPage>
                         ),
                         _buildButtonOption(
                           1,
-                          'CANCELAR ATENDIMENTO VOLUNTÁRIO',
+                          'CANCELAR',
                           document,
                           Icons.delete_forever,
                           Colors.redAccent,

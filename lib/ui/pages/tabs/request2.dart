@@ -585,7 +585,7 @@ class _RequestPageState extends State<RequestPage2>
                                   )
                                 : Icon(
                                     Icons.error_outline,
-                                    color: Colors.green,
+                                    color: Colors.red[200],
                                     size: 20,
                                   ),
                             document['state'] == 1
@@ -602,7 +602,7 @@ class _RequestPageState extends State<RequestPage2>
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w300,
-                                      color: Colors.green,
+                                      color: Colors.red[200],
                                     ),
                                   ),
                           ],
