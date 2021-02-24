@@ -30,7 +30,7 @@ class _CreateRequestState extends State<CreateRequest> {
   DateTime _periodStart;
   DateTime _periodEnd;
 
-  static final _apiKey = "AIzaSyBxTHJZ-aBy_PCszgbc00K9NbCnBNiQwC4";
+  static final _apiKey = "AIzaSyBnaELr9Ggz-8v5BpJ9W4yykiOViLmDz8M";
 
   Location _midTownLocation = Location(-20.1524122, -44.9366794);
   GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: _apiKey);
@@ -124,7 +124,6 @@ class _CreateRequestState extends State<CreateRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _normalAppBar("SOLICITAR"),
       body: Center(
           child: LoadingPage(
         child: Form(
@@ -171,7 +170,7 @@ class _CreateRequestState extends State<CreateRequest> {
                   ),
                   _buildSizedBox(),
                   _buildCreateRequestButton(),
-                  _buildSizedBox()
+                  _buildSizedBox(),
                 ],
               ),
             ),
@@ -623,7 +622,6 @@ class _CreateRequestState extends State<CreateRequest> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(Icons.add, color: Colors.white),
           SizedBox(width: 2.0),
           Text(
             'SOLICITAR',
