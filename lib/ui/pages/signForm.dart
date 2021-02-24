@@ -1,6 +1,7 @@
 import 'package:cliente/models/state.dart';
 import 'package:cliente/models/user.dart';
 import 'package:cliente/ui/pages/tabs/home.dart';
+import 'package:cliente/ui/pages/tabs/new_home.dart';
 import 'package:cliente/ui/widgets/forms.dart';
 import 'package:cliente/ui/widgets/loading.dart';
 import 'package:cliente/util/auth.dart';
@@ -525,7 +526,7 @@ class _SignFormState extends State<SignForm> {
       setState(() {
         _changeLoadingVisible();
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+            context, MaterialPageRoute(builder: (context) => NewHomePage()));
         appState.goAhead = false;
         appState.goAheadAux = false;
       });
