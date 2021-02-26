@@ -1,3 +1,5 @@
+import 'package:cliente/ui/pages/tabs/request.dart';
+import 'package:cliente/ui/pages/tabs/request2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cliente/ui/pages/tabs/finished_requests.dart';

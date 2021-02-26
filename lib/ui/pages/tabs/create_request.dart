@@ -124,7 +124,6 @@ class _CreateRequestState extends State<CreateRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _normalAppBar("SOLICITAR"),
       body: Center(
           child: LoadingPage(
         child: Form(
@@ -171,7 +170,7 @@ class _CreateRequestState extends State<CreateRequest> {
                   ),
                   _buildSizedBox(),
                   _buildCreateRequestButton(),
-                  _buildSizedBox()
+                  _buildSizedBox(),
                 ],
               ),
             ),
@@ -623,7 +622,6 @@ class _CreateRequestState extends State<CreateRequest> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(Icons.add, color: Colors.white),
           SizedBox(width: 2.0),
           Text(
             'SOLICITAR',

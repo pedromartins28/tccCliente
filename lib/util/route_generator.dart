@@ -3,6 +3,9 @@ import 'package:cliente/ui/pages/show_photo.dart';
 import 'package:cliente/ui/pages/sign.dart';
 import 'package:cliente/ui/pages/tabs/create_request.dart';
 import 'package:cliente/ui/pages/tabs/create_request2.dart';
+import 'package:cliente/ui/pages/tabs/new_home.dart';
+import 'package:cliente/ui/pages/tabs/request.dart';
+import 'package:cliente/ui/pages/tabs/request2.dart';
 import 'package:cliente/util/fade_route.dart';
 import 'package:cliente/ui/pages/about.dart';
 import 'package:cliente/ui/pages/chat.dart';
@@ -14,6 +17,20 @@ class RouteGenerator {
     final args = settings.arguments;
 
     switch (settings.name) {
+      case '/request':
+        return MaterialPageRoute(
+          settings: RouteSettings(
+            name: '/request',
+          ),
+          builder: (_) => RequestPage(),
+        );
+      case '/request2':
+        return MaterialPageRoute(
+          settings: RouteSettings(
+            name: '/request2',
+          ),
+          builder: (_) => RequestPage2(),
+        );
       case '/':
         return MaterialPageRoute(
           settings: RouteSettings(

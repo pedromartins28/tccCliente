@@ -130,7 +130,7 @@ class _PickerInfoPageState extends State<PickerInfoPage> {
                         SizedBox(height: 8.0),
                         dataUnit('NOME: ', name),
                         dataUnit(
-                          'COLETAS REALIZADAS: ',
+                          'ATENDIMENTOS REALIZADOS: ',
                           pickerFinishedRequests.toStringAsFixed(0),
                         ),
                       ],

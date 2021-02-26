@@ -113,7 +113,7 @@ class _ChatPageState extends State<ChatPage> {
             if (snapshot.data.documents.isEmpty) {
               return Center(
                 child: Text(
-                  "Você não está com nenhuma coleta ativa no momento",
+                  "Você não está em um atendimento no momento",
                 ),
               );
             } else {

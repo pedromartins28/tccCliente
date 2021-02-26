@@ -188,7 +188,7 @@ class _SignFormState extends State<SignForm> {
                                         Icons.monetization_on,
                                         TextInputType.text),
                                     dropDownButton(
-                                        "Número de pessoas no domicílio",
+                                        "Pessoas no domicílio",
                                         _itensPessoas,
                                         _mostrarPessoas,
                                         Icons.youtube_searched_for),
@@ -365,7 +365,7 @@ class _SignFormState extends State<SignForm> {
                 ? formKeyEstadoCivil
                 : cabecalho == "Cor"
                     ? formKeyCor
-                    : cabecalho == "Número de pessoas no domicílio"
+                    : cabecalho == "Pessoas no domicílio"
                         ? formKeyPessoas
                         : cabecalho == "Escolaridade"
                             ? formKeyEscolaridade
