@@ -55,7 +55,7 @@ class AboutPage extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 6.0),
                         child: Text(
-                          "Bruno Pereira Campos, Frederico Xavier Capanema e Kariny Alves Almeida",
+                          "Gabriel Penido de Oliveira, Pedro Igor Ferreira Martins e Ronan Ferreira de Resende",
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w300,
@@ -79,11 +79,11 @@ class AboutPage extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 18.0),
                         child: Text(
-                          "O projeto Recicle+ é uma iniciativa da Associação Lixo e Cidadania em parceiria "
+                          "O projeto Coronapp é uma iniciativa da Universidade Federal de São João del Rei "
                           "com o CEFET-MG Campus V. Com o desenvolvimento do sistema foi possível aplicar "
-                          "os conhecimentos do grupo em uma causa nobre, que é a coleta sustentável. Os "
-                          "aplicativos visam conectar aqueles que desejam reciclar com os coletores de "
-                          "resíduos recicláveis, facilitando o processo como um todo.",
+                          "os conhecimentos do grupo em uma causa nobre, que é o combate ao COVID-19. Os "
+                          "aplicativos visam conectar aqueles que desejam algum atendimento com os responsáveis "
+                          "pela saúde, facilitando o processo como um todo.",
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w300,

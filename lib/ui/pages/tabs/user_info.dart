@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cliente/ui/pages/signForm.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -195,7 +196,21 @@ class _UserInfoPageState extends State<UserInfoPage>
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var finishedRequests;
-            String phone, name;
+            String phone,
+                name,
+                cor,
+                dataNas,
+                escolaridade,
+                estadoCivil,
+                pessoasCasa,
+                sus,
+                saude01,
+                saude02,
+                profissao,
+                religiao,
+                renda,
+                sexo,
+                unidadeBasica;
             num inputRating;
             double rating;
             try {
@@ -204,6 +219,19 @@ class _UserInfoPageState extends State<UserInfoPage>
               phone = snapshot.data.documents[0]['phone'];
               photoUrl = snapshot.data.documents[0]['photoUrl'];
               name = snapshot.data.documents[0]['name'];
+              cor = snapshot.data.documents[0]['corDeclarada'];
+              dataNas = snapshot.data.documents[0]['dataNascimento'];
+              escolaridade = snapshot.data.documents[0]['escolaridade'];
+              estadoCivil = snapshot.data.documents[0]['estadoCivil'];
+              pessoasCasa = snapshot.data.documents[0]['numPessoasCasa'];
+              sus = snapshot.data.documents[0]['numSus'];
+              saude01 = snapshot.data.documents[0]['planoSaude01'];
+              saude02 = snapshot.data.documents[0]['planoSaude02'];
+              profissao = snapshot.data.documents[0]['profissao'];
+              religiao = snapshot.data.documents[0]['religiao'];
+              renda = snapshot.data.documents[0]['rendaFamiliar'];
+              sexo = snapshot.data.documents[0]['sexo'];
+              unidadeBasica = snapshot.data.documents[0]['unidadeBasSaude'];
               rating = inputRating.toDouble();
             } catch (err) {
               phone = "Carregando...";
@@ -370,6 +398,46 @@ class _UserInfoPageState extends State<UserInfoPage>
                     finishedRequests != null
                         ? finishedRequests.toStringAsFixed(0)
                         : '0',
+                  ),
+                  dataUnit('COR: ', cor),
+                  dataUnit('DATA DE NASCIMENTO: ', dataNas),
+                  dataUnit('ESCOLARIDADE: ', escolaridade),
+                  dataUnit('ESTADO CIVIL: ', estadoCivil),
+                  dataUnit('NÚMERO DE PESSOAS EM CASA: ', pessoasCasa),
+                  dataUnit('NÚMERO DO SUS: ', sus),
+                  dataUnit('PLANO DE SAÚDE 01: ', saude01),
+                  dataUnit('PLANO DE SAÚDE 02: ', saude02),
+                  dataUnit('PROFISSÃO: ', profissao),
+                  dataUnit('RELIGIÃO: ', religiao),
+                  dataUnit('RENDA FAMILIAR: ', renda),
+                  dataUnit('SEXO: ', sexo),
+                  dataUnit('UNIDADE BÁSICA DE SAÚDE: ', unidadeBasica),
+                  SizedBox(height: 8),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: OutlineButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.info,
+                            color: Colors.black.withAlpha(200),
+                            size: 20,
+                          ),
+                          SizedBox(width: 8.0),
+                          Text(
+                            'EDITAR INFORMAÇÕES',
+                            style:
+                                TextStyle(color: Colors.black.withAlpha(200)),
+                          ),
+                        ],
+                      ),
+                      borderSide: BorderSide(
+                        color: Colors.black.withAlpha(200),
+                      ),
+                      highlightedBorderColor: Colors.black.withAlpha(200),
+                      onPressed: editInfo,
+                    ),
                   ),
                   SizedBox(height: 8),
                   Divider(
@@ -562,5 +630,10 @@ class _UserInfoPageState extends State<UserInfoPage>
         );
       },
     );
+  }
+
+  editInfo() async {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => SignForm()));
   }
 }
