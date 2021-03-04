@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
+//import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -58,9 +58,9 @@ class _PickerInfoPageState extends State<PickerInfoPage> {
               var pickerFinishedRequests =
                   snapshot.data.documents[0]['finishedRequests'];
               String photoUrl = snapshot.data.documents[0]['photoUrl'];
-              num inputRating = snapshot.data.documents[0]['rating'];
+              //num inputRating = snapshot.data.documents[0]['rating'];
               String name = snapshot.data.documents[0]['name'];
-              double rating = inputRating.toDouble();
+              //double rating = inputRating.toDouble();
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
                 child: Card(
@@ -111,15 +111,15 @@ class _PickerInfoPageState extends State<PickerInfoPage> {
                                 ),
                         ),
                         SizedBox(height: 4.0),
-                        Center(child: SmoothStarRating(rating: rating)),
-                        Text(
+                        //Center(child: SmoothStarRating(rating: rating)),
+                        /*Text(
                           rating.toStringAsFixed(2),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w300,
                             fontSize: 18,
                           ),
-                        ),
+                        ),*/
                         SizedBox(height: 16.0),
                         Divider(
                           height: 1.0,
@@ -138,7 +138,7 @@ class _PickerInfoPageState extends State<PickerInfoPage> {
                   ),
                 ),
               );
-              /*return Column(
+              return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: 20),
@@ -191,11 +191,11 @@ class _PickerInfoPageState extends State<PickerInfoPage> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  Center(
+                  /*Center(
                     child: SmoothStarRating(
                       rating: rating,
                     ),
-                  ),
+                  ),*/
                   SizedBox(height: 10),
                   Divider(
                     color: Theme.of(context).primaryColor,
@@ -203,7 +203,7 @@ class _PickerInfoPageState extends State<PickerInfoPage> {
                     indent: 10,
                   ),
                 ],
-              );*/
+              );
             }
           },
         ),

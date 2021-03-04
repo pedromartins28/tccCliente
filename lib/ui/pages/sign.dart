@@ -483,11 +483,11 @@ class _SignInPageState extends State<SignInPage> {
       if (!_isAlreadySignedIn) {
         Auth.addUserToDB(
             User(
-                userId: user.uid,
-                phone: _phoneController.text,
-                name: _nameController.text,
-                finishedRequests: 0,
-                rating: 5.0),
+              userId: user.uid,
+              phone: _phoneController.text,
+              name: _nameController.text,
+              finishedRequests: 0,
+            ),
             phoneNumber);
       }
     } else {

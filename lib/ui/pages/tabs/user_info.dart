@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cliente/ui/pages/signForm.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
+//import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cliente/util/image_handler.dart';
@@ -212,10 +212,10 @@ class _UserInfoPageState extends State<UserInfoPage>
                 sexo,
                 unidadeBasica;
             num inputRating;
-            double rating;
+            //double rating;
             try {
               finishedRequests = snapshot.data.documents[0]['finishedRequests'];
-              inputRating = snapshot.data.documents[0]['rating'];
+              /*inputRating = snapshot.data.documents[0]['rating'];*/
               phone = snapshot.data.documents[0]['phone'];
               photoUrl = snapshot.data.documents[0]['photoUrl'];
               name = snapshot.data.documents[0]['name'];
@@ -232,13 +232,13 @@ class _UserInfoPageState extends State<UserInfoPage>
               renda = snapshot.data.documents[0]['rendaFamiliar'];
               sexo = snapshot.data.documents[0]['sexo'];
               unidadeBasica = snapshot.data.documents[0]['unidadeBasSaude'];
-              rating = inputRating.toDouble();
+              //rating = inputRating.toDouble();
             } catch (err) {
               phone = "Carregando...";
               name = "Carregando...";
               finishedRequests = 0;
-              inputRating = 0;
-              rating = 5.0;
+              //inputRating = 0;
+              //rating = 5.0;
               photoUrl = null;
             }
             return SingleChildScrollView(
@@ -374,15 +374,15 @@ class _UserInfoPageState extends State<UserInfoPage>
                       fontWeight: FontWeight.w300,
                     ),
                   ),
-                  Center(child: SmoothStarRating(rating: rating)),
-                  Text(
+                  //Center(child: SmoothStarRating(rating: rating)),
+                  /*Text(
                     rating.toStringAsFixed(2),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.w300,
                       fontSize: 18,
                     ),
-                  ),
+                  ),*/
                   SizedBox(height: 16.0),
                   Divider(
                     height: 1.0,

@@ -613,7 +613,8 @@ class _CreateRequest2State extends State<CreateRequest2> {
                 'periodDays': days,
                 'questAnswers': quest,
                 'medicText': _medicText,
-                'allergyText': _allergyText
+                'allergyText': _allergyText,
+                'occupation': 'médico'
               }).then((doc) {
                 _db.collection('donors').document(userId).updateData({
                   'chatNotification': 0,

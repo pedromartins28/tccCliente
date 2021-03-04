@@ -1,6 +1,6 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
+//import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cliente/models/user.dart';
 import 'package:flutter/material.dart';
@@ -115,7 +115,7 @@ class _FinishedRequestsPageState extends State<FinishedRequestsPage>
             children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[Text("DATA:"), Text("AVALIAÇÃO DADA:")],
+                children: <Widget>[Text("DATA:")],
               ),
               SizedBox(height: 4),
               Row(
@@ -132,7 +132,7 @@ class _FinishedRequestsPageState extends State<FinishedRequestsPage>
                       ),
                     ],
                   ),
-                  Container(
+                  /*Container(
                     padding: EdgeInsets.only(
                       right: document['donorRating'] == null ? 20.0 : 8.0,
                     ),
@@ -154,7 +154,7 @@ class _FinishedRequestsPageState extends State<FinishedRequestsPage>
                                 },
                               );
                             },
-                            child: Row(
+                            /*child: Row(
                               children: <Widget>[
                                 Icon(
                                   Icons.star,
@@ -169,14 +169,14 @@ class _FinishedRequestsPageState extends State<FinishedRequestsPage>
                                   ),
                                 ),
                               ],
-                            ),
+                            ),*/
                           )
                         : SmoothStarRating(
                             rating: document['donorRating'].toDouble(),
                             borderColor: Colors.black,
                             size: 20,
                           ),
-                  ),
+                  ),*/
                 ],
               ),
               SizedBox(height: 12),
@@ -252,16 +252,16 @@ class _FinishedRequestDialogState extends State<FinishedRequestDialog> {
               size: 64.0,
             ),
           ),
-          Container(
+          /* Container(
             padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0.0),
             child: Text(
               "AVALIAR O COLETOR",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18.0),
             ),
-          ),
+          ),*/
           SizedBox(height: 16.0),
-          SmoothStarRating(
+          /*SmoothStarRating(
             color: Theme.of(context).primaryColor,
             borderColor: Colors.black54,
             allowHalfRating: true,
@@ -272,7 +272,7 @@ class _FinishedRequestDialogState extends State<FinishedRequestDialog> {
                 rating = value;
               });
             },
-          ),
+          ),*/
           SizedBox(height: 12.0),
           Row(
             mainAxisSize: MainAxisSize.max,
@@ -314,22 +314,22 @@ class _FinishedRequestDialogState extends State<FinishedRequestDialog> {
                   ),
                   onTap: () async {
                     Navigator.of(context).pop();
-                    await document.reference.updateData(
+                    /*await document.reference.updateData(
                       {'donorRating': rating},
-                    );
+                    );*/
                     _db
                         .collection('pickers')
                         .document(document['pickerId'])
                         .get()
                         .then((DocumentSnapshot picker) async {
                       num finishedRequests = picker.data['finishedRequests'];
-                      num currentRating = picker.data['rating'];
+                      //num currentRating = picker.data['rating'];
                       await picker.reference.updateData({
                         'finishedRequests': FieldValue.increment(1),
-                        'rating': (((finishedRequests.toDouble() + 5) *
+                        /*'rating': (((finishedRequests.toDouble() + 5) *
                                     currentRating.toDouble()) +
                                 rating) /
-                            (finishedRequests.toDouble() + 6)
+                            (finishedRequests.toDouble() + 6)*/
                       });
                     });
                   },

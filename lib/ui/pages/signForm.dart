@@ -526,7 +526,7 @@ class _SignFormState extends State<SignForm> {
       setState(() {
         _changeLoadingVisible();
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => NewHomePage()));
+            context, MaterialPageRoute(builder: (context) => HomePage()));
         appState.goAhead = false;
         appState.goAheadAux = false;
       });
