@@ -255,7 +255,7 @@ class _FinishedRequestDialogState extends State<FinishedRequestDialog> {
           /* Container(
             padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0.0),
             child: Text(
-              "AVALIAR O COLETOR",
+              "AVALIAR O ATENDIMENTO",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18.0),
             ),

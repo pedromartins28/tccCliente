@@ -367,7 +367,7 @@ class _UserInfoPageState extends State<UserInfoPage>
                     margin: EdgeInsets.all(18.0),
                   ),
                   Text(
-                    'Sua foto não será exibida para o coletor',
+                    'Sua foto não será exibida',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.grey,
@@ -452,7 +452,7 @@ class _UserInfoPageState extends State<UserInfoPage>
                     child: Column(
                       children: <Widget>[
                         Text(
-                          'Caso tenha alguma dúvida, entre em contato: recicledev@gmail.com',
+                          'Caso tenha alguma dúvida, entre em contato: covidcefet@gmail.com',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.grey,

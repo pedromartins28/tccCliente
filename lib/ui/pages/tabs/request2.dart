@@ -417,7 +417,8 @@ class _RequestPageState extends State<RequestPage2>
                               Flushbar(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 24.0, horizontal: 12.0),
-                                message: "Não foi possível cancelar a coleta",
+                                message:
+                                    "Não foi possível cancelar o atendimento",
                                 duration: Duration(seconds: 3),
                                 isDismissible: false,
                               )..show(context);

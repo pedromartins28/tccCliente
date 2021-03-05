@@ -668,7 +668,7 @@ class _CreateRequestState extends State<CreateRequest> {
                 Flushbar(
                   padding:
                       EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
-                  message: "Não foi possível criar a coleta",
+                  message: "Não foi possível criar a solicitação",
                   duration: Duration(seconds: 3),
                   isDismissible: false,
                 )..show(context);
@@ -693,7 +693,7 @@ class _CreateRequestState extends State<CreateRequest> {
           });
           Flushbar(
             padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
-            message: "Preencha todos os campos para criar a coleta",
+            message: "Preencha todos os campos para criar a solicitação",
             duration: Duration(seconds: 3),
             isDismissible: false,
           )..show(context);

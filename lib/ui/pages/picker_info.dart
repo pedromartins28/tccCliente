@@ -44,7 +44,7 @@ class _PickerInfoPageState extends State<PickerInfoPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: _normalAppBar("DADOS DO COLETOR"),
+        appBar: _normalAppBar("DADOS DO FUNCIONÁRIO"),
         backgroundColor: Theme.of(context).backgroundColor,
         body: StreamBuilder(
           stream: Firestore.instance

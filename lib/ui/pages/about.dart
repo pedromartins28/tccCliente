@@ -3,7 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatelessWidget {
   _launchURL() async {
-    const url = 'https://recicle.web.app/download/donor_policy.html';
+    const url = 'https://coronapp.web.app/download/policy1.html';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
