@@ -645,7 +645,7 @@ class _CreateRequestState extends State<CreateRequest> {
             days.contains(true)) {
           if (await _verifyConnection()) {
             Future.delayed(Duration(seconds: 1), () {
-              _db.collection('requests').add({
+              _db.collection('requestsVolunt').add({
                 'periodStart': Timestamp.fromDate(_periodStart),
                 'periodEnd': Timestamp.fromDate(_periodEnd),
                 'trashAmount': _ativityText,
@@ -655,7 +655,7 @@ class _CreateRequestState extends State<CreateRequest> {
                 'donorId': userId,
                 'state': 1,
                 'periodDays': days,
-                'occupation': 'voluntário'
+                
               }).then((doc) {
                 _db.collection('donors').document(userId).updateData({
                   'chatNotification': 0,

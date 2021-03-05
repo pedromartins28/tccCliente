@@ -603,7 +603,7 @@ class _CreateRequest2State extends State<CreateRequest2> {
             days.contains(true)) {
           if (await _verifyConnection()) {
             Future.delayed(Duration(seconds: 1), () {
-              _db.collection('requests').add({
+              _db.collection('requestsMedic').add({
                 'periodStart': Timestamp.fromDate(_periodStart),
                 'periodEnd': Timestamp.fromDate(_periodEnd),
                 'address': _addressText,
@@ -614,7 +614,7 @@ class _CreateRequest2State extends State<CreateRequest2> {
                 'questAnswers': quest,
                 'medicText': _medicText,
                 'allergyText': _allergyText,
-                'occupation': 'médico'
+                
               }).then((doc) {
                 _db.collection('donors').document(userId).updateData({
                   'chatNotification': 0,
