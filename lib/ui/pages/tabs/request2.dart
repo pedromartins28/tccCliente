@@ -119,7 +119,7 @@ class _RequestPageState extends State<RequestPage2>
     super.build(context);
     return StreamBuilder(
       stream: _db
-          .collection('requests')
+          .collection('requestsMedic')
           .where('donorId', isEqualTo: userId)
           .snapshots(),
       builder: (context, snapshot) {
@@ -257,7 +257,7 @@ class _RequestPageState extends State<RequestPage2>
                         onTap: () async {
                           if (await _verifyConnection()) {
                             Navigator.of(context).pop();
-                            Navigator.of(context).pushNamed('/chat');
+                            Navigator.of(context).pushNamed('/chat2');
                           }
                         },
                         child: Container(
@@ -619,7 +619,7 @@ class _RequestPageState extends State<RequestPage2>
                             Colors.orangeAccent,
                             () async {
                               Navigator.of(context).pushNamed(
-                                '/chat',
+                                '/chat2',
                                 arguments: request,
                               );
                             },

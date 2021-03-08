@@ -49,7 +49,7 @@ class _FinishedRequestsPageState extends State<FinishedRequestsPage>
       ),
       body: StreamBuilder(
         stream: _db
-            .collection('requests')
+            .collection('requestsVolunt')
             .where('donorId', isEqualTo: userId)
             .where('state', isEqualTo: 3)
             .orderBy('endTime')
