@@ -79,7 +79,7 @@ class AboutPage extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 18.0),
                         child: Text(
-                          "O projeto Coronapp é uma iniciativa da Universidade Federal de São João del Rei "
+                          "O projeto Saúde em Casa é uma iniciativa da Universidade Federal de São João del Rei "
                           "com o CEFET-MG Campus V. Com o desenvolvimento do sistema foi possível aplicar "
                           "os conhecimentos do grupo em uma causa nobre, que é o combate ao COVID-19. Os "
                           "aplicativos visam conectar aqueles que desejam algum atendimento com os responsáveis "

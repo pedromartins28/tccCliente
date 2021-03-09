@@ -111,8 +111,8 @@ class _PickerInfoPageState extends State<PickerInfoPage> {
                                 ),
                         ),
                         SizedBox(height: 4.0),
-                        //Center(child: SmoothStarRating(rating: rating)),
-                        /*Text(
+                        /*Center(child: SmoothStarRating(rating: rating)),
+                        Text(
                           rating.toStringAsFixed(2),
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -138,7 +138,7 @@ class _PickerInfoPageState extends State<PickerInfoPage> {
                   ),
                 ),
               );
-              return Column(
+              /*return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(height: 20),
@@ -191,11 +191,11 @@ class _PickerInfoPageState extends State<PickerInfoPage> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  /*Center(
+                  Center(
                     child: SmoothStarRating(
                       rating: rating,
                     ),
-                  ),*/
+                  ),
                   SizedBox(height: 10),
                   Divider(
                     color: Theme.of(context).primaryColor,
@@ -203,7 +203,7 @@ class _PickerInfoPageState extends State<PickerInfoPage> {
                     indent: 10,
                   ),
                 ],
-              );
+              );*/
             }
           },
         ),

@@ -14,7 +14,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="Coronapp"
+        android:label="Saúde em Casa"
         android:icon="@mipmap/ic_launcher">
 
         <meta-data

@@ -18,6 +18,9 @@ class _ChatPageState extends State<ChatPage> {
   bool _visible = false;
   String pickerName;
   String pickerId;
+  String occupation;
+  String occu;
+  var streamBuilder;
 
   SharedPreferences prefs;
   String userId = '';
@@ -89,132 +92,137 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    _db.collection('pickers').document(userId).get().then((snapshot) {
+      occupation = snapshot.data['occupation'];
+    });
+
+    streamBuilder = StreamBuilder(
+      stream: _db
+          .collection('requestsVolunt')
+          .where('donorId', isEqualTo: userId)
+          .where('state', isEqualTo: 2)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return JumpingText(
+            ". . .",
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.w900,
+              color: Theme.of(context).primaryColor,
+            ),
+          );
+        } else {
+          if (snapshot.data.documents.isEmpty) {
+            return Center(
+              child: Text(
+                "Você não está em um atendimento no momento",
+              ),
+            );
+          } else {
+            DocumentSnapshot document = snapshot.data.documents[0];
+            pickerId = document['pickerId'];
+            if (pickerName == null) {
+              _db
+                  .collection('pickers')
+                  .document(document['pickerId'])
+                  .get()
+                  .then((picker) {
+                setState(() {
+                  pickerName = picker.data['name'];
+                });
+                Future.delayed(Duration(milliseconds: 100), () {
+                  setState(() {
+                    _visible = true;
+                  });
+                });
+              });
+            }
+
+            return Stack(
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: StreamBuilder(
+                        stream: Firestore.instance
+                            .collection('requestsVolunt')
+                            .document(document.documentID)
+                            .collection('messages')
+                            .orderBy('date', descending: true)
+                            .limit(20)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return JumpingText(
+                              ". . .",
+                              style: TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.w900,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            );
+                          } else {
+                            return ListView.builder(
+                              reverse: true,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.documents.length,
+                              itemBuilder: (context, index) => Message(
+                                date: snapshot.data.documents[index]['date'],
+                                text: snapshot.data.documents[index]['text'],
+                                me: userId ==
+                                    snapshot.data.documents[index]['from'],
+                              ),
+                              controller: _listScrollController,
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+                      color: Colors.grey.shade200,
+                      width: double.infinity,
+                      height: 54,
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: TextField(
+                              onSubmitted: (value) => callback(document),
+                              decoration: InputDecoration.collapsed(
+                                hintStyle: TextStyle(color: Colors.grey),
+                                hintText: 'Digite aqui...',
+                              ),
+                              controller: _messageController,
+                              textCapitalization: TextCapitalization.sentences,
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.send,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            onPressed: () => callback(document),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          }
+        }
+      },
+    );
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       resizeToAvoidBottomInset: true,
       appBar: _defaultAppBar(),
-      body: StreamBuilder(
-        stream: _db
-            .collection('requestsVolunt')
-            .where('donorId', isEqualTo: userId)
-            .where('state', isEqualTo: 2)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return JumpingText(
-              ". . .",
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.w900,
-                color: Theme.of(context).primaryColor,
-              ),
-            );
-          } else {
-            if (snapshot.data.documents.isEmpty) {
-              return Center(
-                child: Text(
-                  "Você não está em um atendimento no momento",
-                ),
-              );
-            } else {
-              DocumentSnapshot document = snapshot.data.documents[0];
-              pickerId = document['pickerId'];
-              if (pickerName == null) {
-                _db
-                    .collection('pickers')
-                    .document(document['pickerId'])
-                    .get()
-                    .then((picker) {
-                  setState(() {
-                    pickerName = picker.data['name'];
-                  });
-                  Future.delayed(Duration(milliseconds: 100), () {
-                    setState(() {
-                      _visible = true;
-                    });
-                  });
-                });
-              }
-
-              return Stack(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: StreamBuilder(
-                          stream: Firestore.instance
-                              .collection('requestsVolunt')
-                              .document(document.documentID)
-                              .collection('messages')
-                              .orderBy('date', descending: true)
-                              .limit(20)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return JumpingText(
-                                ". . .",
-                                style: TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.w900,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              );
-                            } else {
-                              return ListView.builder(
-                                reverse: true,
-                                scrollDirection: Axis.vertical,
-                                shrinkWrap: true,
-                                itemCount: snapshot.data.documents.length,
-                                itemBuilder: (context, index) => Message(
-                                  date: snapshot.data.documents[index]['date'],
-                                  text: snapshot.data.documents[index]['text'],
-                                  me: userId ==
-                                      snapshot.data.documents[index]['from'],
-                                ),
-                                controller: _listScrollController,
-                              );
-                            }
-                          },
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 12.0, vertical: 6.0),
-                        color: Colors.grey.shade200,
-                        width: double.infinity,
-                        height: 54,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: TextField(
-                                onSubmitted: (value) => callback(document),
-                                decoration: InputDecoration.collapsed(
-                                  hintStyle: TextStyle(color: Colors.grey),
-                                  hintText: 'Digite aqui...',
-                                ),
-                                controller: _messageController,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                              ),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.send,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                              onPressed: () => callback(document),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            }
-          }
-        },
-      ),
+      body: streamBuilder,
     );
   }
 

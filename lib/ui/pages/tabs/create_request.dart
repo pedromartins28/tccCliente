@@ -655,6 +655,7 @@ class _CreateRequestState extends State<CreateRequest> {
                 'donorId': userId,
                 'state': 1,
                 'periodDays': days,
+                'occupation': 'voluntario',
               }).then((doc) {
                 _db.collection('donors').document(userId).updateData({
                   'chatNotification': 0,

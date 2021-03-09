@@ -338,8 +338,7 @@ class _RequestPageState extends State<RequestPage>
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
-                  child: Icon(Icons.delete_forever,
-                      color: Colors.black54, size: 64),
+                  child: Icon(Icons.cancel, color: Colors.black54, size: 64),
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0.0),
@@ -505,7 +504,7 @@ class _RequestPageState extends State<RequestPage>
                             Row(
                               children: <Widget>[
                                 Icon(
-                                  Icons.delete_outline,
+                                  FontAwesomeIcons.paperclip,
                                   color: Colors.grey,
                                   size: 18,
                                 ),
@@ -664,7 +663,7 @@ class _RequestPageState extends State<RequestPage>
                           1,
                           'CANCELAR',
                           document,
-                          Icons.delete_forever,
+                          Icons.cancel,
                           Colors.redAccent,
                           () async {
                             _cancelRequestDialog(document);
