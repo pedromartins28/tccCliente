@@ -393,25 +393,25 @@ class _UserInfoPageState extends State<UserInfoPage>
                   SizedBox(height: 8.0),
                   dataUnit('NOME: ', name),
                   dataUnit('TELEFONE: ', phone),
+                  dataUnit('DATA DE NASCIMENTO: ', dataNas),
+                  dataUnit('SEXO: ', sexo),
+                  dataUnit('NÚMERO DO SUS: ', sus),
+                  dataUnit('UNIDADE BÁSICA DE SAÚDE: ', unidadeBasica),
+                  dataUnit('PLANO DE SAÚDE 01: ', saude01),
+                  dataUnit('PLANO DE SAÚDE 02: ', saude02),
+                  dataUnit('PROFISSÃO: ', profissao),
+                  dataUnit('NÚMERO DE PESSOAS EM CASA: ', pessoasCasa),
+                  dataUnit('ESCOLARIDADE: ', escolaridade),
+                  dataUnit('RELIGIÃO: ', religiao),
+                  dataUnit('RENDA FAMILIAR: ', renda),
+                  dataUnit('ESTADO CIVIL: ', estadoCivil),
+                  dataUnit('COR: ', cor),
                   dataUnit(
                     'TOTAL DE ATENDIMENTOS: ',
                     finishedRequests != null
                         ? finishedRequests.toStringAsFixed(0)
                         : '0',
                   ),
-                  dataUnit('COR: ', cor),
-                  dataUnit('DATA DE NASCIMENTO: ', dataNas),
-                  dataUnit('ESCOLARIDADE: ', escolaridade),
-                  dataUnit('ESTADO CIVIL: ', estadoCivil),
-                  dataUnit('NÚMERO DE PESSOAS EM CASA: ', pessoasCasa),
-                  dataUnit('NÚMERO DO SUS: ', sus),
-                  dataUnit('PLANO DE SAÚDE 01: ', saude01),
-                  dataUnit('PLANO DE SAÚDE 02: ', saude02),
-                  dataUnit('PROFISSÃO: ', profissao),
-                  dataUnit('RELIGIÃO: ', religiao),
-                  dataUnit('RENDA FAMILIAR: ', renda),
-                  dataUnit('SEXO: ', sexo),
-                  dataUnit('UNIDADE BÁSICA DE SAÚDE: ', unidadeBasica),
                   SizedBox(height: 8),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 16),
@@ -439,7 +439,7 @@ class _UserInfoPageState extends State<UserInfoPage>
                       onPressed: editInfo,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 10),
                   Divider(
                     height: 1.0,
                     indent: 12.0,
@@ -490,6 +490,7 @@ class _UserInfoPageState extends State<UserInfoPage>
                       onPressed: logOutDialog,
                     ),
                   ),
+                  SizedBox(height: 10.0),
                 ],
               ),
             );
@@ -609,8 +610,7 @@ class _UserInfoPageState extends State<UserInfoPage>
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                           decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).primaryColor.withAlpha(200),
+                            color: Colors.green[300],
                             borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(4.0),
                             ),
