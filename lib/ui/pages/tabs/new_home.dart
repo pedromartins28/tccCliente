@@ -136,7 +136,7 @@ class _NewHomePageState extends State<NewHomePage> {
                     backgroundColor: Colors.transparent,
                     radius: 100.0,
                     child: Image.asset(
-                      'assets/logo2.png',
+                      'assets/logo.png',
                       height: 220,
                       width: 130,
                       fit: BoxFit.cover,
