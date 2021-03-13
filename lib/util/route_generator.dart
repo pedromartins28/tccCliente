@@ -1,3 +1,4 @@
+import 'package:cliente/ui/pages/chat2.dart';
 import 'package:cliente/ui/pages/picker_info.dart';
 import 'package:cliente/ui/pages/show_photo.dart';
 import 'package:cliente/ui/pages/sign.dart';
@@ -65,6 +66,13 @@ class RouteGenerator {
             name: '/chat',
           ),
           page: ChatPage(),
+        );
+      case '/chat2':
+        return FadeRoute(
+          settings: RouteSettings(
+            name: '/chat2',
+          ),
+          page: ChatPage2(),
         );
 
       case '/picker_info':

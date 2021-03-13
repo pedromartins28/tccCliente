@@ -619,7 +619,7 @@ class _RequestPageState extends State<RequestPage2>
                             Colors.orangeAccent,
                             () async {
                               Navigator.of(context).pushNamed(
-                                '/chat',
+                                '/chat2',
                                 arguments: request,
                               );
                             },

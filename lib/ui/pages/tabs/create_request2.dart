@@ -606,7 +606,9 @@ class _CreateRequest2State extends State<CreateRequest2> {
               _db.collection('requestsMedic').add({
                 'periodStart': Timestamp.fromDate(_periodStart),
                 'periodEnd': Timestamp.fromDate(_periodEnd),
+                'trashAmount': 'Atendimento',
                 'address': _addressText,
+                'trashType': 'Individual',
                 'location': _location,
                 'donorId': userId,
                 'state': 1,

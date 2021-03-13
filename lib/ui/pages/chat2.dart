@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
 
-class ChatPage extends StatefulWidget {
-  _ChatPageState createState() => _ChatPageState();
+class ChatPage2 extends StatefulWidget {
+  _ChatPage2State createState() => _ChatPage2State();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPage2State extends State<ChatPage2> {
   TextEditingController _messageController = TextEditingController();
   final ScrollController _listScrollController = ScrollController();
   final Firestore _db = Firestore.instance;
@@ -98,7 +98,7 @@ class _ChatPageState extends State<ChatPage> {
 
     streamBuilder = StreamBuilder(
       stream: _db
-          .collection('requestsVolunt')
+          .collection('requestsMedic')
           .where('donorId', isEqualTo: userId)
           .where('state', isEqualTo: 2)
           .snapshots(),
@@ -146,7 +146,7 @@ class _ChatPageState extends State<ChatPage> {
                     Expanded(
                       child: StreamBuilder(
                         stream: Firestore.instance
-                            .collection('requestsVolunt')
+                            .collection('requestsMedic')
                             .document(document.documentID)
                             .collection('messages')
                             .orderBy('date', descending: true)
