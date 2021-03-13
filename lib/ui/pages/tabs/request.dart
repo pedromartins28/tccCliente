@@ -298,8 +298,7 @@ class _RequestPageState extends State<RequestPage>
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                           decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).primaryColor.withAlpha(200),
+                            color: Colors.green[300],
                             borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(4.0),
                             ),
@@ -412,8 +411,7 @@ class _RequestPageState extends State<RequestPage>
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                           decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).primaryColor.withAlpha(200),
+                            color: Colors.green[300],
                             borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(4.0),
                             ),

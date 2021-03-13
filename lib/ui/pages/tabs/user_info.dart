@@ -439,7 +439,7 @@ class _UserInfoPageState extends State<UserInfoPage>
                       onPressed: editInfo,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 10),
                   Divider(
                     height: 1.0,
                     indent: 12.0,
@@ -490,6 +490,7 @@ class _UserInfoPageState extends State<UserInfoPage>
                       onPressed: logOutDialog,
                     ),
                   ),
+                  SizedBox(height: 10.0),
                 ],
               ),
             );
@@ -609,8 +610,7 @@ class _UserInfoPageState extends State<UserInfoPage>
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                           decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).primaryColor.withAlpha(200),
+                            color: Colors.green[300],
                             borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(4.0),
                             ),
