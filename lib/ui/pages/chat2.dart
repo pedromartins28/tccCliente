@@ -92,10 +92,6 @@ class _ChatPage2State extends State<ChatPage2> {
 
   @override
   Widget build(BuildContext context) {
-    _db.collection('pickers').document(pickerId).get().then((snapshot) {
-      occupation = snapshot.data['occupation'];
-    });
-
     streamBuilder = StreamBuilder(
       stream: _db
           .collection('requestsMedic')
