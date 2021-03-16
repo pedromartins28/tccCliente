@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cliente/models/globals.dart';
 import 'package:cliente/ui/widgets/loading.dart';
 import 'package:cliente/models/chechLabel.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
@@ -313,15 +314,21 @@ class _CreateRequest2State extends State<CreateRequest2> {
       child: TextFormField(
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(7, 10, 0, 10),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(4)),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4),
             borderSide: BorderSide(
-              width: 2,
               color: Colors.white60,
-              style: BorderStyle.solid,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4),
+            borderSide: BorderSide(
+              color: Colors.white60,
+              width: 2.0,
             ),
           ),
           hintText: queryCollection == 'medicText' ? _medicText : _allergyText,
+          hintStyle: TextStyle(fontSize: 18.0, color: Colors.white60),
         ),
         onChanged: (text) {
           setState(() {
@@ -579,6 +586,7 @@ class _CreateRequest2State extends State<CreateRequest2> {
             _periodStart != null &&
             days.contains(true)) {
           if (await _verifyConnection()) {
+            block1 = true;
             Future.delayed(Duration(seconds: 1), () {
               _db.collection('requestsMedic').add({
                 'periodStart': Timestamp.fromDate(_periodStart),

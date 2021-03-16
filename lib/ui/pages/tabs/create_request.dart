@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:cliente/models/globals.dart';
 import 'package:cliente/ui/widgets/loading.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
@@ -644,6 +644,7 @@ class _CreateRequestState extends State<CreateRequest> {
             _periodStart != null &&
             days.contains(true)) {
           if (await _verifyConnection()) {
+            block2 = true;
             Future.delayed(Duration(seconds: 1), () {
               _db.collection('requestsVolunt').add({
                 'periodStart': Timestamp.fromDate(_periodStart),
@@ -665,6 +666,7 @@ class _CreateRequestState extends State<CreateRequest> {
                 setState(() {
                   _loadingVisible = false;
                 });
+
                 Flushbar(
                   padding:
                       EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),

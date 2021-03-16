@@ -15,6 +15,7 @@ class _FinishedRequestsPageState extends State<FinishedRequestsPage>
   SharedPreferences prefs;
   String userId;
   User user;
+  int est = 0;
 
   @override
   void initState() {
@@ -40,51 +41,123 @@ class _FinishedRequestsPageState extends State<FinishedRequestsPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "HISTÓRICO",
+    if (est == 0) {
+      return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "HISTÓRICO VOLUNTÁRIO",
+          ),
+          actions: <Widget>[
+            FlatButton(
+              textColor: Colors.white,
+              onPressed: () {
+                setState(() {
+                  est = 1;
+                });
+              },
+              child: Icon(Icons.autorenew),
+              shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+            ),
+          ],
         ),
-      ),
-      body: StreamBuilder(
-        stream: _db
-            .collection('requestsVolunt')
-            .where('donorId', isEqualTo: userId)
-            .where('state', isEqualTo: 3)
-            .orderBy('endTime')
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 5.0,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                    Theme.of(context).primaryColor),
-              ),
-            );
-          } else {
-            if (snapshot.data.documents.isEmpty) {
+        body: StreamBuilder(
+          stream: _db
+              .collection('requestsVolunt')
+              .where('donorId', isEqualTo: userId)
+              .where('state', isEqualTo: 3)
+              .orderBy('endTime')
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
               return Center(
-                  child:
-                      Text("Você ainda não possui atendimentos finalizados"));
-            } else {
-              return ListView.builder(
-                reverse: true,
-                padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                itemCount: snapshot.data.documents.length,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return _buildListItem(
-                      context, snapshot.data.documents[index]);
-                },
+                child: CircularProgressIndicator(
+                  strokeWidth: 5.0,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).primaryColor),
+                ),
               );
+            } else {
+              if (snapshot.data.documents.isEmpty) {
+                return Center(
+                    child:
+                        Text("Você ainda não possui atendimentos finalizados"));
+              } else {
+                return ListView.builder(
+                  reverse: true,
+                  padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                  itemCount: snapshot.data.documents.length,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return _buildListItem(
+                        context, snapshot.data.documents[index]);
+                  },
+                );
+              }
             }
-          }
-        },
-      ),
-    );
+          },
+        ),
+      );
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "HISTÓRICO MÉDICO",
+          ),
+          actions: <Widget>[
+            FlatButton(
+              textColor: Colors.white,
+              onPressed: () {
+                setState(() {
+                  est = 0;
+                });
+              },
+              child: Icon(Icons.autorenew),
+              shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+            ),
+          ],
+        ),
+        body: StreamBuilder(
+          stream: _db
+              .collection('requestsMedic')
+              .where('donorId', isEqualTo: userId)
+              .where('state', isEqualTo: 3)
+              .orderBy('endTime')
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 5.0,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).primaryColor),
+                ),
+              );
+            } else {
+              if (snapshot.data.documents.isEmpty) {
+                return Center(
+                    child:
+                        Text("Você ainda não possui atendimentos finalizados"));
+              } else {
+                return ListView.builder(
+                  reverse: true,
+                  padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                  itemCount: snapshot.data.documents.length,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return _buildListItem(
+                        context, snapshot.data.documents[index]);
+                  },
+                );
+              }
+            }
+          },
+        ),
+      );
+    }
   }
 
   @override

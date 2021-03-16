@@ -137,7 +137,7 @@ class _SignFormState extends State<SignForm> {
                         backgroundColor: Colors.transparent,
                         radius: 75.0,
                         child: Image.asset(
-                          'assets/logo.png',
+                          'assets/logo2.png',
                           height: 550,
                           width: 250,
                           fit: BoxFit.cover,

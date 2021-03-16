@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cliente/models/globals.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cliente/ui/pages/tabs/create_request.dart';
@@ -126,6 +127,7 @@ class _RequestPageState extends State<RequestPage>
           return _buildLoadingScaffold();
         } else {
           if (snapshot.data.documents.isEmpty) {
+            block2 = false;
             return _buildCreateRequestScaffold();
           } else {
             for (int i = 0; i < snapshot.data.documents.length; i++) {
@@ -133,6 +135,7 @@ class _RequestPageState extends State<RequestPage>
                   (snapshot.data.documents[i]['state'] == 2)) {
                 return _buildRequestScaffold(snapshot.data.documents[i]);
               }
+              block2 = false;
             }
             return _buildCreateRequestScaffold();
           }
@@ -298,7 +301,7 @@ class _RequestPageState extends State<RequestPage>
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                           decoration: BoxDecoration(
-                            color: Colors.green[300],
+                            color: Colors.orange[300],
                             borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(4.0),
                             ),
@@ -366,6 +369,7 @@ class _RequestPageState extends State<RequestPage>
                     Expanded(
                       child: InkWell(
                         onTap: () {
+                          block2 = false;
                           Navigator.of(context).pop();
                         },
                         child: Container(
@@ -411,7 +415,7 @@ class _RequestPageState extends State<RequestPage>
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                           decoration: BoxDecoration(
-                            color: Colors.green[300],
+                            color: Colors.orange[300],
                             borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(4.0),
                             ),
