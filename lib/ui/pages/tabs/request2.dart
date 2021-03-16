@@ -132,6 +132,7 @@ class _RequestPageState extends State<RequestPage2>
             return _buildCreateRequestScaffold();
           } else {
             for (int i = 0; i < snapshot.data.documents.length; i++) {
+              block1 = true;
               if ((snapshot.data.documents[i]['state'] == 1) ||
                   (snapshot.data.documents[i]['state'] == 2)) {
                 return _buildRequestScaffold(snapshot.data.documents[i]);
@@ -316,7 +317,7 @@ class _RequestPageState extends State<RequestPage2>
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                           decoration: BoxDecoration(
-                            color: Colors.orange[300],
+                            color: Colors.green[300],
                             borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(4.0),
                             ),
@@ -431,7 +432,7 @@ class _RequestPageState extends State<RequestPage2>
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                           decoration: BoxDecoration(
-                            color: Colors.orange[300],
+                            color: Colors.green[300],
                             borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(4.0),
                             ),

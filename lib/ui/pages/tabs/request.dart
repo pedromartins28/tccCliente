@@ -131,6 +131,7 @@ class _RequestPageState extends State<RequestPage>
             return _buildCreateRequestScaffold();
           } else {
             for (int i = 0; i < snapshot.data.documents.length; i++) {
+              block2 = true;
               if ((snapshot.data.documents[i]['state'] == 1) ||
                   (snapshot.data.documents[i]['state'] == 2)) {
                 return _buildRequestScaffold(snapshot.data.documents[i]);
@@ -301,7 +302,7 @@ class _RequestPageState extends State<RequestPage>
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                           decoration: BoxDecoration(
-                            color: Colors.orange[300],
+                            color: Colors.green[300],
                             borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(4.0),
                             ),
@@ -415,7 +416,7 @@ class _RequestPageState extends State<RequestPage>
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                           decoration: BoxDecoration(
-                            color: Colors.orange[300],
+                            color: Colors.green[300],
                             borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(4.0),
                             ),
@@ -513,6 +514,34 @@ class _RequestPageState extends State<RequestPage>
                                 SizedBox(width: 6),
                                 Text(
                                   document['trashAmount'],
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[Text("DESCRIÇÃO:")],
+                        ),
+                        SizedBox(height: 6),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Icon(
+                                  FontAwesomeIcons.paperclip,
+                                  color: Colors.grey,
+                                  size: 18,
+                                ),
+                                SizedBox(width: 6),
+                                Text(
+                                  document['trashType'],
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 18,
