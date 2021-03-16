@@ -493,7 +493,7 @@ class _RequestPageState extends State<RequestPage>
                       EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
                   subtitle: Container(
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Row(
@@ -502,53 +502,40 @@ class _RequestPageState extends State<RequestPage>
                         ),
                         SizedBox(height: 6),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Icon(
-                                  FontAwesomeIcons.paperclip,
-                                  color: Colors.grey,
-                                  size: 18,
-                                ),
-                                SizedBox(width: 6),
-                                Text(
-                                  document['trashAmount'],
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
+                            Icon(FontAwesomeIcons.paperclip,
+                                color: Colors.grey, size: 20),
+                            SizedBox(width: 6),
+                            Flexible(
+                              child: Text(
+                                document['trashAmount'],
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 18),
+                                overflow: TextOverflow.clip,
+                              ),
                             ),
                           ],
                         ),
+                        _buildSizedBox(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[Text("DESCRIÇÃO:")],
                         ),
                         SizedBox(height: 6),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Icon(
-                                  FontAwesomeIcons.paperclip,
-                                  color: Colors.grey,
-                                  size: 18,
-                                ),
-                                SizedBox(width: 6),
-                                Text(
-                                  document['trashType'],
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
+                            Icon(FontAwesomeIcons.newspaper,
+                                color: Colors.grey, size: 20),
+                            SizedBox(width: 6),
+                            Flexible(
+                              child: Text(
+                                document['trashType'],
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 18),
+                                overflow: TextOverflow.clip,
+                              ),
                             ),
                           ],
                         ),
