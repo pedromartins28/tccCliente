@@ -2,6 +2,7 @@ import 'package:cliente/models/state.dart';
 import 'package:cliente/models/user.dart';
 import 'package:cliente/ui/pages/tabs/home.dart';
 import 'package:cliente/ui/pages/tabs/new_home.dart';
+import 'package:cliente/ui/pages/tabs/user_info.dart';
 import 'package:cliente/ui/widgets/forms.dart';
 import 'package:cliente/ui/widgets/loading.dart';
 import 'package:cliente/util/auth.dart';
@@ -601,6 +602,8 @@ class _SignFormState extends State<SignForm> {
       appState.goAhead = false;
       appState.goAheadAux = false;
     });
+
+
   }
 
   Future<void> _changeLoadingVisible() async {
