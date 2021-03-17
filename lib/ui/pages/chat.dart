@@ -18,8 +18,6 @@ class _ChatPageState extends State<ChatPage> {
   bool _visible = false;
   String pickerName;
   String pickerId;
-  String occupation;
-  String occu;
   var streamBuilder;
 
   SharedPreferences prefs;
@@ -92,10 +90,6 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    _db.collection('pickers').document(pickerId).get().then((snapshot) {
-      occupation = snapshot.data['occupation'];
-    });
-
     streamBuilder = StreamBuilder(
       stream: _db
           .collection('requestsVolunt')

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cliente/models/globals.dart';
+import 'package:cliente/ui/pages/tabs/new_home.dart';
 import 'package:cliente/ui/widgets/loading.dart';
 import 'package:cliente/models/chechLabel.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
@@ -586,6 +587,7 @@ class _CreateRequest2State extends State<CreateRequest2> {
             _periodStart != null &&
             days.contains(true)) {
           if (await _verifyConnection()) {
+            zerarForm();
             block1 = true;
             Future.delayed(Duration(seconds: 1), () {
               _db.collection('requestsMedic').add({
@@ -968,4 +970,34 @@ class _CreateRequest2State extends State<CreateRequest2> {
       },
     );
   }
+}
+
+void zerarForm() async {
+  prefs = await SharedPreferences.getInstance();
+  user = userFromJson(prefs.getString('user'));
+  userId = user.userId;
+  Firestore.instance.collection('donors').document(userId).updateData(
+    {
+      'quest01': false,
+      'quest02': false,
+      'quest03': false,
+      'quest04': false,
+      'quest05': false,
+      'quest06': false,
+      'quest07': false,
+      'quest08': false,
+      'quest09': false,
+      'quest10': false,
+      'quest11': false,
+      'quest12': false,
+      'quest13': false,
+      'quest14': false,
+      'quest15': false,
+      'quest16': false,
+      'quest17': false,
+      'quest18': false,
+      'quest19': false,
+      'quest20': '',
+    },
+  );
 }

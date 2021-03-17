@@ -3,6 +3,7 @@ import 'package:cliente/models/globals.dart';
 import 'package:cliente/ui/widgets/loading.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -339,8 +340,8 @@ class _CreateRequestState extends State<CreateRequest> {
         decoration: InputDecoration(
           border: InputBorder.none,
           icon: queryCollection == 'trashAmounts'
-              ? Icon(Icons.add_comment)
-              : Icon(Icons.add),
+              ? Icon(FontAwesomeIcons.paperclip)
+              : Icon(FontAwesomeIcons.newspaper),
           hintText:
               queryCollection == 'trashAmounts' ? _ativityText : _infoText,
         ),
