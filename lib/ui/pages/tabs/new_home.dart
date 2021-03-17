@@ -1,9 +1,20 @@
+import 'package:cliente/models/globals.dart';
+import 'package:cliente/models/user.dart';
 import 'package:cliente/ui/pages/tabs/request.dart';
 import 'package:cliente/ui/pages/tabs/request2.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flushbar/flushbar.dart';
+import 'package:flushbar/flushbar_route.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 int estado = 0;
+final _db = Firestore.instance;
+SharedPreferences prefs;
+String userId = '';
+User user;
+var requestAtivo = 0;
 
 class NewHomePage extends StatefulWidget {
   @override
@@ -36,9 +47,18 @@ class _NewHomePageState extends State<NewHomePage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
         color: Theme.of(context).primaryColor,
         onPressed: () {
-          setState(() {
-            estado = 1;
-          });
+          if (block1 == false) {
+            setState(() {
+              estado = 1;
+            });
+          } else {
+            Flushbar(
+              padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
+              message: "Você possui uma solicitação de médico ativa!",
+              duration: Duration(seconds: 3),
+              isDismissible: false,
+            )..show(context);
+          }
         });
   }
 
@@ -60,9 +80,18 @@ class _NewHomePageState extends State<NewHomePage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
         color: Theme.of(context).primaryColor,
         onPressed: () {
-          setState(() {
-            estado = 2;
-          });
+          if (block2 == false) {
+            setState(() {
+              estado = 2;
+            });
+          } else {
+            Flushbar(
+              padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
+              message: "Você possui uma solicitação de voluntário ativa!",
+              duration: Duration(seconds: 3),
+              isDismissible: false,
+            )..show(context);
+          }
         });
   }
 
@@ -120,6 +149,13 @@ class _NewHomePageState extends State<NewHomePage> {
     }
   }
 
+  Future<void> readLocal() async {
+    prefs = await SharedPreferences.getInstance();
+    user = userFromJson(prefs.getString('user'));
+    userId = user.userId;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     if (estado == 0) {
@@ -136,7 +172,7 @@ class _NewHomePageState extends State<NewHomePage> {
                     backgroundColor: Colors.transparent,
                     radius: 100.0,
                     child: Image.asset(
-                      'assets/logo2.png',
+                      'assets/logo.png',
                       height: 220,
                       width: 130,
                       fit: BoxFit.cover,

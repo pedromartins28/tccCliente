@@ -61,7 +61,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   _launchURL() async {
-    const url = 'https://recicle.web.app/download/donor_policy.html';
+    const url = 'https://coronapp.web.app/download/policy1.html';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -111,7 +111,7 @@ class _SignInPageState extends State<SignInPage> {
                         backgroundColor: Colors.transparent,
                         radius: 75.0,
                         child: Image.asset(
-                          'assets/logo.png',
+                          'assets/logo2.png',
                           height: 550,
                           width: 250,
                           fit: BoxFit.cover,
@@ -483,11 +483,11 @@ class _SignInPageState extends State<SignInPage> {
       if (!_isAlreadySignedIn) {
         Auth.addUserToDB(
             User(
-                userId: user.uid,
-                phone: _phoneController.text,
-                name: _nameController.text,
-                finishedRequests: 0,
-                rating: 5.0),
+              userId: user.uid,
+              phone: _phoneController.text,
+              name: _nameController.text,
+              finishedRequests: 0,
+            ),
             phoneNumber);
       }
     } else {

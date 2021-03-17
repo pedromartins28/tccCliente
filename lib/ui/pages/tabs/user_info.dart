@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cliente/ui/pages/signForm.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
+//import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cliente/util/image_handler.dart';
@@ -212,10 +212,10 @@ class _UserInfoPageState extends State<UserInfoPage>
                 sexo,
                 unidadeBasica;
             num inputRating;
-            double rating;
+            //double rating;
             try {
               finishedRequests = snapshot.data.documents[0]['finishedRequests'];
-              inputRating = snapshot.data.documents[0]['rating'];
+              /*inputRating = snapshot.data.documents[0]['rating'];*/
               phone = snapshot.data.documents[0]['phone'];
               photoUrl = snapshot.data.documents[0]['photoUrl'];
               name = snapshot.data.documents[0]['name'];
@@ -232,13 +232,13 @@ class _UserInfoPageState extends State<UserInfoPage>
               renda = snapshot.data.documents[0]['rendaFamiliar'];
               sexo = snapshot.data.documents[0]['sexo'];
               unidadeBasica = snapshot.data.documents[0]['unidadeBasSaude'];
-              rating = inputRating.toDouble();
+              //rating = inputRating.toDouble();
             } catch (err) {
               phone = "Carregando...";
               name = "Carregando...";
               finishedRequests = 0;
-              inputRating = 0;
-              rating = 5.0;
+              //inputRating = 0;
+              //rating = 5.0;
               photoUrl = null;
             }
             return SingleChildScrollView(
@@ -367,22 +367,22 @@ class _UserInfoPageState extends State<UserInfoPage>
                     margin: EdgeInsets.all(18.0),
                   ),
                   Text(
-                    'Sua foto não será exibida para o coletor',
+                    'Sua foto não será exibida',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.grey,
                       fontWeight: FontWeight.w300,
                     ),
                   ),
-                  Center(child: SmoothStarRating(rating: rating)),
-                  Text(
+                  //Center(child: SmoothStarRating(rating: rating)),
+                  /*Text(
                     rating.toStringAsFixed(2),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.w300,
                       fontSize: 18,
                     ),
-                  ),
+                  ),*/
                   SizedBox(height: 16.0),
                   Divider(
                     height: 1.0,
@@ -393,25 +393,25 @@ class _UserInfoPageState extends State<UserInfoPage>
                   SizedBox(height: 8.0),
                   dataUnit('NOME: ', name),
                   dataUnit('TELEFONE: ', phone),
+                  dataUnit('DATA DE NASCIMENTO: ', dataNas),
+                  dataUnit('SEXO: ', sexo),
+                  dataUnit('NÚMERO DO SUS: ', sus),
+                  dataUnit('UNIDADE BÁSICA DE SAÚDE: ', unidadeBasica),
+                  dataUnit('PLANO DE SAÚDE 01: ', saude01),
+                  dataUnit('PLANO DE SAÚDE 02: ', saude02),
+                  dataUnit('PROFISSÃO: ', profissao),
+                  dataUnit('NÚMERO DE PESSOAS EM CASA: ', pessoasCasa),
+                  dataUnit('ESCOLARIDADE: ', escolaridade),
+                  dataUnit('RELIGIÃO: ', religiao),
+                  dataUnit('RENDA FAMILIAR: ', renda),
+                  dataUnit('ESTADO CIVIL: ', estadoCivil),
+                  dataUnit('COR: ', cor),
                   dataUnit(
                     'TOTAL DE ATENDIMENTOS: ',
                     finishedRequests != null
                         ? finishedRequests.toStringAsFixed(0)
                         : '0',
                   ),
-                  dataUnit('COR: ', cor),
-                  dataUnit('DATA DE NASCIMENTO: ', dataNas),
-                  dataUnit('ESCOLARIDADE: ', escolaridade),
-                  dataUnit('ESTADO CIVIL: ', estadoCivil),
-                  dataUnit('NÚMERO DE PESSOAS EM CASA: ', pessoasCasa),
-                  dataUnit('NÚMERO DO SUS: ', sus),
-                  dataUnit('PLANO DE SAÚDE 01: ', saude01),
-                  dataUnit('PLANO DE SAÚDE 02: ', saude02),
-                  dataUnit('PROFISSÃO: ', profissao),
-                  dataUnit('RELIGIÃO: ', religiao),
-                  dataUnit('RENDA FAMILIAR: ', renda),
-                  dataUnit('SEXO: ', sexo),
-                  dataUnit('UNIDADE BÁSICA DE SAÚDE: ', unidadeBasica),
                   SizedBox(height: 8),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 16),
@@ -439,7 +439,7 @@ class _UserInfoPageState extends State<UserInfoPage>
                       onPressed: editInfo,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 10),
                   Divider(
                     height: 1.0,
                     indent: 12.0,
@@ -452,7 +452,7 @@ class _UserInfoPageState extends State<UserInfoPage>
                     child: Column(
                       children: <Widget>[
                         Text(
-                          'Caso tenha alguma dúvida, entre em contato: recicledev@gmail.com',
+                          'Caso tenha alguma dúvida, entre em contato: covidcefet@gmail.com',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.grey,
@@ -490,6 +490,7 @@ class _UserInfoPageState extends State<UserInfoPage>
                       onPressed: logOutDialog,
                     ),
                   ),
+                  SizedBox(height: 10.0),
                 ],
               ),
             );
@@ -609,8 +610,7 @@ class _UserInfoPageState extends State<UserInfoPage>
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                           decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).primaryColor.withAlpha(200),
+                            color: Colors.green[300],
                             borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(4.0),
                             ),
