@@ -119,10 +119,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       notificationHandler = null;
       return SignInPage();
     } else if (appState.goAhead == true) {
-      _db.collection('donors').document(userId).updateData({
-        'dataNascimento': null,
-      });
-
       _db.collection('donors').document(userId).snapshots().listen((snapshot) {
         if (snapshot.data["dataNascimento"] == null) {
           testeData = 1;
