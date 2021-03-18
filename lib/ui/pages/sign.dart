@@ -487,6 +487,7 @@ class _SignInPageState extends State<SignInPage> {
               phone: _phoneController.text,
               name: _nameController.text,
               finishedRequests: 0,
+              dataNascimento: null,
             ),
             phoneNumber);
       }

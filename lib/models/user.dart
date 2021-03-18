@@ -14,15 +14,16 @@ String userToJson(User data) {
 class User {
   var finishedRequests;
   String userId;
-
   String phone;
   String name;
+  String dataNascimento;
 
   User({
     this.finishedRequests,
     this.userId,
     this.phone,
     this.name,
+    this.dataNascimento,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -30,6 +31,7 @@ class User {
         userId: json["userId"],
         phone: json["phone"],
         name: json["name"],
+        dataNascimento: json["dataNascimento"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -37,6 +39,7 @@ class User {
         "userId": userId,
         "phone": phone,
         "name": name,
+        "dataNascimento": dataNascimento,
       };
 
   factory User.fromDocument(DocumentSnapshot doc) {
