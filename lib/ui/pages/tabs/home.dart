@@ -30,7 +30,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   TabController _tabController;
   StateModel appState;
   int currentTab = 0;
-  int testeData = 0;
   bool _hasFinishedRequestNotification = false;
   bool _hasRequestNotification = false;
   bool _hasChatNotification = false;
@@ -119,16 +118,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       notificationHandler = null;
       return SignInPage();
     } else if (appState.goAhead == true) {
-      _db.collection('donors').document(userId).snapshots().listen((snapshot) {
-        if (snapshot.data["dataNascimento"] == null) {
-          testeData = 1;
-        } else {
-          testeData = 0;
-        }
-      });
-
       return SignForm();
-    } else if (testeData == 1) {
+    } else if (appState.naoCadastrou == false) {
       return SignForm();
     } else {
       if (appState.isLoading) {
