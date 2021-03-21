@@ -553,7 +553,7 @@ class _SignFormState extends State<SignForm> {
   }
 
   void finishSignIn() async {
-    appState.naoCadastrou = true;
+    appState.naoCadastrou = false;
     user = await Auth.getUserLocal();
     userId = user.userId;
 

@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       return SignInPage();
     } else if (appState.goAhead == true) {
       return SignForm();
-    } else if (appState.naoCadastrou == false) {
+    } else if (appState.naoCadastrou == true) {
       return SignForm();
     } else {
       if (appState.isLoading) {

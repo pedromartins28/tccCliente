@@ -15,6 +15,6 @@ class StateModel {
     this.user,
     this.goAhead = false,
     this.goAheadAux = false,
-    this.naoCadastrou = false,
+    this.naoCadastrou = true,
   });
 }
