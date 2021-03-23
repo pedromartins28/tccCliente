@@ -55,7 +55,27 @@ class AboutPage extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 6.0),
                         child: Text(
-                          "Gabriel Penido de Oliveira, Pedro Igor Ferreira Martins e Ronan Ferreira de Resende",
+                          "Gabriel Penido de Oliveira\nPedro Igor Ferreira Martins\nRonan Ferreira de Resende",
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w300,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(height: 18),
+                      Text(
+                        "EQUIPE DO PROJETO",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                      SizedBox(height: 6.0),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 6.0),
+                        child: Text(
+                          "Alisson Marques da Silva – Coordenador\nLetícia Helena Januário – Coordenador Adjunto\n  Inês Alcione Guimarães - Colaborador\nMichel Pires da Silva - Colaborador\nThiago Magela Rodrigues Dias – Colaborador",
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w300,
@@ -79,11 +99,7 @@ class AboutPage extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 18.0),
                         child: Text(
-                          "O projeto Saúde em Casa é uma iniciativa da Universidade Federal de São João del Rei "
-                          "com o CEFET-MG Campus V. Com o desenvolvimento do sistema foi possível aplicar "
-                          "os conhecimentos do grupo em uma causa nobre, que é o combate ao COVID-19. Os "
-                          "aplicativos visam conectar aqueles que desejam algum atendimento com os responsáveis "
-                          "pela saúde, facilitando o processo como um todo.",
+                          "Projeto desenvolvido com apoio da Diretoria de Extensão e Desenvolvimento Comunitário (DEDC) do CEFET-MG (Edital 32/2020 - Seleção pública para apoio a projetos de extensão emergenciais visando o enfrentamento do COVID-19)  – Projeto PJ099-2020 Desenvolvimento de Software para Apoio ao Enfrentamento do COVID-19",
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w300,
