@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:cliente/models/globals.dart';
+import 'package:cliente/ui/pages/tabs/new_home.dart';
 import 'package:cliente/ui/widgets/loading.dart';
+import 'package:cliente/models/chechLabel.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,25 +23,23 @@ class _CreateRequest2State extends State<CreateRequest2> {
   final TextEditingController _periodStartController = TextEditingController();
   final TextEditingController _periodEndController = TextEditingController();
   List<bool> days = [false, false, false, false, false, false, false];
-  List<bool> quest = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ];
+  bool _quest01 = false,
+      _quest02 = false,
+      _quest03 = false,
+      _quest04 = false,
+      _quest05 = false,
+      _quest06 = false,
+      _quest07 = false,
+      _quest08 = false,
+      _quest09 = false,
+      _quest10 = false,
+      _quest11 = false,
+      _quest13 = false,
+      _quest12 = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _addressText = "Escolha um Endereço";
   String _allergyText = "Possui Alergia? Qual?";
-  String _medicText = "Medicamentos em uso";
+  String _medicText = "Está usando algum medicamento? Qual?";
   Firestore _db = Firestore.instance;
   List<String> addressList = [];
   bool _loadingVisible = false;
@@ -309,51 +310,35 @@ class _CreateRequest2State extends State<CreateRequest2> {
   }
 
   Widget _buildQuestField2(String queryCollection) {
-    return TextFormField(
-      decoration: InputDecoration(
-        border: new OutlineInputBorder(
-          borderRadius: new BorderRadius.horizontal(),
-          borderSide: new BorderSide(),
-        ),
-        hintText: queryCollection == 'medicText' ? _medicText : _allergyText,
-      ),
-      onChanged: (text) {
-        setState(() {
-          if (queryCollection == 'medicText')
-            _medicText = text;
-          else
-            _allergyText = text;
-        });
-      },
-    );
-  }
-
-  Widget _buildQuestField(String text, int position) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          quest[position] = !quest[position];
-        });
-      },
-      child: Container(
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: quest[position]
-                ? Theme.of(context).primaryColor
-                : Colors.black54,
+    return Padding(
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+      child: TextFormField(
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(7, 10, 0, 10),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4),
+            borderSide: BorderSide(
+              color: Colors.white60,
+            ),
           ),
-          color:
-              quest[position] ? Theme.of(context).primaryColor : Colors.white,
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 18,
-            color: quest[position] ? Colors.white : Colors.black54,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4),
+            borderSide: BorderSide(
+              color: Colors.white60,
+              width: 2.0,
+            ),
           ),
+          hintText: queryCollection == 'medicText' ? _medicText : _allergyText,
+          hintStyle: TextStyle(fontSize: 18.0, color: Colors.white60),
         ),
+        onChanged: (text) {
+          setState(() {
+            if (queryCollection == 'medicText')
+              _medicText = text;
+            else
+              _allergyText = text;
+          });
+        },
       ),
     );
   }
@@ -569,7 +554,7 @@ class _CreateRequest2State extends State<CreateRequest2> {
             });
             Flushbar(
               padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
-              message: "Preencha todos os campos para criar a coleta",
+              message: "Preencha todos os campos para criar a solicitação",
               duration: Duration(seconds: 3),
               isDismissible: false,
             )..show(context);
@@ -602,18 +587,35 @@ class _CreateRequest2State extends State<CreateRequest2> {
             _periodStart != null &&
             days.contains(true)) {
           if (await _verifyConnection()) {
+            zerarForm();
+            block1 = true;
             Future.delayed(Duration(seconds: 1), () {
-              _db.collection('requests').add({
+              _db.collection('requestsMedic').add({
                 'periodStart': Timestamp.fromDate(_periodStart),
                 'periodEnd': Timestamp.fromDate(_periodEnd),
+                'trashAmount': 'Atendimento',
                 'address': _addressText,
+                'trashType': 'Individual',
                 'location': _location,
                 'donorId': userId,
                 'state': 1,
                 'periodDays': days,
-                'questAnswers': quest,
+                'quest01': _quest01,
+                'quest02': _quest02,
+                'quest03': _quest03,
+                'quest04': _quest04,
+                'quest05': _quest05,
+                'quest06': _quest06,
+                'quest07': _quest07,
+                'quest08': _quest08,
+                'quest09': _quest09,
+                'quest10': _quest10,
+                'quest11': _quest11,
+                'quest12': _quest12,
+                'quest13': _quest13,
                 'medicText': _medicText,
-                'allergyText': _allergyText
+                'allergyText': _allergyText,
+                'occupation': 'medico',
               }).then((doc) {
                 _db.collection('donors').document(userId).updateData({
                   'chatNotification': 0,
@@ -626,7 +628,7 @@ class _CreateRequest2State extends State<CreateRequest2> {
                 Flushbar(
                   padding:
                       EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
-                  message: "Não foi possível criar a coleta",
+                  message: "Não foi possível criar a solicitação",
                   duration: Duration(seconds: 3),
                   isDismissible: false,
                 )..show(context);
@@ -651,7 +653,7 @@ class _CreateRequest2State extends State<CreateRequest2> {
           });
           Flushbar(
             padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
-            message: "Preencha todos os campos para criar a coleta",
+            message: "Preencha todos os campos para criar a solicitação",
             duration: Duration(seconds: 3),
             isDismissible: false,
           )..show(context);
@@ -676,137 +678,164 @@ class _CreateRequest2State extends State<CreateRequest2> {
                 color: Colors.red[200],
                 elevation: 2,
                 margin: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                child: ListTile(
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
-                  subtitle: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              _buildSizedBox(),
-                              Text('Você está com febre acima de 37,8°C?',
-                                  style: TextStyle(
-                                      fontSize: 18.0, color: Colors.black)),
-                              _buildSizedBox(),
-                              Text(
-                                "Você está tossindo? ",
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Colors.black),
-                              ),
-                              _buildSizedBox(),
-                              Text(
-                                "Você está espirrando, com o nariz escorrendo ou com nariz entupido?",
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Colors.black),
-                              ),
-                              _buildSizedBox(),
-                              Text(
-                                "Você está com dificuldade para respirar, ou a respiração está\n ofegante?",
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Colors.black),
-                              ),
-                              _buildSizedBox(),
-                              Text(
-                                "Você está com dor de garganta?",
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Colors.black),
-                              ),
-                              _buildSizedBox(),
-                              Text(
-                                "Você está com dor ou sentindo pressão no peito?",
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Colors.black),
-                              ),
-                              _buildSizedBox(),
-                              Text(
-                                "Você está com arrepios ou com calafrios?",
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Colors.black),
-                              ),
-                              _buildSizedBox(),
-                              Text(
-                                "Você está com dor muscular?",
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Colors.black),
-                              ),
-                              _buildSizedBox(),
-                              Text(
-                                "Em crianças: batimento da asa do nariz?",
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Colors.black),
-                              ),
-                              _buildSizedBox(),
-                              Text(
-                                "Você está com dificuldade em sentir cheiros?",
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Colors.black),
-                              ),
-                              _buildSizedBox(),
-                              Text(
-                                "Você está com diarreia?",
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Colors.black),
-                              ),
-                              _buildSizedBox(),
-                              Text(
-                                "Você está com os lábios ou a face arroxeados? ",
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Colors.black),
-                              ),
-                              _buildSizedBox(),
-                              Text(
-                                "Você acha que está com confusão mental?",
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Colors.black),
-                              ),
-                              _buildSizedBox(),
-                              _buildQuestField2("medicText"),
-                              _buildSizedBox(),
-                              _buildQuestField2("allergyText"),
-                              _buildSizedBox(),
-                              _buildCreateRequestButton()
-                            ],
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          LabeledCheckbox(
+                            label: 'Você está com febre acima de 37,8°C?',
+                            padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
+                            value: _quest01,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                _quest01 = newValue;
+                              });
+                            },
                           ),
-                        )),
-                        Container(
-                            child: Column(
-                          children: <Widget>[
-                            _buildQuestField("", 0),
-                            _buildSizedBox(),
-                            _buildQuestField("", 1),
-                            _buildSizedBox(),
-                            _buildQuestField("", 2),
-                            _buildSizedBox(),
-                            _buildQuestField("", 3),
-                            _buildSizedBox(),
-                            _buildQuestField("", 4),
-                            _buildSizedBox(),
-                            _buildQuestField("", 5),
-                            _buildSizedBox(),
-                            _buildQuestField("", 6),
-                            _buildSizedBox(),
-                            _buildQuestField("", 7),
-                            _buildSizedBox(),
-                            _buildQuestField("", 8),
-                            _buildSizedBox(),
-                            _buildQuestField("", 9),
-                            _buildSizedBox(),
-                            _buildQuestField("", 10),
-                            _buildSizedBox(),
-                            _buildQuestField("", 11),
-                            _buildSizedBox(),
-                          ],
-                        )),
-                      ],
+                          LabeledCheckbox(
+                            label: 'Você está tossindo?',
+                            padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
+                            value: _quest02,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                _quest02 = newValue;
+                              });
+                            },
+                          ),
+                          LabeledCheckbox(
+                            label:
+                                'Você está espirrando, com o nariz escorrendo ou com nariz entupido?',
+                            padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
+                            value: _quest03,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                _quest03 = newValue;
+                              });
+                            },
+                          ),
+                          LabeledCheckbox(
+                            label:
+                                'Você está com dificuldade para respirar, ou a respiração está\n ofegante?',
+                            padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
+                            value: _quest04,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                _quest04 = newValue;
+                              });
+                            },
+                          ),
+                          LabeledCheckbox(
+                            label: 'Você está com dor de garganta?',
+                            padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
+                            value: _quest05,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                _quest05 = newValue;
+                              });
+                            },
+                          ),
+                          LabeledCheckbox(
+                            label:
+                                'Você está com dor ou sentindo pressão no peito?',
+                            padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
+                            value: _quest06,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                _quest06 = newValue;
+                              });
+                            },
+                          ),
+                          LabeledCheckbox(
+                            label: 'Você está com arrepios ou com calafrios?',
+                            padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
+                            value: _quest07,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                _quest07 = newValue;
+                              });
+                            },
+                          ),
+                          LabeledCheckbox(
+                            label: 'Você está com dor muscular?',
+                            padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
+                            value: _quest08,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                _quest08 = newValue;
+                              });
+                            },
+                          ),
+                          LabeledCheckbox(
+                            label: 'Em crianças: batimento da asa do nariz?',
+                            padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
+                            value: _quest09,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                _quest09 = newValue;
+                              });
+                            },
+                          ),
+                          LabeledCheckbox(
+                            label:
+                                'Você está com dificuldade em sentir cheiros?',
+                            padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
+                            value: _quest10,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                _quest10 = newValue;
+                              });
+                            },
+                          ),
+                          LabeledCheckbox(
+                            label: 'Você está com diarreia?',
+                            padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
+                            value: _quest11,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                _quest11 = newValue;
+                              });
+                            },
+                          ),
+                          LabeledCheckbox(
+                            label:
+                                'Você está com os lábios ou a face arroxeados?',
+                            padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
+                            value: _quest12,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                _quest12 = newValue;
+                              });
+                            },
+                          ),
+                          LabeledCheckbox(
+                            label: 'Você acha que está com confusão mental?',
+                            padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
+                            value: _quest13,
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                _quest13 = newValue;
+                              });
+                            },
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          _buildQuestField2("medicText"),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          _buildQuestField2("allergyText"),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          _buildCreateRequestButton()
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
@@ -824,7 +853,7 @@ class _CreateRequest2State extends State<CreateRequest2> {
           key: _formKey,
           child: SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 4.0),
+              padding: EdgeInsets.fromLTRB(20, 15, 20, 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -941,4 +970,34 @@ class _CreateRequest2State extends State<CreateRequest2> {
       },
     );
   }
+}
+
+void zerarForm() async {
+  prefs = await SharedPreferences.getInstance();
+  user = userFromJson(prefs.getString('user'));
+  userId = user.userId;
+  Firestore.instance.collection('donors').document(userId).updateData(
+    {
+      'quest01': false,
+      'quest02': false,
+      'quest03': false,
+      'quest04': false,
+      'quest05': false,
+      'quest06': false,
+      'quest07': false,
+      'quest08': false,
+      'quest09': false,
+      'quest10': false,
+      'quest11': false,
+      'quest12': false,
+      'quest13': false,
+      'quest14': false,
+      'quest15': false,
+      'quest16': false,
+      'quest17': false,
+      'quest18': false,
+      'quest19': false,
+      'quest20': '',
+    },
+  );
 }

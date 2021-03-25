@@ -1,8 +1,9 @@
 import 'dart:io';
-
+import 'package:cliente/models/globals.dart';
 import 'package:cliente/ui/widgets/loading.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -339,8 +340,8 @@ class _CreateRequestState extends State<CreateRequest> {
         decoration: InputDecoration(
           border: InputBorder.none,
           icon: queryCollection == 'trashAmounts'
-              ? Icon(Icons.add_comment)
-              : Icon(Icons.add),
+              ? Icon(FontAwesomeIcons.paperclip)
+              : Icon(FontAwesomeIcons.newspaper),
           hintText:
               queryCollection == 'trashAmounts' ? _ativityText : _infoText,
         ),
@@ -644,8 +645,9 @@ class _CreateRequestState extends State<CreateRequest> {
             _periodStart != null &&
             days.contains(true)) {
           if (await _verifyConnection()) {
+            block2 = true;
             Future.delayed(Duration(seconds: 1), () {
-              _db.collection('requests').add({
+              _db.collection('requestsVolunt').add({
                 'periodStart': Timestamp.fromDate(_periodStart),
                 'periodEnd': Timestamp.fromDate(_periodEnd),
                 'trashAmount': _ativityText,
@@ -654,7 +656,8 @@ class _CreateRequestState extends State<CreateRequest> {
                 'location': _location,
                 'donorId': userId,
                 'state': 1,
-                'periodDays': days
+                'periodDays': days,
+                'occupation': 'voluntario',
               }).then((doc) {
                 _db.collection('donors').document(userId).updateData({
                   'chatNotification': 0,
@@ -664,10 +667,11 @@ class _CreateRequestState extends State<CreateRequest> {
                 setState(() {
                   _loadingVisible = false;
                 });
+
                 Flushbar(
                   padding:
                       EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
-                  message: "Não foi possível criar a coleta",
+                  message: "Não foi possível criar a solicitação",
                   duration: Duration(seconds: 3),
                   isDismissible: false,
                 )..show(context);
@@ -692,7 +696,7 @@ class _CreateRequestState extends State<CreateRequest> {
           });
           Flushbar(
             padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
-            message: "Preencha todos os campos para criar a coleta",
+            message: "Preencha todos os campos para criar a solicitação",
             duration: Duration(seconds: 3),
             isDismissible: false,
           )..show(context);

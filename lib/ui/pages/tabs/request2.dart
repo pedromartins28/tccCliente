@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cliente/models/globals.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cliente/ui/pages/tabs/create_request.dart';
@@ -119,7 +120,7 @@ class _RequestPageState extends State<RequestPage2>
     super.build(context);
     return StreamBuilder(
       stream: _db
-          .collection('requests')
+          .collection('requestsMedic')
           .where('donorId', isEqualTo: userId)
           .snapshots(),
       builder: (context, snapshot) {
@@ -127,13 +128,16 @@ class _RequestPageState extends State<RequestPage2>
           return _buildLoadingScaffold();
         } else {
           if (snapshot.data.documents.isEmpty) {
+            block1 = false;
             return _buildCreateRequestScaffold();
           } else {
             for (int i = 0; i < snapshot.data.documents.length; i++) {
+              block1 = true;
               if ((snapshot.data.documents[i]['state'] == 1) ||
                   (snapshot.data.documents[i]['state'] == 2)) {
                 return _buildRequestScaffold(snapshot.data.documents[i]);
               }
+              block1 = false;
             }
             return _buildCreateRequestScaffold();
           }
@@ -257,7 +261,7 @@ class _RequestPageState extends State<RequestPage2>
                         onTap: () async {
                           if (await _verifyConnection()) {
                             Navigator.of(context).pop();
-                            Navigator.of(context).pushNamed('/chat');
+                            Navigator.of(context).pushNamed('/chat2');
                           }
                         },
                         child: Container(
@@ -313,8 +317,7 @@ class _RequestPageState extends State<RequestPage2>
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                           decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).primaryColor.withAlpha(200),
+                            color: Colors.green[300],
                             borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(4.0),
                             ),
@@ -384,6 +387,7 @@ class _RequestPageState extends State<RequestPage2>
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).pop();
+                          block1 = false;
                         },
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
@@ -417,7 +421,8 @@ class _RequestPageState extends State<RequestPage2>
                               Flushbar(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 24.0, horizontal: 12.0),
-                                message: "Não foi possível cancelar a coleta",
+                                message:
+                                    "Não foi possível cancelar o atendimento",
                                 duration: Duration(seconds: 3),
                                 isDismissible: false,
                               )..show(context);
@@ -427,8 +432,7 @@ class _RequestPageState extends State<RequestPage2>
                         child: Container(
                           padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
                           decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).primaryColor.withAlpha(200),
+                            color: Colors.green[300],
                             borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(4.0),
                             ),
@@ -618,7 +622,7 @@ class _RequestPageState extends State<RequestPage2>
                             Colors.orangeAccent,
                             () async {
                               Navigator.of(context).pushNamed(
-                                '/chat',
+                                '/chat2',
                                 arguments: request,
                               );
                             },

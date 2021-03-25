@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Coronapp',
+      title: 'Saúde em Casa',
       //Theme was built in ui/theme.dart
       theme: buildTheme(),
       //Remove scroll glow

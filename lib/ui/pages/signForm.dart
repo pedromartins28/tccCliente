@@ -2,6 +2,7 @@ import 'package:cliente/models/state.dart';
 import 'package:cliente/models/user.dart';
 import 'package:cliente/ui/pages/tabs/home.dart';
 import 'package:cliente/ui/pages/tabs/new_home.dart';
+import 'package:cliente/ui/pages/tabs/user_info.dart';
 import 'package:cliente/ui/widgets/forms.dart';
 import 'package:cliente/ui/widgets/loading.dart';
 import 'package:cliente/util/auth.dart';
@@ -38,12 +39,18 @@ class _SignFormState extends State<SignForm> {
   final formKeyReligiao = GlobalKey<FormState>();
   final GlobalKey<MaskedTextFieldState> _maskedDataKey =
       GlobalKey<MaskedTextFieldState>();
+  final GlobalKey<MaskedTextFieldState> _maskedSusKey =
+      GlobalKey<MaskedTextFieldState>();
+  final GlobalKey<MaskedTextFieldState> _maskedUbsKey =
+      GlobalKey<MaskedTextFieldState>();
   String _dataerrorMessage;
+  String _suserrorMessage;
+  String _ubserrorMessage;
   bool _loadingVisible = false;
 
   List<String> _itensSexo = ["Masculino", "Feminino", "Outro"];
   String _mostrarSexo;
-  String _selectedDropSexo;
+  String _selectedDropSexo = '';
   List<String> _itensEstadoCivil = [
     "Solteiro(a)",
     "Casado(a)",
@@ -52,7 +59,7 @@ class _SignFormState extends State<SignForm> {
     "Separado(a)"
   ];
   String _mostrarEstado;
-  String _selectedDropEstadoCivil;
+  String _selectedDropEstadoCivil = '';
   List<String> _itensCor = [
     "Preto(a)",
     "Pardo(a)",
@@ -61,10 +68,10 @@ class _SignFormState extends State<SignForm> {
     "Amarelo(a)"
   ];
   String _mostrarCor;
-  String _selectedCor;
+  String _selectedCor = '';
   List<String> _itensPessoas = ["1", "2", "3", "4", "5", "6+"];
   String _mostrarPessoas;
-  String _selectedPessoas;
+  String _selectedPessoas = '';
   List<String> _itensEscolaridade = [
     "Analfabeto",
     "Fundamental Incompleto",
@@ -75,7 +82,7 @@ class _SignFormState extends State<SignForm> {
     "Superior Completo"
   ];
   String _mostrarEscolaridade;
-  String _selectedEscolaridade;
+  String _selectedEscolaridade = '';
   List<String> _itensReligiao = [
     "Católica",
     "Evangélica",
@@ -85,7 +92,7 @@ class _SignFormState extends State<SignForm> {
     "Outra",
   ];
   String _mostrarReligiao;
-  String _selectedReligiao;
+  String _selectedReligiao = '';
   List<String> _itensRenda = [
     "Até 2 salários mínimos",
     "De 2 a 3 salários mínimos",
@@ -94,7 +101,7 @@ class _SignFormState extends State<SignForm> {
     "Mais de 10 salários mínimos",
   ];
   String _mostrarRenda;
-  String _selectedRenda;
+  String _selectedRenda = '';
 
   @override
   Widget build(BuildContext context) {
@@ -124,15 +131,21 @@ class _SignFormState extends State<SignForm> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
+                      SizedBox(
+                        height: 40,
+                      ),
                       CircleAvatar(
                         backgroundColor: Colors.transparent,
                         radius: 75.0,
                         child: Image.asset(
-                          'assets/logo.png',
+                          'assets/logo2.png',
                           height: 550,
                           width: 250,
                           fit: BoxFit.cover,
                         ),
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                       form01 == 0
                           ? Column(
@@ -144,24 +157,37 @@ class _SignFormState extends State<SignForm> {
                                     TextInputType.datetime,
                                     "DD/MM/AAAA",
                                     "Data de Nascimento",
-                                    _dataerrorMessage),
+                                    _dataerrorMessage,
+                                    _maskedDataKey,
+                                    10),
                                 dropDownButton("Sexo", _itensSexo, _mostrarSexo,
-                                    Icons.access_alarm),
-                                dropDownButton(
-                                    "Estado Civil",
-                                    _itensEstadoCivil,
-                                    _mostrarEstado,
-                                    Icons.verified_user),
-                                dropDownButton("Cor", _itensCor, _mostrarCor,
-                                    Icons.healing),
+                                    Icons.person),
+                                _buildField(
+                                    _susController,
+                                    "xxx xxxx xxxx xxxx",
+                                    Icons.healing,
+                                    TextInputType.number,
+                                    "xxx xxxx xxxx xxxx",
+                                    "Número SUS",
+                                    _suserrorMessage,
+                                    _maskedSusKey,
+                                    18),
+                                _buildField(
+                                    _unidadeBasicaSaudeController,
+                                    "",
+                                    Icons.local_hospital,
+                                    TextInputType.text,
+                                    "",
+                                    "Unidade Básica de Saúde",
+                                    _ubserrorMessage,
+                                    _maskedUbsKey,
+                                    50),
                                 botao("Próxima Etapa", changeForm01)
                               ],
                             )
                           : form01 == 1
                               ? Column(
                                   children: <Widget>[
-                                    inputForm(_susController, "Número SUS",
-                                        Icons.healing, TextInputType.text),
                                     inputForm(
                                         _planSaude01Controller,
                                         "Plano de Saúde 01",
@@ -172,43 +198,39 @@ class _SignFormState extends State<SignForm> {
                                         "Plano de Saúde 02",
                                         Icons.note_add,
                                         TextInputType.text),
-                                    inputForm(
-                                        _unidadeBasicaSaudeController,
-                                        "Unidade Básica de Saúde",
-                                        Icons.local_hospital,
-                                        TextInputType.text),
                                     botao("Última Etapa", changeForm02)
                                   ],
                                 )
                               : Column(
                                   children: <Widget>[
-                                    inputForm(
-                                        _profissaoController,
-                                        "Profissão",
-                                        Icons.monetization_on,
-                                        TextInputType.text),
+                                    inputForm(_profissaoController, "Profissão",
+                                        Icons.work, TextInputType.text),
                                     dropDownButton(
                                         "Pessoas no domicílio",
                                         _itensPessoas,
                                         _mostrarPessoas,
-                                        Icons.youtube_searched_for),
+                                        Icons.person_add),
                                     dropDownButton(
                                         "Escolaridade",
                                         _itensEscolaridade,
                                         _mostrarEscolaridade,
-                                        Icons.keyboard_arrow_up),
-                                    dropDownButton(
-                                        "Religião",
-                                        _itensReligiao,
-                                        _mostrarReligiao,
-                                        Icons.format_align_justify),
+                                        Icons.school),
+                                    dropDownButton("Religião", _itensReligiao,
+                                        _mostrarReligiao, Icons.home),
                                     dropDownButton(
                                         "Renda Familiar",
                                         _itensRenda,
                                         _mostrarRenda,
-                                        Icons.format_align_justify),
+                                        Icons.monetization_on),
+                                    dropDownButton(
+                                        "Estado Civil",
+                                        _itensEstadoCivil,
+                                        _mostrarEstado,
+                                        Icons.hotel),
+                                    dropDownButton("Cor", _itensCor,
+                                        _mostrarCor, Icons.color_lens),
                                     SizedBox(
-                                      height: 40,
+                                      height: 0,
                                     ),
                                     botao("Finalizar Cadastro", finishSignIn),
                                   ],
@@ -250,6 +272,24 @@ class _SignFormState extends State<SignForm> {
     return null;
   }
 
+  String _susInputValidator() {
+    if (_susController.text.isEmpty) {
+      return "Digite o seu número do SUS!";
+    } else if (_susController.text.length < 15) {
+      return "Essa número é inválido!";
+    }
+
+    return null;
+  }
+
+  String _ubsInputValidator() {
+    if (_unidadeBasicaSaudeController.text.isEmpty) {
+      return "Digite a sua Unidade Básica de Saúde!";
+    }
+
+    return null;
+  }
+
   Widget _buildField(
       TextEditingController _controller,
       String mask,
@@ -257,15 +297,17 @@ class _SignFormState extends State<SignForm> {
       TextInputType teclado,
       String hintText,
       String labelText,
-      String error) {
+      String error,
+      GlobalKey<MaskedTextFieldState> key,
+      int tam) {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
       child: MaskedTextField(
-        key: _maskedDataKey,
+        key: key,
         mask: mask,
         keyboardType: teclado,
         maskedTextFieldController: _controller,
-        maxLength: 10,
+        maxLength: tam,
         onSubmitted: (text) {},
         style: Theme.of(context)
             .textTheme
@@ -335,7 +377,7 @@ class _SignFormState extends State<SignForm> {
     String _texto2 = texto;
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 50, 0, 5),
+      padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
       child: Container(
         width: MediaQuery.of(context).size.width * 1,
         child: RaisedButton(
@@ -473,19 +515,33 @@ class _SignFormState extends State<SignForm> {
 
   changeForm01() {
     String error = _dataInputValidator();
+    String error2 = _susInputValidator();
+    String error3 = _ubsInputValidator();
     if (error != null) {
       setState(() {
         _dataerrorMessage = error;
       });
-    } else if (formKeySexo.currentState.validate() &&
-        formKeyEstadoCivil.currentState.validate() &&
-        formKeyCor.currentState.validate()) {
+    } else if (!formKeySexo.currentState.validate()) {
       setState(() {
-        form01 = 1;
+        _dataerrorMessage = null;
+      });
+    } else if (error2 != null) {
+      setState(() {
+        _dataerrorMessage = error;
+        _suserrorMessage = error2;
+      });
+    } else if (error3 != null) {
+      setState(() {
+        _dataerrorMessage = null;
+        _suserrorMessage = null;
+        _ubserrorMessage = error3;
       });
     } else {
       setState(() {
-        _dataerrorMessage = error;
+        _dataerrorMessage = null;
+        _suserrorMessage = null;
+        _ubserrorMessage = null;
+        form01 = 1;
       });
     }
   }
@@ -497,40 +553,56 @@ class _SignFormState extends State<SignForm> {
   }
 
   void finishSignIn() async {
+    appState.naoCadastrou = false;
     user = await Auth.getUserLocal();
     userId = user.userId;
 
-    if (formKeyPessoas.currentState.validate() &&
-        formKeyEscolaridade.currentState.validate() &&
-        formKeyReligiao.currentState.validate() &&
-        formKeyRenda.currentState.validate()) {
-      _changeLoadingVisible();
-      Firestore.instance.collection('donors').document(userId).updateData(
-        {
-          'dataNascimento': _dataController.text,
-          'sexo': _selectedDropSexo,
-          'estadoCivil': _selectedDropEstadoCivil,
-          'corDeclarada': _selectedCor,
-          'numSus': _susController.text,
-          'planoSaude01': _planSaude01Controller.text,
-          'planoSaude02': _planSaude02Controller.text,
-          'unidadeBasSaude': _unidadeBasicaSaudeController.text,
-          'numPessoasCasa': _selectedPessoas,
-          'escolaridade': _selectedEscolaridade,
-          'religiao': _selectedReligiao,
-          'profissao': _profissaoController.text,
-          'rendaFamiliar': _selectedRenda,
-        },
-      );
+    _changeLoadingVisible();
+    Firestore.instance.collection('donors').document(userId).updateData(
+      {
+        'dataNascimento': _dataController.text,
+        'sexo': _selectedDropSexo,
+        'estadoCivil': _selectedDropEstadoCivil,
+        'corDeclarada': _selectedCor,
+        'numSus': _susController.text,
+        'planoSaude01': _planSaude01Controller.text,
+        'planoSaude02': _planSaude02Controller.text,
+        'unidadeBasSaude': _unidadeBasicaSaudeController.text,
+        'numPessoasCasa': _selectedPessoas,
+        'escolaridade': _selectedEscolaridade,
+        'religiao': _selectedReligiao,
+        'profissao': _profissaoController.text,
+        'rendaFamiliar': _selectedRenda,
+        'quest01': false,
+        'quest02': false,
+        'quest03': false,
+        'quest04': false,
+        'quest05': false,
+        'quest06': false,
+        'quest07': false,
+        'quest08': false,
+        'quest09': false,
+        'quest10': false,
+        'quest11': false,
+        'quest12': false,
+        'quest13': false,
+        'quest14': false,
+        'quest15': false,
+        'quest16': false,
+        'quest17': false,
+        'quest18': false,
+        'quest19': false,
+        'quest20': '',
+      },
+    );
 
-      setState(() {
-        _changeLoadingVisible();
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => NewHomePage()));
-        appState.goAhead = false;
-        appState.goAheadAux = false;
-      });
-    } else {}
+    setState(() {
+      _changeLoadingVisible();
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
+      appState.goAhead = false;
+      appState.goAheadAux = false;
+    });
   }
 
   Future<void> _changeLoadingVisible() async {
