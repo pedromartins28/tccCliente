@@ -505,7 +505,11 @@ class _SignInPageState extends State<SignInPage> {
       appState.goAhead = true;
     }
     await StateWidget.of(context).signInUser(user.uid);
-    _codeTimer.cancel();
+    try {
+      _codeTimer.cancel();
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> _linkWithPhoneNumber(AuthCredential credential) async {
@@ -552,6 +556,7 @@ class _SignInPageState extends State<SignInPage> {
         await _finishSignIn(await _auth.currentUser());
       } else {
         Logger.log(tag, message: "_linkWithPhoneNumber called");
+        _changeLoadingVisible();
         await _linkWithPhoneNumber(
           PhoneAuthProvider.getCredential(
             smsCode: _smsController.text,
