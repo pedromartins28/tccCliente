@@ -130,155 +130,174 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         return Container();
       } else {
         if (notificationHandler == null) initNotifications();
-        try {
-          _db
-              .collection('donors')
-              .document(userId)
-              .snapshots()
-              .listen((snapshot) {
-            if (snapshot.data['dataNascimento'] == null) {
-              setState(() {});
-              naoCad = true;
-            } else {
-              naoCad = false;
-            }
-          });
-        } catch (e) {}
-        if (naoCad == true) {
-          return SignForm();
-        }
-
         setState(
           () {
             _loadingVisible = false;
           },
         );
-        return Scaffold(
-          key: _scaffoldKey,
-          bottomNavigationBar: Stack(
-            children: <Widget>[
-              Positioned.fill(
+        return StreamBuilder(
+          stream: _db
+              .collection('donors')
+              .where('userId', isEqualTo: userId)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return _buildLoadingScaffold();
+            } else {
+              var dataNas = snapshot.data.documents[0]['dataNascimento'];
+              if (dataNas == null) {
+                return SignForm();
+              } else {
+                return _buildHome();
+              }
+            }
+          },
+        );
+      }
+    }
+  }
+
+  Widget _buildLoadingScaffold() {
+    return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: Center(
+        child: Container(
+          child: CircularProgressIndicator(
+            strokeWidth: 5.0,
+            valueColor: AlwaysStoppedAnimation<Color>(
+              Theme.of(context).primaryColor,
+            ),
+          ),
+          height: 30.0,
+          width: 30.0,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHome() {
+    return Scaffold(
+      key: _scaffoldKey,
+      bottomNavigationBar: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.red[200],
+                borderRadius: BorderRadius.circular(2.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black87,
+                    blurRadius: 12.0,
+                    spreadRadius: 0.5,
+                    offset: Offset(0.0, 12.0),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          TabBar(
+            controller: _tabController,
+            onTap: (value) {
+              if (value == 0) {
+                _db.collection('donors').document(userId).updateData({
+                  'finishedRequestNotification': null,
+                });
+                setState(() {
+                  _hasFinishedRequestNotification = false;
+                });
+              } else if (value == 1) {
+                _db.collection('donors').document(userId).updateData({
+                  'requestNotification': null,
+                });
+                setState(() {
+                  _hasRequestNotification = false;
+                });
+              }
+            },
+            unselectedLabelColor: Colors.black54,
+            indicator: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+            ),
+            tabs: [
+              _buildNotificationDot(
+                0,
+                _hasFinishedRequestNotification,
+                false,
                 child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.red[200],
-                    borderRadius: BorderRadius.circular(2.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black87,
-                        blurRadius: 12.0,
-                        spreadRadius: 0.5,
-                        offset: Offset(0.0, 12.0),
+                  height: 70,
+                  padding: EdgeInsets.only(top: 2.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        FontAwesomeIcons.listAlt,
+                        size: 20,
+                        color: Colors.white,
                       ),
+                      SizedBox(height: 6.0),
+                      Text('HISTÓRICO',
+                          style: TextStyle(fontSize: 10, color: Colors.white))
                     ],
                   ),
                 ),
               ),
-              TabBar(
-                controller: _tabController,
-                onTap: (value) {
-                  if (value == 0) {
-                    _db.collection('donors').document(userId).updateData({
-                      'finishedRequestNotification': null,
-                    });
-                    setState(() {
-                      _hasFinishedRequestNotification = false;
-                    });
-                  } else if (value == 1) {
-                    _db.collection('donors').document(userId).updateData({
-                      'requestNotification': null,
-                    });
-                    setState(() {
-                      _hasRequestNotification = false;
-                    });
-                  }
-                },
-                unselectedLabelColor: Colors.black54,
-                indicator: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+              _buildNotificationDot(
+                1,
+                _hasRequestNotification,
+                _hasChatNotification,
+                child: Container(
+                  height: 70,
+                  padding: EdgeInsets.only(top: 2.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        FontAwesomeIcons.heart,
+                        size: 20,
+                        color: Colors.white,
+                      ),
+                      SizedBox(height: 6.0),
+                      Text('INÍCIO',
+                          style: TextStyle(fontSize: 10, color: Colors.white))
+                    ],
+                  ),
                 ),
-                tabs: [
-                  _buildNotificationDot(
-                    0,
-                    _hasFinishedRequestNotification,
-                    false,
-                    child: Container(
-                      height: 70,
-                      padding: EdgeInsets.only(top: 2.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            FontAwesomeIcons.listAlt,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                          SizedBox(height: 6.0),
-                          Text('HISTÓRICO',
-                              style:
-                                  TextStyle(fontSize: 10, color: Colors.white))
-                        ],
-                      ),
+              ),
+              Container(
+                height: 70,
+                padding: EdgeInsets.only(top: 2.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      FontAwesomeIcons.user,
+                      size: 20,
+                      color: Colors.white,
                     ),
-                  ),
-                  _buildNotificationDot(
-                    1,
-                    _hasRequestNotification,
-                    _hasChatNotification,
-                    child: Container(
-                      height: 70,
-                      padding: EdgeInsets.only(top: 2.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            FontAwesomeIcons.heart,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                          SizedBox(height: 6.0),
-                          Text('INÍCIO',
-                              style:
-                                  TextStyle(fontSize: 10, color: Colors.white))
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 70,
-                    padding: EdgeInsets.only(top: 2.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.user,
-                          size: 20,
-                          color: Colors.white,
-                        ),
-                        SizedBox(height: 6.0),
-                        Text('PERFIL',
-                            style: TextStyle(fontSize: 10, color: Colors.white))
-                      ],
-                    ),
-                  ),
-                ],
+                    SizedBox(height: 6.0),
+                    Text('PERFIL',
+                        style: TextStyle(fontSize: 10, color: Colors.white))
+                  ],
+                ),
               ),
             ],
           ),
-          body: LoadingPage(
-            child: TabBarView(
-              physics: NeverScrollableScrollPhysics(),
-              controller: _tabController,
-              children: [
-                FinishedRequestsPage(),
-                NewHomePage(),
-                UserInfoPage(),
-              ],
-            ),
-            inAsyncCall: _loadingVisible,
-          ),
-        );
-      }
-    }
+        ],
+      ),
+      body: LoadingPage(
+        child: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: _tabController,
+          children: [
+            FinishedRequestsPage(),
+            NewHomePage(),
+            UserInfoPage(),
+          ],
+        ),
+        inAsyncCall: _loadingVisible,
+      ),
+    );
   }
 
   Widget _buildNotificationDot(
