@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   bool _hasFinishedRequestNotification = false;
   bool _hasRequestNotification = false;
   bool _hasChatNotification = false;
+  bool naoCad = false;
 
   SharedPreferences prefs;
   String userId;
@@ -129,6 +130,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         return Container();
       } else {
         if (notificationHandler == null) initNotifications();
+        try {
+          _db
+              .collection('donors')
+              .document(userId)
+              .snapshots()
+              .listen((snapshot) {
+            if (snapshot.data['dataNascimento'] == null) {
+              setState(() {});
+              naoCad = true;
+            } else {
+              naoCad = false;
+            }
+          });
+        } catch (e) {}
+        if (naoCad == true) {
+          return SignForm();
+        }
+
         setState(
           () {
             _loadingVisible = false;
