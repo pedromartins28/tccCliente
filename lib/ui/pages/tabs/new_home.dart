@@ -47,18 +47,9 @@ class _NewHomePageState extends State<NewHomePage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
         color: Theme.of(context).primaryColor,
         onPressed: () {
-          if (block1 == false) {
-            setState(() {
-              estado = 1;
-            });
-          } else {
-            Flushbar(
-              padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
-              message: "Você possui uma solicitação de médico ativa!",
-              duration: Duration(seconds: 3),
-              isDismissible: false,
-            )..show(context);
-          }
+          setState(() {
+            estado = 1;
+          });
         });
   }
 
@@ -80,18 +71,9 @@ class _NewHomePageState extends State<NewHomePage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
         color: Theme.of(context).primaryColor,
         onPressed: () {
-          if (block2 == false) {
-            setState(() {
-              estado = 2;
-            });
-          } else {
-            Flushbar(
-              padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
-              message: "Você possui uma solicitação de voluntário ativa!",
-              duration: Duration(seconds: 3),
-              isDismissible: false,
-            )..show(context);
-          }
+          setState(() {
+            estado = 2;
+          });
         });
   }
 
