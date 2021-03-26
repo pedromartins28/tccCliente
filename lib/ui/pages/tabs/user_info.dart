@@ -413,33 +413,33 @@ class _UserInfoPageState extends State<UserInfoPage>
                         : '0',
                   ),
                   SizedBox(height: 8),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: OutlineButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.info,
-                            color: Colors.black.withAlpha(200),
-                            size: 20,
-                          ),
-                          SizedBox(width: 8.0),
-                          Text(
-                            'EDITAR INFORMAÇÕES',
-                            style:
-                                TextStyle(color: Colors.black.withAlpha(200)),
-                          ),
-                        ],
-                      ),
-                      borderSide: BorderSide(
-                        color: Colors.black.withAlpha(200),
-                      ),
-                      highlightedBorderColor: Colors.black.withAlpha(200),
-                      onPressed: editInfo,
-                    ),
-                  ),
-                  SizedBox(height: 10),
+                  // Container(
+                  //   padding: EdgeInsets.symmetric(horizontal: 16),
+                  //   child: OutlineButton(
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: <Widget>[
+                  //         Icon(
+                  //           Icons.info,
+                  //           color: Colors.black.withAlpha(200),
+                  //           size: 20,
+                  //         ),
+                  //         SizedBox(width: 8.0),
+                  //         Text(
+                  //           'EDITAR INFORMAÇÕES',
+                  //           style:
+                  //               TextStyle(color: Colors.black.withAlpha(200)),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     borderSide: BorderSide(
+                  //       color: Colors.black.withAlpha(200),
+                  //     ),
+                  //     highlightedBorderColor: Colors.black.withAlpha(200),
+                  //     onPressed: editInfo,
+                  //   ),
+                  //  ),
+                  // SizedBox(height: 10),
                   Divider(
                     height: 1.0,
                     indent: 12.0,
