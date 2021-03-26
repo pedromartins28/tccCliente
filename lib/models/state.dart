@@ -6,7 +6,6 @@ class StateModel {
   bool isLoading;
   bool goAhead;
   bool goAheadAux;
-  bool naoCadastrou;
   User user;
 
   StateModel({
@@ -15,6 +14,5 @@ class StateModel {
     this.user,
     this.goAhead = false,
     this.goAheadAux = false,
-    this.naoCadastrou = true,
   });
 }
