@@ -330,6 +330,7 @@ class _SignInPageState extends State<SignInPage> {
       child: InkWell(
         onTap: () async {
           if (_codeTimedOut) {
+            _changeLoadingVisible();
             await _verifyPhoneNumber();
           } else {
             showFlushBar("Você não pode tentar ainda!");
