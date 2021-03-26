@@ -75,8 +75,7 @@ class NotificationHandler {
 
       bool isChatCurrent = false;
       Navigator.of(context).popUntil((route) {
-        if (route.settings.name == '/chat' || route.settings.name == '/chat2')
-          isChatCurrent = true;
+        if (route.settings.name == '/chat') isChatCurrent = true;
         return true;
       });
 
@@ -123,8 +122,7 @@ class NotificationHandler {
       if (notificationType == 'message') {
         bool isChatCurrent = false;
         Navigator.of(context).popUntil((route) {
-          if (route.settings.name == '/chat' ||
-              route.settings.name == '/chat2') {
+          if (route.settings.name == '/chat') {
             isChatCurrent = true;
             return true;
           }
@@ -132,8 +130,7 @@ class NotificationHandler {
           return false;
         });
         tabController.animateTo(1);
-
-        if (!isChatCurrent) Navigator.of(context).pushNamed('/');
+        if (!isChatCurrent) Navigator.of(context).pushNamed('/chat');
       } else if (notificationType == 'accept' ||
           notificationType == 'dismiss') {
         _db.collection('donors').document(userId).updateData({
