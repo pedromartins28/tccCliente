@@ -18,6 +18,7 @@ class NotificationHandler {
   StateModel appState;
   TabController tabController;
   Firestore _db = Firestore.instance;
+  bool checkRequest = false;
 
   NotificationHandler({this.context, this.userId, this.tabController});
 
@@ -133,7 +134,9 @@ class NotificationHandler {
         });
         tabController.animateTo(1);
 
-        if (!isChatCurrent) Navigator.of(context).pushNamed('/');
+        if (!isChatCurrent && checkRequest == true) {
+          Navigator.of(context).pushNamed('/chat');
+        }
       } else if (notificationType == 'accept' ||
           notificationType == 'dismiss') {
         _db.collection('donors').document(userId).updateData({

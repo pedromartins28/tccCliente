@@ -76,13 +76,17 @@ class _RequestPageState extends State<RequestPage>
     _db.collection('donors').document(userId).snapshots().listen((snapshot) {
       if (snapshot.data['chatNotification'] != null ||
           snapshot.data['chatNotification'] != 0) {
-        setState(() {
-          _chatNotification = snapshot.data['chatNotification'];
-        });
+        if (mounted) {
+          setState(() {
+            _chatNotification = snapshot.data['chatNotification'];
+          });
+        }
       } else {
-        setState(() {
-          _chatNotification = 0;
-        });
+        if (mounted) {
+          setState(() {
+            _chatNotification = 0;
+          });
+        }
       }
     });
   }
