@@ -452,7 +452,7 @@ class _UserInfoPageState extends State<UserInfoPage>
                     child: Column(
                       children: <Widget>[
                         Text(
-                          'Caso tenha alguma dúvida, entre em contato: covidcefet@gmail.com',
+                          'Caso tenha alguma dúvida, entre em contato: appsaudeemcasa@gmail.com',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.grey,
