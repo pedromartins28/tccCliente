@@ -175,6 +175,40 @@ class _UserInfoPageState extends State<UserInfoPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    return StreamBuilder(
+      stream: Firestore.instance
+          .collection('donors')
+          .where('userId', isEqualTo: userId)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return _buildLoadingScaffold();
+        } else {
+          return _buildUserInfo();
+        }
+      },
+    );
+  }
+
+  Widget _buildLoadingScaffold() {
+    return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: Center(
+        child: Container(
+          child: CircularProgressIndicator(
+            strokeWidth: 5.0,
+            valueColor: AlwaysStoppedAnimation<Color>(
+              Theme.of(context).primaryColor,
+            ),
+          ),
+          height: 30.0,
+          width: 30.0,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUserInfo() {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
