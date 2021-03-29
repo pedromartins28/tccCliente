@@ -482,23 +482,6 @@ class _UserInfoPageState extends State<UserInfoPage>
                   ),
                   SizedBox(height: 16),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 18),
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          'Caso tenha alguma dúvida, entre em contato: appsaudeemcasa@gmail.com',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w300,
-                          ),
-                          overflow: TextOverflow.clip,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Container(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: OutlineButton(
                       child: Row(
@@ -524,7 +507,24 @@ class _UserInfoPageState extends State<UserInfoPage>
                       onPressed: logOutDialog,
                     ),
                   ),
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 16),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 18),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          'Caso tenha alguma dúvida ou queira alterar seus dados, entre em contato: appsaudeemcasa@gmail.com',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w300,
+                          ),
+                          overflow: TextOverflow.clip,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 16.0),
                 ],
               ),
             );
