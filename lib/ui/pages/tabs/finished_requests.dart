@@ -104,7 +104,7 @@ class _FinishedRequestsPageState extends State<FinishedRequestsPage>
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            "HISTÓRICO MÉDICO",
+            "HISTÓRICO ATENDIMENTO",
           ),
           actions: <Widget>[
             FlatButton(

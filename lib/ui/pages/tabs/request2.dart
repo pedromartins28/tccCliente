@@ -220,7 +220,7 @@ class _RequestPageState extends State<RequestPage2>
                 Container(
                   padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 2.0),
                   child: Text(
-                    "DISPENSAR MÉDICO?",
+                    "DISPENSAR AGENTE DA SAÚDE?",
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -311,7 +311,8 @@ class _RequestPageState extends State<RequestPage2>
                               Flushbar(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 24.0, horizontal: 12.0),
-                                message: "Não foi possível dispensar o médico",
+                                message:
+                                    "Não foi possível dispensar o agente da saúde.",
                                 duration: Duration(seconds: 3),
                                 isDismissible: false,
                               )..show(context);
@@ -598,7 +599,7 @@ class _RequestPageState extends State<RequestPage2>
                                   ),
                             document['state'] == 1
                                 ? Text(
-                                    " BUSCANDO MÉDICOS",
+                                    " BUSCANDO AGENTES DA SAÚDE",
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w300,
@@ -620,7 +621,7 @@ class _RequestPageState extends State<RequestPage2>
                           _chatNotification,
                           child: _buildButtonOption(
                             2,
-                            'CHAT COM MÉDICO',
+                            'CHAT COM AGENTE DA SAÚDE',
                             document,
                             Icons.chat_bubble_outline,
                             Colors.orangeAccent,
@@ -634,7 +635,7 @@ class _RequestPageState extends State<RequestPage2>
                         ),
                         _buildButtonOption(
                           2,
-                          'DADOS DO MÉDICO',
+                          'DADOS DO AGENTE DA SAÚDE',
                           document,
                           Icons.info_outline,
                           Colors.blueAccent,
@@ -649,7 +650,7 @@ class _RequestPageState extends State<RequestPage2>
                         ),
                         _buildButtonOption(
                           2,
-                          'DISPENSAR MÉDICO',
+                          'DISPENSAR AGENTE DA SAÚDE',
                           document,
                           Icons.not_interested,
                           Colors.redAccent,

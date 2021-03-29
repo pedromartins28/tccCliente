@@ -60,7 +60,7 @@ class _NewHomePageState extends State<NewHomePage> {
           children: <Widget>[
             SizedBox(width: 2.0),
             Text(
-              'Solicitar Atendimento',
+              'Solicitar Agente da Saúde',
               style: TextStyle(fontSize: 18.0, color: Colors.white),
             ),
           ],
@@ -84,7 +84,7 @@ class _NewHomePageState extends State<NewHomePage> {
           children: <Widget>[
             SizedBox(width: 2.0),
             Text(
-              'Tutorial EPI',
+              'Como devo me previnir?',
               style: TextStyle(fontSize: 18.0, color: Colors.white),
             ),
           ],
@@ -179,7 +179,7 @@ class _NewHomePageState extends State<NewHomePage> {
       );
     } else if (estado == 2) {
       return Scaffold(
-        appBar: _normalAppBar2("SOLICITAR ENFERMEIRO"),
+        appBar: _normalAppBar2("SOLICITAR AGENTE DA SAÚDE"),
         body: RequestPage2(),
       );
     }
