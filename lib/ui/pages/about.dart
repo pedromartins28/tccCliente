@@ -189,7 +189,7 @@ class AboutPage extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 18.0),
                           child: Text(
-                            "Projeto desenvolvido com apoio da Diretoria de Extensão e Desenvolvimento Comunitário (DEDC) do CEFET-MG (Edital 32/2020 - Seleção pública para apoio a projetos de extensão emergenciais visando o enfrentamento do COVID-19)  – Projeto PJ099-2020 Desenvolvimento de Software para Apoio ao Enfrentamento do COVID-19",
+                            "Projeto desenvolvido com apoio da Diretoria de Extensão e Desenvolvimento Comunitário (DEDC) do CEFET-MG (Edital 32/2020 - Seleção pública para apoio a projetos de extensão emergenciais) – Projeto PJ099-2020.",
                             style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.w300,
